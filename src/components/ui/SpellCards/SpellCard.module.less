@@ -1,0 +1,59 @@
+.card {
+  width: 67mm;
+  height: 97mm;
+  border: 1px solid black;
+  border-radius: 3mm;
+  padding: 0 2mm 2mm;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: url("src/assets/images/flowers.jpg");
+  background-size: cover;
+}
+
+.back {
+  background: url("src/assets/images/flowers.png");
+  background-size: cover;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 1mm;
+}
+
+.cards {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  //border: 1px solid black;
+  border-radius: 1.5mm;
+  background: white;
+}
+
+.title {
+  @media print {
+    -webkit-filter: drop-shadow(0 0 7px white);
+    text-shadow: 0 0 7px white;
+  }
+  text-shadow: 0 0 7px white;
+}
+
+.bottomText {
+  @media print {
+    -webkit-filter: drop-shadow(0 0 7px black);
+    text-shadow: 0 0 7px black;
+  }
+  text-shadow: 0 0 7px black;
+  width: fit-content;
+}

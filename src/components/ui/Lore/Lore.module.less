@@ -1,0 +1,17 @@
+@import "src/constants/mixins";
+
+.miniLore {
+  margin-top: 10mm;
+  width: 100%;
+  aspect-ratio: 920/1400;
+  .dynamic-image-transparent('scroll-background');
+  background-size: cover;
+
+  .list {
+    padding: 10mm 8mm;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+}

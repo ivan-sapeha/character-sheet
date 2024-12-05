@@ -1,0 +1,99 @@
+{
+  "UI":
+
+{
+    "name": "Ім'я",
+    "surname": "Прізвище",
+    "dice": "Кубик",
+    "background": "Фон",
+    "print": "Друк",
+    "edit": "Редагувати",
+    "save": "Зберегти",
+    "manaTracker": "Трекер мани",
+    "manaSlots": "Слоти мани",
+    "changeCharacter": "Змінити персонажа",
+    "language": "Мова",
+    "passives": "Пасивні ефекти",
+    "passiveName": "Назва",
+    "preview": "Попередній перегляд",
+    "passivesGallery": "Галерея пасивок",
+    "addPassive": "Додати пасивку",
+    "search": "Пошук",
+    "defaultPassive": "Пасивка"
+},
+  "miniLore": {
+    "race": "Раса",
+    "class": "Клас",
+    "age": "Вік",
+    "height": "Висота",
+    "weight": "Вага",
+    "background": "Передісторія",
+    "languages": "Мови"
+  },
+  "deathSaves": {
+    "successes": "Успіхи",
+    "failures": "Невдачі"
+  },
+  "weapons": {
+    "title": "Атаки та Зброя",
+    "name": "Назва",
+    "attackBonus": "Бонус атаки",
+    "damageType": "Шкода/тип",
+    "spellSlots": "Трекер мани"
+  },
+  "stats": {
+    "strength": "Сила",
+    "constitution": "Статура",
+    "dexterity": "Спритність",
+    "intelligence": "Інтелект",
+    "wisdom": "Мудрість",
+    "charisma": "Харизма"
+  },
+  "checks": {
+    "athletics": "Атлетика",
+    "acrobatics": "Акробатика",
+    "stealth": "Скритність",
+    "sleightOfHand": "Спритність рук",
+    "history": "Історія",
+    "arcana": "Містицизм",
+    "investigation": "Обстеження",
+    "nature": "Природа",
+    "religion": "Релігія",
+    "insight": "Аналіз поведінки",
+    "survival": "Виживання",
+    "animalHandling": "Догляд тварин",
+    "medicine": "Медицина",
+    "perception": "Уважність",
+    "persuasion": "Переконливість",
+    "intimidation": "Залякування",
+    "performance": "Артистичність",
+    "deception": "Обман"
+  },
+  "speed": {
+    "title": "Швидкість",
+    "walk": "Хода",
+    "run": "Біг",
+    "climb": "Підйом",
+    "swim": "Плавання"
+  },
+  "skills": {
+    "title": "Навички",
+    "initiative": "Ініціатива",
+    "proficiency": "Майстерність",
+    "perception": "Уважність",
+    "inspiration": "Натхнення"
+  },
+  "inventory": {
+    "title": "Інвентар",
+    "money": {
+      "copper": "ММ",
+      "silver": "СМ",
+      "gold": "ЗМ",
+      "electrum": "ЕМ",
+      "platinum": "ПМ"
+    }
+  },
+  "notes": {
+    "title": "Записки"
+  }
+}

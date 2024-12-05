@@ -1,0 +1,97 @@
+{
+  "UI": {
+    "name": "Name",
+    "surname": "Surname",
+    "dice": "Dice",
+    "background": "Background",
+    "print": "Print",
+    "edit": "Edit",
+    "save": "Save",
+    "manaTracker": "Mana tracker",
+    "manaSlots": "Mana slots",
+    "changeCharacter": "Change character",
+    "language": "Language",
+    "passives": "Passive Effects",
+    "passiveName": "Name",
+    "preview": "Preview",
+    "passivesGallery": "Passives Gallery",
+    "addPassive": "Add Passive",
+    "search": "Search",
+    "defaultPassive": "Passive"
+  },
+  "miniLore": {
+    "race": "Race",
+    "class": "Class",
+    "age": "Age",
+    "height": "Height",
+    "weight": "Weight",
+    "background": "Background",
+    "languages": "Languages"
+  },
+  "deathSaves": {
+    "successes": "Successes",
+    "failures": "Failures"
+  },
+  "weapons": {
+    "title": "Attacks and Weapons",
+    "name": "Name",
+    "attackBonus": "Attack Bonus",
+    "damageType": "Damage/Type",
+    "spellSlots": "Spell slot tracker"
+  },
+  "stats": {
+    "strength": "Str",
+    "constitution": "Const",
+    "dexterity": "Dex",
+    "intelligence": "Int",
+    "wisdom": "Wis",
+    "charisma": "Char"
+  },
+  "checks": {
+    "athletics": "Athletics",
+    "acrobatics": "Acrobatics",
+    "stealth": "Stealth",
+    "sleightOfHand": "Sleight of Hand",
+    "history": "History",
+    "arcana": "Arcana",
+    "investigation": "Investigation",
+    "nature": "Nature",
+    "religion": "Religion",
+    "insight": "Insight",
+    "survival": "Survival",
+    "animalHandling": "Animal Handling",
+    "medicine": "Medicine",
+    "perception": "Perception",
+    "persuasion": "Persuasion",
+    "intimidation": "Intimidation",
+    "performance": "Performance",
+    "deception": "Deception"
+  },
+  "speed": {
+    "title": "Speed",
+    "walk": "Walk",
+    "run": "Run",
+    "climb": "Climb",
+    "swim": "Swim"
+  },
+  "skills": {
+    "title": "Skills",
+    "initiative": "Initiative",
+    "proficiency": "Proficiency",
+    "perception": "Perception",
+    "inspiration": "Inspiration"
+  },
+  "inventory": {
+    "title": "Inventory",
+    "money": {
+      "copper": "CP",
+      "silver": "SP",
+      "gold": "GP",
+      "electrum": "EP",
+      "platinum": "PP"
+    }
+  },
+  "notes": {
+    "title": "Notes"
+  }
+}

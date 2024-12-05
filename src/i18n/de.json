@@ -1,0 +1,91 @@
+{
+  "UI": {
+    "name": "Name",
+    "surname": "Nachname",
+    "dice": "Würfel",
+    "background": "Hintergrund",
+    "print": "Drucken",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "manaTracker": "Mana-Tracker",
+    "manaSlots": "Mana-Slots",
+    "changeCharacter": "Charakter wechseln",
+    "language": "Sprache",
+    "passives": "Passive Effekte"
+  },
+  "miniLore": {
+    "race": "Rasse",
+    "class": "Klasse",
+    "age": "Alter",
+    "height": "Größe",
+    "weight": "Gewicht",
+    "background": "Hintergrund",
+    "languages": "Sprachen"
+  },
+  "deathSaves": {
+    "successes": "Erfolge",
+    "failures": "Fehlschläge"
+  },
+  "weapons": {
+    "title": "Angriffe und Waffen",
+    "name": "Name",
+    "attackBonus": "Angriffsbonus",
+    "damageType": "Schaden/Typ",
+    "spellSlots": "Zauberplatz-Tracker"
+  },
+  "stats": {
+    "strength": "Stärke",
+    "constitution": "Konstitution",
+    "dexterity": "Geschicklichkeit",
+    "intelligence": "Intelligenz",
+    "wisdom": "Weisheit",
+    "charisma": "Charisma"
+  },
+  "checks": {
+    "athletics": "Athletik",
+    "acrobatics": "Akrobatik",
+    "stealth": "Heimlichkeit",
+    "sleightOfHand": "Fingerfertigkeit",
+    "history": "Geschichte",
+    "arcana": "Arkana",
+    "investigation": "Nachforschung",
+    "nature": "Natur",
+    "religion": "Religion",
+    "insight": "Einsicht",
+    "survival": "Überleben",
+    "animalHandling": "Umgang mit Tieren",
+    "medicine": "Medizin",
+    "perception": "Wahrnehmung",
+    "persuasion": "Überredung",
+    "intimidation": "Einschüchterung",
+    "performance": "Darstellung",
+    "deception": "Täuschung"
+  },
+  "speed": {
+    "title": "Geschwindigkeit",
+    "walk": "Gehen",
+    "run": "Laufen",
+    "climb": "Klettern",
+    "swim": "Schwimmen"
+  },
+  "skills": {
+    "title": "Fertigkeiten",
+    "initiative": "Initiative",
+    "proficiency": "Fertigkeit",
+    "perception": "Wahrnehmung",
+    "inspiration": "Inspiration"
+  },
+  "inventory": {
+    "title": "Inventar",
+    "money": {
+      "copper": "KM",
+      "silver": "SM",
+      "gold": "GM",
+      "electrum": "EM",
+      "platinum": "PM"
+    }
+  },
+  "notes": {
+    "title": "Notizen"
+  }
+}

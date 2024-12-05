@@ -1,0 +1,14 @@
+@import "src/constants/mixins";
+
+.dialog {
+  padding: 8mm;
+  .dynamic-image('paper', rgba(255, 193, 103, 0.78));
+  background-size: cover;
+  border-radius: 3mm;
+  max-height: 580px;
+}
+
+::backdrop {
+  background: black;
+  opacity: 0.5;
+}

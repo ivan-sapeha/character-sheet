@@ -1,0 +1,62 @@
+@import "mixins";
+
+/* colors */
+
+@textPrimary: #111;
+@textSecondary: #474a59;
+@controlPrimary: #115bbe;
+@controlHover: #0e52ad;
+@controlPressed: #073f8a;
+@white: #fff;
+@gray400: #bfc4e1;
+@gray500: #878ca6;
+@lightBlueBg: #dfecff;
+@lightBlueCard: #f4f9ff;
+@yellow: #fdc300;
+
+/* pin colors */
+
+@pinRed: #eb5757;
+@pinOrange: #f2994a;
+@pinYellow: #f2c94c;
+@pinGreen: #29A19A;
+@pinBlue: #115bbe;
+@pinLightBlue: #56ccf2;
+@pinPurple: #9b51e0;
+@pinLightPurple: #D0AEF0;
+
+/* font-weights */
+
+@thin: 100;
+@ultraLight: 200;
+@light: 300;
+@regular: 400;
+@medium: 500;
+@bold: 700;
+
+/* animation */
+
+@animation: cubic-bezier(0.1, 0.9, 0.2, 1);
+@animationTime: 0.25s;
+
+/* shadow */
+
+@cardShadow: 0 9px 15px 0 rgba(9, 14, 123, 0.05), 0 6px 36px 0 rgba(9, 14, 123, 0.12), 0 0 10px 0 rgba(9, 14, 123, 0.05);
+
+/* breakpoints */
+
+@min1440: ~"(min-width: 1440px)";
+@min1024: ~"(min-width: 1024px)";
+@min768: ~"(min-width: 768px)";
+@min375: ~"(min-width: 375px)";
+
+@max1440: ~"(max-width: 1440px)";
+@max1024: ~"(max-width: 1024px)";
+@max768: ~"(max-width: 768px)";
+@max375: ~"(max-width: 375px)";
+
+@hdCalc: .linearInterpolation(1440, 1024, 120, 48)[@return];
+@hdPadding: ~"min(@{hdCalc}, 120px)";
+@sdPadding: .linearInterpolation(1024, 768, 48, 24)[@return];
+@mobilePadding: .linearInterpolation(768, 375, 24, 16)[@return];
+

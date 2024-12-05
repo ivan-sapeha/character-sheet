@@ -1,0 +1,38 @@
+@import "src/constants/mixins";
+@color: white;
+
+.death {
+  display: flex;
+  padding: 3mm;
+  .dynamic-image('blood', rgba(105, 0, 0, 0.51));
+  background-size: cover;
+  border-radius: 2mm;
+  width: 95%;
+  align-items: center;
+  color: white;
+
+  &>b{
+    min-width: 13mm;
+    flex-shrink: 0;
+  }
+
+  & > * {
+    flex: 1;
+  }
+
+  & > div {
+    border: 1px solid @color;
+    border-radius: 5mm;
+    height: 6mm;
+    background: @color;
+  }
+
+  &>span {
+    height: 0.5mm;
+    background: @color;
+  }
+}
+
+.save {
+  .dynamic-image('green', rgba(4, 189, 4, 0.45));
+}

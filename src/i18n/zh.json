@@ -1,0 +1,91 @@
+{
+  "UI": {
+    "name": "名字",
+    "surname": "姓氏",
+    "dice": "骰子",
+    "background": "背景",
+    "print": "打印",
+    "edit": "编辑",
+    "save": "保存",
+    "manaTracker": "法力追踪器",
+    "manaSlots": "法力槽",
+    "changeCharacter": "更换角色",
+    "language": "语言",
+    "passives": "被动效果"
+  },
+  "miniLore": {
+    "race": "种族",
+    "class": "职业",
+    "age": "年龄",
+    "height": "身高",
+    "weight": "体重",
+    "background": "背景",
+    "languages": "语言"
+  },
+  "deathSaves": {
+    "successes": "成功",
+    "failures": "失败"
+  },
+  "weapons": {
+    "title": "攻击和武器",
+    "name": "名字",
+    "attackBonus": "攻击加成",
+    "damageType": "伤害/类型",
+    "spellSlots": "法术位追踪器"
+  },
+  "stats": {
+    "strength": "力量",
+    "constitution": "体质",
+    "dexterity": "敏捷",
+    "intelligence": "智力",
+    "wisdom": "智慧",
+    "charisma": "魅力"
+  },
+  "checks": {
+    "athletics": "运动",
+    "acrobatics": "杂技",
+    "stealth": "隐匿",
+    "sleightOfHand": "巧手",
+    "history": "历史",
+    "arcana": "奥术",
+    "investigation": "调查",
+    "nature": "自然",
+    "religion": "宗教",
+    "insight": "洞察",
+    "survival": "生存",
+    "animalHandling": "驯兽",
+    "medicine": "医术",
+    "perception": "感知",
+    "persuasion": "说服",
+    "intimidation": "威吓",
+    "performance": "表演",
+    "deception": "欺骗"
+  },
+  "speed": {
+    "title": "速度",
+    "walk": "步行",
+    "run": "奔跑",
+    "climb": "攀爬",
+    "swim": "游泳"
+  },
+  "skills": {
+    "title": "技能",
+    "initiative": "先攻",
+    "proficiency": "熟练",
+    "perception": "感知",
+    "inspiration": "灵感"
+  },
+  "inventory": {
+    "title": "库存",
+    "money": {
+      "copper": "铜币",
+      "silver": "银币",
+      "gold": "金币",
+      "electrum": "琥珀币",
+      "platinum": "铂币"
+    }
+  },
+  "notes": {
+    "title": "笔记"
+  }
+}

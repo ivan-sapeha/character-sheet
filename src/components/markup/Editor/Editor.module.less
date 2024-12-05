@@ -1,0 +1,48 @@
+@import "src/constants/mixins";
+
+.card {
+  position: relative;
+  aspect-ratio: 21/29.7;
+  width: 23mm;
+  border-radius: 3mm;
+  background-size: 300% !important;
+  cursor: pointer;
+  overflow: hidden;
+  border: 1px solid #555;
+
+  &::after {
+    content: attr(aria-label);
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: white;
+    background: rgba(0, 0, 0, 0.61);
+    padding: 3px;
+    bottom: -1mm;
+    left: 0;
+    text-align: center;
+  }
+
+  &:hover {
+    filter: brightness(150%);
+  }
+}
+
+.highlight:hover {
+  filter: drop-shadow(0 0 5px #fff);
+}
+
+.search{
+  //box-shadow: inset -2px -2px 2px 4px #ffffff26;
+  background-color: rgba(255, 255, 255, 0.11);
+  border: 1px solid #4d4d4d;
+  font-family: 'Advent', sans-serif;
+  border-radius: 4px;
+  padding: 4px 10px;
+  width: 100%;
+
+  &::placeholder {
+    color: #4d4d4d;
+    font-weight: lighter;
+  }
+}

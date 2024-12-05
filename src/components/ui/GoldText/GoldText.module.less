@@ -1,0 +1,35 @@
+@gold: #ffffff;
+@light-shadow: #737373;
+@dark-shadow: #383838;
+
+.wrapper {
+  display: grid;
+  grid-template-areas: 'overlap';
+  place-content: center;
+  text-transform: uppercase;
+}
+.wrapper > div {
+  background-clip: text;  
+  -webkit-background-clip: text;
+  color: white;
+  font-weight: 900;
+  grid-area: overlap;
+  -webkit-text-stroke: 2px transparent;
+}
+div.bg {
+  background-image: repeating-linear-gradient( 105deg,
+    @gold 0% ,
+    @dark-shadow 5%,
+    @gold 12%);
+  color: white;
+  transform: scaleY(1.02);
+  transform-origin: top;
+}
+div.fg{
+  background-image: repeating-linear-gradient( 55deg,
+    @gold 0% ,
+    @light-shadow 23%,
+    @gold 31%);
+  color: #000000;
+  transform: scale(1);
+}

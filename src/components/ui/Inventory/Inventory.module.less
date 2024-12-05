@@ -1,0 +1,74 @@
+@import "src/constants/mixins";
+
+.inventory {
+  .dynamic-image('leather', rgba(255, 255, 255, 0.78));
+  background-size: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 3mm;
+  height: 250px;
+  flex-shrink: 0;
+  padding: 2mm;
+
+  .header {
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    padding: 0 5mm;
+    margin-top: -1mm;
+    & > span {
+      border-bottom: 0.5mm solid black;
+    }
+  }
+
+  .money {
+    padding-top: 2mm;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    gap: 2mm;
+
+    &>span {
+      display: flex;
+      height: 5mm;
+      align-items: center;
+
+      &::after {
+        height: 100%;
+        margin-left: 2mm;
+        display: inline-block;
+        content: '';
+        width: 8mm;
+        border-bottom: 1px solid black;
+      }
+    }
+  }
+}
+
+.moneyIcon {
+  background-size: 100%;
+  margin-right: 1mm;
+  height: 100%;
+  aspect-ratio: 1;
+}
+
+.copper {
+  .dynamic-image-transparent('copper');
+}
+
+.silver {
+  .dynamic-image-transparent('silver');
+}
+
+.gold {
+  .dynamic-image-transparent('gold');
+}
+
+.platinum {
+  .dynamic-image-transparent('platinum');
+}
+
+.electrum {
+  .dynamic-image-transparent('electrum');
+}

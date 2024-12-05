@@ -1,0 +1,91 @@
+{
+  "UI": {
+    "name": "Nom",
+    "surname": "Prénom",
+    "dice": "Dé",
+    "background": "Arrière-plan",
+    "print": "Imprimer",
+    "edit": "Éditer",
+    "save": "Enregistrer",
+    "manaTracker": "Suivi de mana",
+    "manaSlots": "Emplacements de mana",
+    "changeCharacter": "Changer de personnage",
+    "language": "Langue",
+    "passives": "Effets passifs"
+  },
+  "miniLore": {
+    "race": "Race",
+    "class": "Classe",
+    "age": "Âge",
+    "height": "Taille",
+    "weight": "Poids",
+    "background": "Historique",
+    "languages": "Langues"
+  },
+  "deathSaves": {
+    "successes": "Succès",
+    "failures": "Échecs"
+  },
+  "weapons": {
+    "title": "Attaques et Armes",
+    "name": "Nom",
+    "attackBonus": "Bonus d'attaque",
+    "damageType": "Dégâts/type",
+    "spellSlots": "Spell slot tracker"
+  },
+  "stats": {
+    "strength": "Force",
+    "constitution": "Constitution",
+    "dexterity": "Dextérité",
+    "intelligence": "Intelligence",
+    "wisdom": "Sagesse",
+    "charisma": "Charisme"
+  },
+  "checks": {
+    "athletics": "Athlétisme",
+    "acrobatics": "Acrobaties",
+    "stealth": "Discrétion",
+    "sleightOfHand": "Escamotage",
+    "history": "Histoire",
+    "arcana": "Arcanes",
+    "investigation": "Investigation",
+    "nature": "Nature",
+    "religion": "Religion",
+    "insight": "Perspicacité",
+    "survival": "Survie",
+    "animalHandling": "Dressage",
+    "medicine": "Médecine",
+    "perception": "Perception",
+    "persuasion": "Persuasion",
+    "intimidation": "Intimidation",
+    "performance": "Représentation",
+    "deception": "Tromperie"
+  },
+  "speed": {
+    "title": "Vitesse",
+    "walk": "Marche",
+    "run": "Course",
+    "climb": "Escalade",
+    "swim": "Nage"
+  },
+  "skills": {
+    "title": "Compétences",
+    "initiative": "Initiative",
+    "proficiency": "Compétence",
+    "perception": "Perception",
+    "inspiration": "Inspiration"
+  },
+  "inventory": {
+    "title": "Inventaire",
+    "money": {
+      "copper": "PC",
+      "silver": "PA",
+      "gold": "PO",
+      "electrum": "PE",
+      "platinum": "PP"
+    }
+  },
+  "notes": {
+    "title": "Notes"
+  }
+}

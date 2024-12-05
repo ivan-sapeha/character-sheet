@@ -1,0 +1,8 @@
+.dynamic-image(@imageName, @background) {
+  background-color: @background;
+  background-image: url("../../../assets/images/preprocessed/@{imageName}-hd.jpg"), url("../../../assets/images/preprocessed/@{imageName}-preview.jpg");
+}
+
+.dynamic-image-transparent(@imageName) {
+  background-image: url("../../../assets/images/preprocessed/@{imageName}-hd-transparent.png"), url("../../../assets/images/preprocessed/@{imageName}-preview-transparent.png");
+}

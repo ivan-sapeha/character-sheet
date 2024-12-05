@@ -1,0 +1,52 @@
+@import 'constants/mixins';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  outline: none;
+  transition: cubic-bezier(0.8,0,0.78,1) 0.1s;
+}
+
+html, body, #root {
+  width: 100%;
+}
+
+body {
+  font-family: "Amatic SC", sans-serif;
+  font-size: 4.5mm;
+  font-weight: bold;
+  background: #1a1c20;
+}
+
+h1 {
+  font-size: 5.5mm;
+}
+
+/* ===== Scrollbar CSS ===== */
+@track: rgba(35, 46, 51, 0.2);
+@thumb: #69212c;
+@border: #9f1729;
+@size: 12px;
+
+*::-webkit-scrollbar {
+  width: @size;
+}
+
+*::-webkit-scrollbar-track {
+  background: @track;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: @thumb;
+  border-radius: 5px;
+  border: 2px solid @border;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: @thumb @track;
+  }
+}
