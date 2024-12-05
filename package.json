@@ -4,6 +4,7 @@
     "private": true,
     "type": "module",
     "author": "Ivan Sapeha",
+    "homepage": "https://ivan-sapeha.github.io/character-sheet/",
     "scripts": {
         "build": "npm run preprocess-images && npm run prepare-assets && tsc && vite build",
         "dev": "npm run preprocess-images && npm run prepare-assets && vite --host",
