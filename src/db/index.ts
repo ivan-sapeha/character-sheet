@@ -2,7 +2,7 @@ import { IndexedDBProps } from 'react-indexed-db-hook/src/indexed-hooks.ts';
 
 export const DBConfig: IndexedDBProps = {
     name: 'ImagesDB',
-    version: 1,
+    version: 1.1,
     objectStoresMeta: [
         {
             store: 'avatar',
