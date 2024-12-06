@@ -1,6 +1,10 @@
 import { Sheet } from '@components/markup/CharacterSheet/Sheet.tsx';
 import { BackgroundSelectionDialog } from '@components/markup/Editor/BackgroundSelection.tsx';
 import { CharacterSelectionDialog } from '@components/markup/Editor/CharacterSelection.tsx';
+import {
+    PrintDialog,
+    printStorageKey,
+} from '@components/markup/Editor/PrintDialog.tsx';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
@@ -30,6 +34,7 @@ export const SheetGenerator = () => {
         names: string[];
         surnames: string[];
     }>({ names: [], surnames: [] });
+    const [printDialogOpened, setPrintDialogOpened] = useState(false);
     const [backgroundDialogOpened, setBackgroundDialogOpened] = useState(false);
     const [characterDialogOpened, setCharacterDialogOpened] = useState(false);
     const [iconsProgress, setIconsProgress] = useState(0);
@@ -37,14 +42,16 @@ export const SheetGenerator = () => {
     const { getAll: getAllBackgrounds, add: addBackground } =
         useIndexedDB('background');
     const { getAll: getAllIcons, add: addIcon } = useIndexedDB('icon');
-
     const onPrint = () => {
-        printContent(
-            document.getElementsByClassName('print')[0] as HTMLDivElement,
-            `${currentCharacter.name}_${currentCharacter.surname}`,
-        );
+        if (localStorage.getItem(printStorageKey)) {
+            printContent(
+                document.getElementsByClassName('print')[0] as HTMLDivElement,
+                `${currentCharacter.name}_${currentCharacter.surname}`,
+            );
+        } else {
+            setPrintDialogOpened(true);
+        }
     };
-
     const onEditClick = () => {
         if (isEdit) {
             saveCharacter(currentCharacter);
@@ -174,6 +181,12 @@ export const SheetGenerator = () => {
                         >
                             {tokens.UI.print}
                         </button>
+                        {printDialogOpened && (
+                            <PrintDialog
+                                open={printDialogOpened}
+                                onClose={() => setPrintDialogOpened(false)}
+                            />
+                        )}
                         <button
                             className={
                                 'border border-[#ebebeb] rounded p-0.5 min-w-[35mm] hover:bg-gray-200 hover:text-black'

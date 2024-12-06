@@ -10,16 +10,17 @@ export const printContent = (element: HTMLElement, name?: string) => {
         `left=0,top=0,width=${width},height=${height},toolbar=0,scrollbars=0,status=0`,
     )!;
     WinPrint.document.title = name ?? 'Export';
-    const printWhenReady = () => {
-        setTimeout(() => {
-            WinPrint.print();
-        }, 5000);
-    };
+
     WinPrint.document.body.innerHTML = document.head.innerHTML;
     const result = element.cloneNode(true);
     WinPrint.document.body.appendChild(result);
-    WinPrint.document.addEventListener('click', () => WinPrint.print());
     WinPrint.document.close();
     WinPrint.focus();
-    printWhenReady();
+    const timeout = setTimeout(() => {
+        WinPrint.print();
+    }, 5000);
+    WinPrint.document.addEventListener('click', () => {
+        clearTimeout(timeout);
+        WinPrint.print();
+    });
 };

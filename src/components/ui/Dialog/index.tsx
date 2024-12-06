@@ -16,6 +16,9 @@ export const Dialog: React.FC<DialogProps> = ({ children, open, onClose }) => {
             ref.current?.close();
         }
     }, [open]);
+    useEffect(() => {
+        ref.current?.scrollTo(0, 0);
+    }, []);
     return (
         <>
             {createPortal(

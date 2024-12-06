@@ -18,7 +18,22 @@
     "addPassive": "Add Passive",
     "search": "Search",
     "defaultPassive": "Passive",
-    "random": "Generate random"
+    "random": "Generate random",
+    "supportMe": "Support me",
+    "guide": {
+      "howToSave": {
+        "title": "Guide on how to save",
+        "content": [
+          "— You'll need to use desktop Chrome browser. As it's the only browser that enables beautiful export of this character sheet.",
+          "— After you click print, wait for 5 seconds and Export to PDF/Print will start automatically.",
+          "— If you don't want to wait, just click on the appeared page.",
+          "— I recommend printing on thick photo paper as it better retains colors. But when printing, please DON'T use maximum quality.",
+          "It makes colors too dark and too contrasty.",
+          "— The screenshot below shows which setting you should select for the best printing results."
+        ],
+        "checkbox": "Don't show this again"
+      }
+    }
   },
   "miniLore": {
     "race": "Race",
