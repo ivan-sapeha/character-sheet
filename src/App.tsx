@@ -8,9 +8,17 @@ export const App = () => {
             }
         >
             <SheetGenerator />
-            <footer className='text-white flex gap-[5mm]'>
+            <footer className='text-white flex gap-[5mm] items-center justify-center'>
                 <span>Version 1.2</span>
                 <span>Author: Ivan Sapeha</span>
+                <a
+                    className='border rounded-[2mm] font-Advent border-white pr-[2mm] pl-[2mm] bg-[#004d11]'
+                    href={
+                        'https://www.paypal.com/donate/?hosted_button_id=PVN9XFL6RJCYS'
+                    }
+                >
+                    Support Me
+                </a>
             </footer>
         </div>
     );

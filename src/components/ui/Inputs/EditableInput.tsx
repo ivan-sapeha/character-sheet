@@ -4,7 +4,7 @@ import { Character, emptyCharacter } from '../../../constants/char.ts';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 
 export interface EditableInputProps extends Partial<TextInputProps> {
-    stat: Omit<keyof Character, 'stats'>;
+    stat: keyof Character;
     textClassName?: string;
 }
 
@@ -19,13 +19,17 @@ export const EditableInput: React.FC<EditableInputProps> = ({
         <>
             {isEdit ? (
                 <TextInput
-                    value={currentCharacter[stat] ?? emptyCharacter[stat]}
+                    value={
+                        currentCharacter[stat]?.toString() ??
+                        emptyCharacter[stat].toString()
+                    }
                     onChange={(text) => updateStat(stat, text)}
                     {...props}
                 />
             ) : (
                 <span className={cx('font-Advent', textClassName)}>
-                    {currentCharacter[stat] ?? emptyCharacter[stat]}
+                    {currentCharacter[stat].toString() ??
+                        emptyCharacter[stat].toString()}
                 </span>
             )}
         </>

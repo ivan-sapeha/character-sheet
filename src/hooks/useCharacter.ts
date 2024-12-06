@@ -17,7 +17,7 @@ export type CharacterManagerReturn = CurrentCharacterContextValue & {
     setLastCharacter: (id: number) => void;
     removeCharacter: (id: number) => void;
     onSave: (callback: () => void) => () => void;
-    updateStat: <T extends Omit<keyof Character, 'stats'>>(
+    updateStat: <T extends keyof Character>(
         key: T,
         value: Character[T],
     ) => void;
@@ -97,7 +97,7 @@ export const useCharacter = (): CharacterManagerReturn => {
         };
     };
 
-    function updateStat<T extends Omit<keyof Character, 'stats'>>(
+    function updateStat<T extends keyof Character>(
         key: T,
         value: Character[T],
     ) {
