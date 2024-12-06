@@ -17,6 +17,10 @@ export type CharacterManagerReturn = CurrentCharacterContextValue & {
     setLastCharacter: (id: number) => void;
     removeCharacter: (id: number) => void;
     onSave: (callback: () => void) => () => void;
+    updateStat: <T extends Omit<keyof Character, 'stats'>>(
+        key: T,
+        value: Character[T],
+    ) => void;
 };
 
 const onSaveEvent = new EventListener();
@@ -93,6 +97,13 @@ export const useCharacter = (): CharacterManagerReturn => {
         };
     };
 
+    function updateStat<T extends Omit<keyof Character, 'stats'>>(
+        key: T,
+        value: Character[T],
+    ) {
+        updateCurrentCharacter({ ...currentCharacter, [key]: value });
+    }
+
     return {
         currentCharacter,
         updateCurrentCharacter,
@@ -106,5 +117,6 @@ export const useCharacter = (): CharacterManagerReturn => {
         toggleEdit,
         removeCharacter,
         onSave,
+        updateStat,
     };
 };

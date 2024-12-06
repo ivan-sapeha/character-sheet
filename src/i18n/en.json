@@ -73,7 +73,8 @@
     "walk": "Walk",
     "run": "Run",
     "climb": "Climb",
-    "swim": "Swim"
+    "swim": "Swim",
+    "mount": "Mount"
   },
   "skills": {
     "title": "Skills",

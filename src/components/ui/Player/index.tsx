@@ -1,5 +1,6 @@
 import { CurvedText } from '@components/ui/CurvedText';
 import { Dialog } from '@components/ui/Dialog';
+import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
 import { TextInput } from '@components/ui/Inputs/TextInput.tsx';
 import cx from 'classnames';
 import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
@@ -109,27 +110,12 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
                     </div>
                     {!isPreview && (
                         <div className={styles.lvl}>
-                            {isEdit ? (
-                                <TextInput
-                                    value={
-                                        currentCharacter.lvl ??
-                                        emptyCharacter.lvl
-                                    }
-                                    onChange={(text) =>
-                                        updateCurrentCharacter({
-                                            ...currentCharacter,
-                                            lvl: text,
-                                        })
-                                    }
-                                    className='aspect-square !rounded-full !h-[8mm] !w-[8mm] !p-[0] text-center'
-                                    type={'number'}
-                                    min={1}
-                                />
-                            ) : (
-                                <span className={'font-Advent'}>
-                                    {currentCharacter.lvl ?? emptyCharacter.lvl}
-                                </span>
-                            )}
+                            <EditableInput
+                                stat={'lvl'}
+                                className='aspect-square !rounded-full !h-[8mm] !w-[8mm] !p-[0] text-center'
+                                type={'number'}
+                                min={1}
+                            />
                         </div>
                     )}
                     <div className={styles.surname}>

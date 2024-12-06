@@ -88,6 +88,22 @@ export type Character = {
         charisma: CharismaStat;
     };
     lvl: string;
+    walk: string;
+    run: string;
+    climb: string;
+    swim: string;
+    mount: string;
+    initiative: string;
+    proficiency: string;
+    perception: string;
+    inspiration: string;
+    cp: string;
+    sp: string;
+    gp: string;
+    ep: string;
+    pp: string;
+    success: 0 | 1 | 2 | 3;
+    fail: 0 | 1 | 2 | 3;
 };
 export const baseStats: Character['stats'] = {
     strength: {
@@ -201,4 +217,20 @@ export const emptyCharacter: Character = {
     weight: '',
     background: '',
     languages: '',
+    walk: '',
+    run: '',
+    climb: '',
+    swim: '',
+    mount: '',
+    initiative: '',
+    proficiency: '',
+    perception: '',
+    inspiration: '',
+    cp: '',
+    sp: '',
+    gp: '',
+    ep: '',
+    pp: '',
+    success: 0,
+    fail: 0,
 };

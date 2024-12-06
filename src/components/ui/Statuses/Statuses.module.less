@@ -15,6 +15,7 @@
 
   &.canActivate:hover {
     filter: brightness(0.75);
+
     &::after {
       position: absolute;
       top: 0;
@@ -55,7 +56,7 @@
   padding: 0.5mm 1mm;
   display: flex;
   gap: 2mm;
-
+  align-items: center;
 
   & > img {
     height: 7mm;
@@ -75,4 +76,13 @@
 .passive {
   width: fit-content;
   height: fit-content;
+
+}
+
+.speed {
+  & > li {
+    display: flex;
+    gap: 2mm;
+    justify-content: space-around;
+  }
 }
