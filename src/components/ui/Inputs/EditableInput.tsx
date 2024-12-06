@@ -28,7 +28,7 @@ export const EditableInput: React.FC<EditableInputProps> = ({
                 />
             ) : (
                 <span className={cx('font-Advent', textClassName)}>
-                    {currentCharacter[stat].toString() ??
+                    {currentCharacter[stat]?.toString() ??
                         emptyCharacter[stat].toString()}
                 </span>
             )}
