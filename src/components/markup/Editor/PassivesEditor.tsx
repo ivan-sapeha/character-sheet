@@ -1,5 +1,6 @@
 import trash from '@assets/images/trash.svg';
 import { Dialog, DialogProps } from '@components/ui/Dialog';
+import { TextInput } from '@components/ui/Inputs/TextInput.tsx';
 import { Passive } from '@components/ui/Statuses/Passives.tsx';
 import cx from 'classnames';
 import React, { useEffect, useState } from 'react';
@@ -154,10 +155,12 @@ export const PassivesEditorDialog: React.FC<DialogProps> = ({
                     </div>
                 </div>
             </div>
-            <PassiveCreatorDialog
-                open={passiveEditorOpen}
-                onClose={() => setPassiveEditorOpen(false)}
-            />
+            {passiveEditorOpen && (
+                <PassiveCreatorDialog
+                    open={passiveEditorOpen}
+                    onClose={() => setPassiveEditorOpen(false)}
+                />
+            )}
         </Dialog>
     );
 };
@@ -242,13 +245,11 @@ export const PassiveCreatorDialog: React.FC<DialogProps> = ({
                             <span className='font-Advent'>
                                 {tokens.UI.passiveName}:
                             </span>
-                            <input
-                                type={'text'}
+                            <TextInput
                                 placeholder={tokens.UI.passiveName}
-                                maxLength={48}
                                 value={passiveName}
-                                onChange={(e) => setPassiveName(e.target.value)}
-                                className={styles.search}
+                                maxLength={40}
+                                onChange={(val) => setPassiveName(val)}
                             />
                         </div>
                         <div className='flex items-center gap-[2mm]'>
@@ -282,13 +283,12 @@ export const PassiveCreatorDialog: React.FC<DialogProps> = ({
                         </div>
                     </div>
                     <div className='flex flex-col gap-[5mm]'>
-                        <input
-                            type={'text'}
+                        <TextInput
                             placeholder={tokens.UI.search}
                             value={filter}
-                            onChange={(e) => setFilter(e.target.value)}
-                            className={styles.search}
+                            onChange={(val) => setFilter(val)}
                         />
+
                         <Grid
                             cellRenderer={cellRenderer}
                             columnCount={

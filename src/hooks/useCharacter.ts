@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { Character } from '../constants/char.ts';
 import { emptyCharacter } from '../constants/char.ts';
@@ -6,6 +6,7 @@ import {
     CurrentCharacterContext,
     CurrentCharacterContextValue,
 } from '../contexts/CurrentCharacter.tsx';
+import { EventListener } from '../helpers/generic-helpers.tsx';
 
 export type CharacterManagerReturn = CurrentCharacterContextValue & {
     addNewCharacter: () => Character;
@@ -15,8 +16,10 @@ export type CharacterManagerReturn = CurrentCharacterContextValue & {
     lastSelectedCharacter: Character | undefined;
     setLastCharacter: (id: number) => void;
     removeCharacter: (id: number) => void;
+    onSave: (callback: () => void) => () => void;
 };
 
+const onSaveEvent = new EventListener();
 export const useCharacter = (): CharacterManagerReturn => {
     const { currentCharacter, updateCurrentCharacter, isEdit, toggleEdit } =
         useContext(CurrentCharacterContext);
@@ -67,6 +70,7 @@ export const useCharacter = (): CharacterManagerReturn => {
         storedCharacters.splice(index, 1, character);
         setStoredCharacters(storedCharacters);
         setLastCharacter(character.id);
+        onSaveEvent.dispatch();
     };
 
     const removeCharacter = (id: number) => {
@@ -82,6 +86,13 @@ export const useCharacter = (): CharacterManagerReturn => {
         }
     };
 
+    const onSave = (callback: () => void) => {
+        onSaveEvent.addEventListener(callback);
+        return () => {
+            onSaveEvent.removeEventListener(callback);
+        };
+    };
+
     return {
         currentCharacter,
         updateCurrentCharacter,
@@ -94,5 +105,6 @@ export const useCharacter = (): CharacterManagerReturn => {
         isEdit,
         toggleEdit,
         removeCharacter,
+        onSave,
     };
 };

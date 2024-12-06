@@ -74,3 +74,29 @@ export const highlightSubString = (
         </>
     );
 };
+
+export class EventListener<T> {
+    listeners: Array<(data?: T) => void> = [];
+
+    addEventListener(callback: (data?: T) => void) {
+        this.listeners.push(callback);
+    }
+
+    removeEventListener(callback: (data?: T) => void) {
+        const index = this.listeners.findIndex(
+            (listener) => listener === callback,
+        );
+        if (index !== -1) {
+            this.listeners.splice(index, 1);
+        }
+    }
+
+    dispatch(data?: T) {
+        this.listeners.forEach((listener) => listener(data));
+    }
+}
+
+export function getRandomArrayItem<T>(array: T[]): T {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
+}

@@ -17,7 +17,8 @@
     "passivesGallery": "Passives Gallery",
     "addPassive": "Add Passive",
     "search": "Search",
-    "defaultPassive": "Passive"
+    "defaultPassive": "Passive",
+    "random": "Generate random"
   },
   "miniLore": {
     "race": "Race",

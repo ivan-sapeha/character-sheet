@@ -70,9 +70,13 @@ export type Character = {
     manaTracker: boolean;
     manaSlots: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
     passives: number[];
-    // race: number;
-    // class: number;
-    // background: number;
+    race: string;
+    class: string;
+    age: string;
+    height: string;
+    weight: string;
+    background: string;
+    languages: string;
     photo: number;
     backgroundImage: number;
     stats: {
@@ -83,6 +87,7 @@ export type Character = {
         wisdom: WisdomStat;
         charisma: CharismaStat;
     };
+    lvl: string;
 };
 export const baseStats: Character['stats'] = {
     strength: {
@@ -185,7 +190,15 @@ export const emptyCharacter: Character = {
     photo: -1,
     backgroundImage: -1,
     stats: baseStats,
+    lvl: '',
     manaSlots: 4,
     manaTracker: false,
     passives: [],
+    race: '',
+    class: '',
+    age: '',
+    height: '',
+    weight: '',
+    background: '',
+    languages: '',
 };

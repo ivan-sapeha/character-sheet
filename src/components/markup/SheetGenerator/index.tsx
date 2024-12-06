@@ -7,10 +7,14 @@ import { useIndexedDB } from 'react-indexed-db-hook';
 import { HPDice } from '../../../constants/char.ts';
 import { Locale, useTranslate } from '../../../contexts/Translator.tsx';
 import { svgToCssUrl } from '../../../helpers/convert.ts';
-import { entries, keys } from '../../../helpers/generic-helpers.tsx';
+import {
+    entries,
+    getRandomArrayItem,
+    keys,
+} from '../../../helpers/generic-helpers.tsx';
 import { printContent } from '../../../helpers/print.ts';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
-
+import rand from '../../../assets/images/icons/random.svg';
 let ranOnce = false;
 export const SheetGenerator = () => {
     const {
@@ -22,6 +26,10 @@ export const SheetGenerator = () => {
         lastSelectedCharacter,
     } = useCharacter();
     const { tokens, load, availableLanguages, currentLocale } = useTranslate();
+    const [randomNames, setRandomNames] = useState<{
+        names: string[];
+        surnames: string[];
+    }>({ names: [], surnames: [] });
     const [backgroundDialogOpened, setBackgroundDialogOpened] = useState(false);
     const [characterDialogOpened, setCharacterDialogOpened] = useState(false);
     const [iconsProgress, setIconsProgress] = useState(0);
@@ -43,6 +51,14 @@ export const SheetGenerator = () => {
         }
         toggleEdit();
     };
+
+    useEffect(() => {
+        axios
+            .get<{ names: string[]; surnames: string[] }>(
+                `randomNames-${currentLocale}.json`,
+            )
+            .then(({ data }) => setRandomNames(data));
+    }, [currentLocale]);
 
     useEffect(() => {
         updateCurrentCharacter(lastSelectedCharacter);
@@ -196,11 +212,27 @@ export const SheetGenerator = () => {
                             className={'flex gap-2 items-center flex-shrink-0'}
                         >
                             <label>{tokens.UI.name}:</label>
+                            <button
+                                className='w-[8mm] hover:brightness-50'
+                                title={`${
+                                    tokens.UI.random
+                                } ${tokens.UI.name.toLowerCase()}`}
+                                onClick={() =>
+                                    updateCurrentCharacter({
+                                        ...currentCharacter,
+                                        name: getRandomArrayItem(
+                                            randomNames.names,
+                                        ),
+                                    })
+                                }
+                            >
+                                <img src={rand} />
+                            </button>
                             <input
                                 type='text'
                                 maxLength={14}
                                 className={
-                                    'border border-[#ebebeb] rounded p-0.5 bg-background hover:bg-gray-200 hover:text-black focus:bg-gray-200 focus:text-black outline-0'
+                                    'border border-[#ebebeb] rounded p-0.5 bg-background hover:bg-gray-200 hover:text-black focus:bg-gray-200 focus:text-black outline-0 font-Advent w-[105px]'
                                 }
                                 value={currentCharacter.name}
                                 onChange={(e) =>
@@ -214,11 +246,27 @@ export const SheetGenerator = () => {
 
                         <span className={'flex gap-2 items-center'}>
                             <label>{tokens.UI.surname}:</label>
+                            <button
+                                className='w-[8mm] hover:brightness-50'
+                                title={`${
+                                    tokens.UI.random
+                                } ${tokens.UI.surname.toLowerCase()}`}
+                                onClick={() =>
+                                    updateCurrentCharacter({
+                                        ...currentCharacter,
+                                        surname: getRandomArrayItem(
+                                            randomNames.surnames,
+                                        ),
+                                    })
+                                }
+                            >
+                                <img src={rand} />
+                            </button>
                             <input
                                 type='text'
                                 maxLength={14}
                                 className={
-                                    'border border-[#ebebeb] rounded p-0.5 bg-background hover:bg-gray-200 hover:text-black focus:bg-gray-200 focus:text-black outline-0'
+                                    'border border-[#ebebeb] rounded p-0.5 bg-background hover:bg-gray-200 hover:text-black focus:bg-gray-200 focus:text-black outline-0 font-Advent w-[105px]'
                                 }
                                 value={currentCharacter.surname}
                                 onChange={(e) =>

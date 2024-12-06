@@ -1,7 +1,5 @@
 {
-  "UI":
-
-{
+  "UI": {
     "name": "Ім'я",
     "surname": "Прізвище",
     "dice": "Кубик",
@@ -19,8 +17,9 @@
     "passivesGallery": "Галерея пасивок",
     "addPassive": "Додати пасивку",
     "search": "Пошук",
-    "defaultPassive": "Пасивка"
-},
+    "defaultPassive": "Пасивка",
+    "random": "Рандомне"
+  },
   "miniLore": {
     "race": "Раса",
     "class": "Клас",

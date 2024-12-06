@@ -1,9 +1,10 @@
 import { CurvedText } from '@components/ui/CurvedText';
 import { Dialog } from '@components/ui/Dialog';
+import { TextInput } from '@components/ui/Inputs/TextInput.tsx';
 import cx from 'classnames';
 import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
-import { Character } from '../../../constants/char.ts';
+import { Character, emptyCharacter } from '../../../constants/char.ts';
 import { inactiveStyle } from '../../../constants/style-tokens.ts';
 import { fileToB64 } from '../../../helpers/convert.ts';
 import { generateUUID } from '../../../helpers/uuid.ts';
@@ -23,7 +24,7 @@ export interface PlayerProps {
 export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const { add, getByID, getAll, deleteRecord } = useIndexedDB('avatar');
-    const { isEdit, updateCurrentCharacter } = useCharacter();
+    const { isEdit, updateCurrentCharacter, currentCharacter } = useCharacter();
     const [update, setUpdate] = useState(generateUUID());
     const onAvatarClick = () => {
         if (!isEdit) {
@@ -107,10 +108,29 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
                         <CurvedText text={character.name} side={'left'} />
                     </div>
                     {!isPreview && (
-                        <div
-                            className={styles.lvl}
-                            style={isEdit ? inactiveStyle : undefined}
-                        ></div>
+                        <div className={styles.lvl}>
+                            {isEdit ? (
+                                <TextInput
+                                    value={
+                                        currentCharacter.lvl ??
+                                        emptyCharacter.lvl
+                                    }
+                                    onChange={(text) =>
+                                        updateCurrentCharacter({
+                                            ...currentCharacter,
+                                            lvl: text,
+                                        })
+                                    }
+                                    className='aspect-square !rounded-full !h-[8mm] !w-[8mm] !p-[0] text-center'
+                                    type={'number'}
+                                    min={1}
+                                />
+                            ) : (
+                                <span className={'font-Advent'}>
+                                    {currentCharacter.lvl ?? emptyCharacter.lvl}
+                                </span>
+                            )}
+                        </div>
                     )}
                     <div className={styles.surname}>
                         <img src={scroll} alt='scroll' />
