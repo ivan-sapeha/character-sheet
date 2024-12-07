@@ -15,7 +15,7 @@ import hp from '@assets/images/sources/hp.png';
 import tempHp from '@assets/images/sources/tempHp.png';
 import armor from '@assets/images/sources/armor.png';
 import scroll from '@assets/images/sources/scroll.png';
-import trash from '@assets/images/trash.svg';
+import trash from '@assets/images/icons/trash.svg';
 
 export interface PlayerProps {
     isPreview?: boolean;

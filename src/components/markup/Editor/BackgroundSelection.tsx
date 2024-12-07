@@ -1,4 +1,4 @@
-import trash from '@assets/images/trash.svg';
+import trash from '@assets/images/icons/trash.svg';
 import { Dialog, DialogProps } from '@components/ui/Dialog';
 import cx from 'classnames';
 import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';

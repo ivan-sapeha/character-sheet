@@ -1,4 +1,5 @@
-import trash from '@assets/images/trash.svg';
+import trash from '@assets/images/icons/trash.svg';
+import edit from '@assets/images/icons/edit.svg';
 import { Dialog, DialogProps } from '@components/ui/Dialog';
 import { TextInput } from '@components/ui/Inputs/TextInput.tsx';
 import { Passive } from '@components/ui/Statuses/Passives.tsx';
@@ -17,8 +18,8 @@ import { useCharacter } from '../../../hooks/useCharacter.ts';
 import { Grid, GridCellRenderer } from 'react-virtualized';
 import { usePassives } from '../../../hooks/usePassives.ts';
 import styles from './Editor.module.less';
-const tableWidth = 670;
-const columns = 6;
+const tableWidth = 670 / 2;
+const columns = 6 / 2;
 
 export const PassivesEditorDialog: React.FC<DialogProps> = ({
     open,
@@ -27,10 +28,17 @@ export const PassivesEditorDialog: React.FC<DialogProps> = ({
     const { passives, removePassive, getPassive } = usePassives();
     const { tokens } = useTranslate();
     const { currentCharacter, updateCurrentCharacter } = useCharacter();
+    const [currentPassive, setCurrentPassive] = useState(0);
     const [passiveEditorOpen, setPassiveEditorOpen] = useState(false);
     const [selectedPassives, setSelectedPassives] = useState<number[]>(
         currentCharacter.passives ?? [],
     );
+
+    useEffect(() => {
+        if (!passiveEditorOpen) {
+            setCurrentPassive(0);
+        }
+    }, [passives, passiveEditorOpen]);
     return (
         <Dialog open={open} onClose={onClose}>
             <div className={'flex flex-wrap w-[180mm] gap-[5mm] items-center'}>
@@ -94,7 +102,7 @@ export const PassivesEditorDialog: React.FC<DialogProps> = ({
                         {passives.map((passive) => (
                             <div className='relative' key={passive.id}>
                                 <Passive
-                                    className={cx('cursor-copy', {
+                                    className={cx('cursor-copy mr-[5mm]', {
                                         'bg-[#ffe1b7] !cursor-pointer':
                                             selectedPassives.includes(
                                                 passive.id,
@@ -126,9 +134,20 @@ export const PassivesEditorDialog: React.FC<DialogProps> = ({
                                     }}
                                 />
                                 <img
+                                    src={edit}
+                                    className={
+                                        'w-[3mm] absolute top-[-3mm] right-[-1mm] p-[2mm] box-content cursor-pointer invert hover:invert-0'
+                                    }
+                                    onClick={() => {
+                                        setCurrentPassive(passive.id);
+                                        setPassiveEditorOpen(true);
+                                    }}
+                                />
+
+                                <img
                                     src={trash}
                                     className={
-                                        'w-[3mm] absolute top-[-4mm] right-[-4mm] p-[2mm] box-content cursor-pointer invert hover:invert-0'
+                                        'w-[3mm] absolute top-[3mm] right-[-1mm] p-[2mm] box-content cursor-pointer invert hover:invert-0'
                                     }
                                     onClick={() => {
                                         removePassive(passive.id);
@@ -159,22 +178,32 @@ export const PassivesEditorDialog: React.FC<DialogProps> = ({
                 <PassiveCreatorDialog
                     open={passiveEditorOpen}
                     onClose={() => setPassiveEditorOpen(false)}
+                    passive={currentPassive}
                 />
             )}
         </Dialog>
     );
 };
 
-export const PassiveCreatorDialog: React.FC<DialogProps> = ({
-    open,
-    onClose,
-}) => {
+export const PassiveCreatorDialog: React.FC<
+    DialogProps & { passive?: number }
+> = ({ open, onClose, passive = 0 }) => {
     const { tokens } = useTranslate();
-    const { addPassive } = usePassives();
+    const { addPassive, getPassive, updatePassive } = usePassives();
+    const currentPassive = getPassive(passive);
     const [filter, setFilter] = useState('');
-    const [passiveName, setPassiveName] = useState(tokens.UI.defaultPassive);
+    const [passiveName, setPassiveName] = useState(
+        passive
+            ? currentPassive?.name ?? tokens.UI.defaultPassive
+            : tokens.UI.defaultPassive,
+    );
     const [icons, setIcons] = useState<ImageDBData[]>([]);
-    const [selectedIcon, setSelectedIcon] = useState(-1);
+    const [selectedIcon, setSelectedIcon] = useState(
+        passive ? currentPassive?.icon ?? -1 : -1,
+    );
+    const [description, setDescription] = useState(
+        currentPassive?.description ?? '',
+    );
     const [isLoading, setIsLoading] = useState(true);
     const { getAll } = useIndexedDB('icon');
     const filteredIcons = convert1Dto2D(
@@ -236,7 +265,7 @@ export const PassiveCreatorDialog: React.FC<DialogProps> = ({
         }
     }, [open]);
     return (
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={open} onClose={onClose} className={'!max-h-[650px]'}>
             {isLoading && <span>Please wait</span>}
             {!isLoading && (
                 <div className='flex flex-col gap-[2mm]'>
@@ -268,10 +297,18 @@ export const PassiveCreatorDialog: React.FC<DialogProps> = ({
                         <div className='flex'>
                             <button
                                 onClick={() => {
-                                    addPassive({
-                                        name: passiveName,
-                                        icon: selectedIcon,
-                                    });
+                                    passive
+                                        ? updatePassive({
+                                              id: passive,
+                                              name: passiveName,
+                                              description: description,
+                                              icon: selectedIcon,
+                                          })
+                                        : addPassive({
+                                              name: passiveName,
+                                              icon: selectedIcon,
+                                              description: description,
+                                          });
                                     onClose();
                                 }}
                                 className={
@@ -282,25 +319,45 @@ export const PassiveCreatorDialog: React.FC<DialogProps> = ({
                             </button>
                         </div>
                     </div>
-                    <div className='flex flex-col gap-[5mm]'>
-                        <TextInput
-                            placeholder={tokens.UI.search}
-                            value={filter}
-                            onChange={(val) => setFilter(val)}
-                        />
 
-                        <Grid
-                            cellRenderer={cellRenderer}
-                            columnCount={
-                                filteredIcons[0] ? filteredIcons[0].length : 0
-                            }
-                            columnWidth={tableWidth / columns}
-                            height={500 - mmToPx(21)}
-                            rowCount={filteredIcons.length}
-                            rowHeight={90}
-                            width={tableWidth}
-                            style={{ overflowX: 'hidden' }}
-                        />
+                    <div className={'flex gap-[2mm]'}>
+                        <div className='flex flex-col gap-[3mm]'>
+                            <h1 className={'text-center font-Advent'}>
+                                {tokens.UI.description}
+                            </h1>
+                            <textarea
+                                className={
+                                    'bg-white/10 border border-gray-600 font-Advent rounded-[4px] h-full pt-[4px] pb-[4px] pl-[10px] pr-[10px] resize-none'
+                                }
+                                style={{ width: tableWidth }}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </div>
+                        <div className='flex flex-col gap-[3mm]'>
+                            <h1 className={'text-center font-Advent'}>
+                                {tokens.UI.icon}
+                            </h1>
+                            <TextInput
+                                placeholder={tokens.UI.search}
+                                value={filter}
+                                onChange={(val) => setFilter(val)}
+                            />
+                            <Grid
+                                cellRenderer={cellRenderer}
+                                columnCount={
+                                    filteredIcons[0]
+                                        ? filteredIcons[0].length
+                                        : 0
+                                }
+                                columnWidth={tableWidth / columns}
+                                height={500 - mmToPx(21)}
+                                rowCount={filteredIcons.length}
+                                rowHeight={90}
+                                width={tableWidth}
+                                style={{ overflowX: 'hidden' }}
+                            />
+                        </div>
                     </div>
                 </div>
             )}

@@ -1,22 +1,74 @@
-import { passives } from '@components/ui/Statuses/Passives.tsx';
+import cx from 'classnames';
+import { useEffect, useState } from 'react';
+import { useIndexedDB } from 'react-indexed-db-hook';
+import { ImageDBData } from '../../../db';
+import { reactJoin } from '../../../helpers/generic-helpers.tsx';
+import { useCharacter } from '../../../hooks/useCharacter.ts';
+import { PassiveData, usePassives } from '../../../hooks/usePassives.ts';
 
-export const PassiveDescr = () => {
+export const PassiveDescriptions = () => {
+    const { getPassivesInOrder } = usePassives();
+    const { currentCharacter } = useCharacter();
+    const usablePassives = getPassivesInOrder(currentCharacter.passives).filter(
+        (passive) => !!passive.description,
+    );
+
     return (
-        <div className="flex flex-col gap-[2mm]">
-            { passives.map(passive => (
-                <div key={ passive.name } className="flex flex-col p-[2mm] border rounded-[2mm] border-gray-800">
-                    <div className="flex items-center justify-between border-b-[1px] border-b-gray-800">
-                        <span className="flex items-center gap-[2mm]">
-                            <span className='h-[10mm]'><img className='h-full aspect-square' src={ passive.img }/> </span>
-                            <h1>{ passive.name }</h1>
-                        </span>
-                    </div>
-                    <div className="font-Advent font-light">
-                        { passive.description! }
-                    </div>
-                </div>
-            )) }
+        <div className={'w-[210mm] bg-white p-[2mm]'}>
+            <div className='flex flex-col gap-[2mm] w-full'>
+                {usablePassives.map((passive) => (
+                    <PassiveDescription key={passive.id} passive={passive} />
+                ))}
+            </div>
+        </div>
+    );
+};
 
+export const PassiveDescription: React.FC<{ passive: PassiveData }> = ({
+    passive,
+}) => {
+    const { getByID } = useIndexedDB('icon');
+
+    const [icon, setIcon] = useState('');
+    useEffect(() => {
+        getByID<ImageDBData>(passive.icon).then(
+            (data) => data?.image && setIcon(data?.image as string),
+        );
+    }, [passive]);
+
+    return (
+        <div
+            key={passive.name}
+            className='flex flex-col p-[2mm] border rounded-[2mm] border-gray-800 bg-white w-full max-w-[202mm] overflow-hidden overflow-ellipsis'
+        >
+            <div
+                className={cx('flex items-center justify-between', {
+                    ' border-b-[1px] border-b-gray-800': passive.description,
+                })}
+            >
+                <span className='flex items-center gap-[2mm]'>
+                    {icon && (
+                        <span className='h-[8mm] w-[8mm]'>
+                            <img className='h-full aspect-square' src={icon} />
+                        </span>
+                    )}{' '}
+                    <h1>{passive.name}</h1>
+                </span>
+            </div>
+            {passive.description && (
+                <div className='font-Advent font-light'>
+                    {reactJoin(
+                        passive.description
+                            .split('\n')
+                            .map((text) =>
+                                text.replace(/[ ]{2,}/g, (match) =>
+                                    '\u00A0'.repeat(match.length),
+                                ),
+                            ),
+                        <br />,
+                    )}
+                </div>
+            )}
         </div>
     );
 };

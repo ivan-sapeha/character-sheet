@@ -14,6 +14,9 @@ export const printContent = (element: HTMLElement, name?: string) => {
     WinPrint.document.body.innerHTML = document.head.innerHTML;
     const result = element.cloneNode(true);
     WinPrint.document.body.appendChild(result);
+    WinPrint.document
+        .getElementsByClassName('print')[0]
+        .setAttribute('style', 'pointer-events: none;');
     WinPrint.document.close();
     WinPrint.focus();
     const timeout = setTimeout(() => {

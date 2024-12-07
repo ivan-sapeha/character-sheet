@@ -1,4 +1,5 @@
-import { ReactElement } from 'react';
+import { nanoid } from 'nanoid';
+import React, { Fragment, ReactElement } from 'react';
 
 export const clone = <T extends object>(obj: T) =>
     JSON.parse(JSON.stringify(obj)) as T;
@@ -100,3 +101,29 @@ export function getRandomArrayItem<T>(array: T[]): T {
     const randomIndex = Math.floor(Math.random() * array.length);
     return array[randomIndex];
 }
+
+export const skipEventLoopTimes = (times: number) => {
+    return new Promise((resolve) => {
+        if (times === 0) {
+            resolve(void 0);
+        } else {
+            setTimeout(async () => {
+                await skipEventLoopTimes(times - 1);
+                resolve(void 0);
+            });
+        }
+    });
+};
+export const reactJoin = (
+    array: React.ReactElement[] | string[],
+    separator: string | React.ReactElement,
+) => {
+    return array.map((element, index) => {
+        return (
+            <Fragment key={`joined-element-${nanoid()}`}>
+                {element}
+                {index !== array.length - 1 && separator}
+            </Fragment>
+        );
+    });
+};

@@ -1,4 +1,4 @@
-import trash from '@assets/images/trash.svg';
+import trash from '@assets/images/icons/trash.svg';
 import { Player } from '@components/ui';
 import { Dialog, DialogProps } from '@components/ui/Dialog';
 import React from 'react';

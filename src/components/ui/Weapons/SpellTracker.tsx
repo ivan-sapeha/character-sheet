@@ -1,7 +1,7 @@
 import styles from '@components/ui/Weapons/Weapons.module.less';
 import React from 'react';
 import { useTranslate } from '../../../contexts/Translator.tsx';
-import { reactJoin } from '../../../helpers/react-join.tsx';
+import { reactJoin } from '../../../helpers/generic-helpers.tsx';
 
 export const SpellTracker: React.FC<{
     levels: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;

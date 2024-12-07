@@ -1,4 +1,5 @@
 import { PassivesEditorDialog } from '@components/markup/Editor/PassivesEditor.tsx';
+import { PassiveDescription } from '@components/ui/Additionals/Passives.tsx';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
@@ -144,7 +145,7 @@ export const passives = monti;
 export const Passives = () => {
     const { tokens } = useTranslate();
     const { isEdit, currentCharacter } = useCharacter();
-    const { getPassive } = usePassives();
+    const { getPassivesInOrder } = usePassives();
     const [dialogOpened, setDialogOpened] = useState(false);
 
     return (
@@ -161,12 +162,16 @@ export const Passives = () => {
             >
                 <h1 className={styles.header}>{tokens.UI.passives}</h1>
                 <div className={styles.statuses}>
-                    {(currentCharacter.passives ?? [])
-                        .map(getPassive)
-                        .filter(Boolean)
-                        .map((passive) => (
-                            <Passive key={passive!.id} passive={passive!} />
-                        ))}
+                    {getPassivesInOrder(currentCharacter.passives ?? []).map(
+                        (passive) => (
+                            <div key={passive!.id} className={styles.passive}>
+                                <Passive
+                                    passive={passive!}
+                                    canShowDescription={!isEdit}
+                                />
+                            </div>
+                        ),
+                    )}
                 </div>
             </div>
             {isEdit && (
@@ -185,7 +190,8 @@ export const Passive: React.FC<{
     passive: PassiveData;
     onClick?: () => void;
     className?: string;
-}> = ({ passive, onClick, className }) => {
+    canShowDescription?: boolean;
+}> = ({ passive, onClick, className, canShowDescription = false }) => {
     const { getByID } = useIndexedDB('icon');
     const [iconSrc, setIconSrc] = useState('');
     useEffect(() => {
@@ -203,6 +209,16 @@ export const Passive: React.FC<{
         >
             {passive.icon !== -1 && <img src={iconSrc} />}
             {passive.name}
+            {canShowDescription && !!passive.description && (
+                <div
+                    className={cx(
+                        styles.passiveDescription,
+                        passive.description ? 'w-[105mm]' : 'w-fit',
+                    )}
+                >
+                    <PassiveDescription passive={passive} />
+                </div>
+            )}
         </div>
     );
 };

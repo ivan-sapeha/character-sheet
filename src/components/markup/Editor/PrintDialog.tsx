@@ -1,6 +1,7 @@
 import { Dialog, DialogProps } from '@components/ui/Dialog';
 import React, { useId, useState } from 'react';
 import { useTranslate } from '../../../contexts/Translator.tsx';
+import { skipEventLoopTimes } from '../../../helpers/generic-helpers.tsx';
 import { printContent } from '../../../helpers/print.ts';
 import { generateUUID } from '../../../helpers/uuid.ts';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
@@ -11,22 +12,22 @@ export const PrintDialog: React.FC<DialogProps> = ({ open, onClose }) => {
     const { tokens } = useTranslate();
     const checkboxId = useId();
     const [checked, setChecked] = useState(false);
-    const onPrint = () => {
+    const onPrint = async () => {
         if (checked) {
             localStorage.setItem(printStorageKey, 'true');
         }
         onClose();
-        setTimeout(() =>
-            printContent(
-                document.getElementsByClassName('print')[0] as HTMLDivElement,
-                `${currentCharacter.name}_${currentCharacter.surname}`,
-            ),
+        await skipEventLoopTimes(100);
+
+        printContent(
+            document.getElementsByClassName('print')[0] as HTMLDivElement,
+            `${currentCharacter.name}_${currentCharacter.surname}`,
         );
     };
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <div className='font-Advent flex flex-col gap-[2mm]'>
+            <div className='font-Advent flex flex-col gap-[2mm] bg-[#ffffff77] rounded-[2mm] p-[2mm]'>
                 <h1 className='text-center pb-[3mm]'>
                     {tokens.UI.guide.howToSave.title}
                 </h1>

@@ -8,6 +8,7 @@ import {
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
+import { useLocalStorage } from 'usehooks-ts';
 import { HPDice } from '../../../constants/char.ts';
 import { Locale, useTranslate } from '../../../contexts/Translator.tsx';
 import { svgToCssUrl } from '../../../helpers/convert.ts';
@@ -15,6 +16,7 @@ import {
     entries,
     getRandomArrayItem,
     keys,
+    skipEventLoopTimes,
 } from '../../../helpers/generic-helpers.tsx';
 import { printContent } from '../../../helpers/print.ts';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
@@ -34,6 +36,7 @@ export const SheetGenerator = () => {
         names: string[];
         surnames: string[];
     }>({ names: [], surnames: [] });
+    const [printing, setPrinting] = useState(false);
     const [printDialogOpened, setPrintDialogOpened] = useState(false);
     const [backgroundDialogOpened, setBackgroundDialogOpened] = useState(false);
     const [characterDialogOpened, setCharacterDialogOpened] = useState(false);
@@ -42,13 +45,21 @@ export const SheetGenerator = () => {
     const { getAll: getAllBackgrounds, add: addBackground } =
         useIndexedDB('background');
     const { getAll: getAllIcons, add: addIcon } = useIndexedDB('icon');
-    const onPrint = () => {
+    const [printPassives, setPrintPassives] = useLocalStorage(
+        'print-passives',
+        false,
+    );
+    const onPrint = async () => {
         if (localStorage.getItem(printStorageKey)) {
+            setPrinting(true);
+            await skipEventLoopTimes(100);
             printContent(
                 document.getElementsByClassName('print')[0] as HTMLDivElement,
                 `${currentCharacter.name}_${currentCharacter.surname}`,
             );
+            setPrinting(false);
         } else {
+            setPrinting(true);
             setPrintDialogOpened(true);
         }
     };
@@ -66,6 +77,11 @@ export const SheetGenerator = () => {
             )
             .then(({ data }) => setRandomNames(data));
     }, [currentLocale]);
+    useEffect(() => {
+        if (!printDialogOpened) {
+            setPrinting(false);
+        }
+    }, [printDialogOpened]);
 
     useEffect(() => {
         updateCurrentCharacter(lastSelectedCharacter);
@@ -173,20 +189,52 @@ export const SheetGenerator = () => {
                 </button>
                 {!isEdit && (
                     <>
-                        <button
-                            className={
-                                'border border-[#ebebeb] rounded p-0.5 min-w-[15mm] hover:bg-gray-200 hover:text-black'
-                            }
-                            onClick={onPrint}
+                        <span
+                            className={'flex gap-2 items-center flex-shrink-0'}
                         >
-                            {tokens.UI.print}
-                        </button>
+                            <label>{tokens.UI.printPassives}:</label>
+                            <input
+                                type='checkbox'
+                                className={
+                                    'border border-[#ebebeb] rounded p-0.5'
+                                }
+                                checked={printPassives}
+                                onChange={(e) =>
+                                    setPrintPassives(e.target.checked)
+                                }
+                            />
+                        </span>
+                        <div
+                            className={
+                                'border border-[#ebebeb] rounded min-w-[25mm]'
+                            }
+                        >
+                            <button
+                                className={
+                                    'border-r border-[#ebebeb] p-0.5 min-w-[25mm] hover:bg-gray-200 hover:text-black'
+                                }
+                                onClick={onPrint}
+                            >
+                                {tokens.UI.print}
+                            </button>
+
+                            <button
+                                className={
+                                    'p-0.5 min-w-[7mm] hover:bg-gray-200 hover:text-black font-Advent'
+                                }
+                                onClick={() => setPrintDialogOpened(true)}
+                            >
+                                ?
+                            </button>
+                        </div>
+
                         {printDialogOpened && (
                             <PrintDialog
                                 open={printDialogOpened}
                                 onClose={() => setPrintDialogOpened(false)}
                             />
                         )}
+
                         <button
                             className={
                                 'border border-[#ebebeb] rounded p-0.5 min-w-[35mm] hover:bg-gray-200 hover:text-black'
@@ -378,7 +426,7 @@ export const SheetGenerator = () => {
                     'rounded-[2mm] overflow-hidden shadow-highlight w-fit'
                 }
             >
-                <Sheet />
+                <Sheet printing={printing && printPassives} />
             </div>
         </>
     );

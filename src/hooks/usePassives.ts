@@ -22,6 +22,16 @@ export const usePassives = () => {
         );
     };
 
+    const updatePassive = (passive: PassiveData) => {
+        const index = passives.findIndex(
+            (currentPassive) => passive.id === currentPassive.id,
+        );
+        if (index < 0) {
+            return;
+        }
+        setPassives(passives.toSpliced(index, 1, passive));
+    };
+
     const removePassive = (id: number) => {
         const index = passives.findIndex((passive) => passive.id === id);
         if (index < 0) {
@@ -38,5 +48,16 @@ export const usePassives = () => {
         return passive;
     };
 
-    return { passives, addPassive, removePassive, getPassive };
+    const getPassivesInOrder = (ids: number[]): PassiveData[] => {
+        return ids.map(getPassive).filter(Boolean) as PassiveData[];
+    };
+
+    return {
+        passives,
+        addPassive,
+        removePassive,
+        getPassive,
+        updatePassive,
+        getPassivesInOrder,
+    };
 };
