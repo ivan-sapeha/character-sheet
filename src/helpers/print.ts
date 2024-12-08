@@ -17,6 +17,7 @@ export const printContent = (element: HTMLElement, name?: string) => {
     WinPrint.document
         .getElementsByClassName('print')[0]
         .setAttribute('style', 'pointer-events: none;');
+    WinPrint.document.body.setAttribute('style', 'background: white');
     WinPrint.document.close();
     WinPrint.focus();
     const timeout = setTimeout(() => {

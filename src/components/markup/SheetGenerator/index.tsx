@@ -50,7 +50,7 @@ export const SheetGenerator = () => {
         false,
     );
     const onPrint = async () => {
-        if (localStorage.getItem(printStorageKey)) {
+        if (localStorage.getItem(printStorageKey) || printDialogOpened) {
             setPrinting(true);
             await skipEventLoopTimes(100);
             printContent(
@@ -77,11 +77,6 @@ export const SheetGenerator = () => {
             )
             .then(({ data }) => setRandomNames(data));
     }, [currentLocale]);
-    useEffect(() => {
-        if (!printDialogOpened) {
-            setPrinting(false);
-        }
-    }, [printDialogOpened]);
 
     useEffect(() => {
         updateCurrentCharacter(lastSelectedCharacter);
@@ -232,6 +227,7 @@ export const SheetGenerator = () => {
                             <PrintDialog
                                 open={printDialogOpened}
                                 onClose={() => setPrintDialogOpened(false)}
+                                onPrint={onPrint}
                             />
                         )}
 

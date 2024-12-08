@@ -1,28 +1,27 @@
 import { Dialog, DialogProps } from '@components/ui/Dialog';
 import React, { useId, useState } from 'react';
 import { useTranslate } from '../../../contexts/Translator.tsx';
-import { skipEventLoopTimes } from '../../../helpers/generic-helpers.tsx';
-import { printContent } from '../../../helpers/print.ts';
 import { generateUUID } from '../../../helpers/uuid.ts';
-import { useCharacter } from '../../../hooks/useCharacter.ts';
 import guide from '../../../assets/images/how-to-save.jpg';
 export const printStorageKey = 'dont-show-print';
-export const PrintDialog: React.FC<DialogProps> = ({ open, onClose }) => {
-    const { currentCharacter } = useCharacter();
+export const PrintDialog: React.FC<DialogProps & { onPrint: () => void }> = ({
+    open,
+    onClose,
+    onPrint,
+}) => {
     const { tokens } = useTranslate();
     const checkboxId = useId();
-    const [checked, setChecked] = useState(false);
-    const onPrint = async () => {
+    const [checked, setChecked] = useState(
+        !!localStorage.getItem(printStorageKey),
+    );
+    const onPrintClick = async () => {
         if (checked) {
             localStorage.setItem(printStorageKey, 'true');
+        } else {
+            localStorage.removeItem(printStorageKey);
         }
         onClose();
-        await skipEventLoopTimes(100);
-
-        printContent(
-            document.getElementsByClassName('print')[0] as HTMLDivElement,
-            `${currentCharacter.name}_${currentCharacter.surname}`,
-        );
+        onPrint();
     };
 
     return (
@@ -57,7 +56,7 @@ export const PrintDialog: React.FC<DialogProps> = ({ open, onClose }) => {
                     </div>
                     <button
                         className='border rounded-[2mm] font-Advent border-black pt-[2mm] pb-[2mm] pr-[6mm] pl-[6mm] bg-[#ffffff77] shadow-highlight'
-                        onClick={onPrint}
+                        onClick={onPrintClick}
                     >
                         {tokens.UI.print}
                     </button>
