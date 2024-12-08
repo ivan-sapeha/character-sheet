@@ -22,8 +22,9 @@ export const PassiveDescriptions = () => {
 
     useEffect(() => {
         /* This is the mechanism to space out passive description in case when it will be split into two pages */
-        if (usablePassives.length >= passives.length - page + 1) {
-            const newPassive = usablePassives[passives.length - page + 1];
+        const newPassiveIndex = passives.length - page + 1;
+        if (usablePassives.length >= newPassiveIndex) {
+            const newPassive = usablePassives[newPassiveIndex];
             const currentHeight = ref.current?.offsetHeight ?? 0;
             setLastHeight(currentHeight);
             if (currentHeight < a4Height * page && newPassive) {
@@ -34,8 +35,8 @@ export const PassiveDescriptions = () => {
                         passive={newPassive}
                     />,
                 ]);
-            } else {
-                const isEnd = !usablePassives[passives.length - page + 1];
+            } else if (currentHeight >= a4Height * page) {
+                const isEnd = !usablePassives[newPassiveIndex];
                 const lastPassive = passives.pop()!;
                 !isEnd && setPage((page) => page + 1);
                 const componentHeight = currentHeight - lastHeight;
