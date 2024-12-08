@@ -1,13 +1,9 @@
 import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
-import { TextInput } from '@components/ui/Inputs/TextInput.tsx';
-import { emptyCharacter } from '../../../constants/char.ts';
 import { useTranslate } from '../../../contexts/Translator.tsx';
-import { useCharacter } from '../../../hooks/useCharacter.ts';
 import styles from './Lore.module.less';
 
 export const MiniLore = () => {
     const { tokens } = useTranslate();
-    const { isEdit, currentCharacter, updateStat } = useCharacter();
 
     return (
         <div className={styles.miniLore}>

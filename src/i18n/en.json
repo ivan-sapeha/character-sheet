@@ -60,11 +60,11 @@
   },
   "stats": {
     "strength": "Str",
-    "constitution": "Const",
+    "constitution": "Con",
     "dexterity": "Dex",
     "intelligence": "Int",
     "wisdom": "Wis",
-    "charisma": "Char"
+    "charisma": "Cha"
   },
   "checks": {
     "athletics": "Athletics",

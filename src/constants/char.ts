@@ -1,9 +1,9 @@
-import agi from '@assets/images/preprocessed/agi-hd-transparent.png';
-import char from '@assets/images/preprocessed/charisma-hd-transparent.png';
-import cons from '@assets/images/preprocessed/const-hd-transparent.png';
-import int from '@assets/images/preprocessed/int-hd-transparent.png';
-import str from '@assets/images/preprocessed/str-hd-transparent.png';
-import wis from '@assets/images/preprocessed/wis-hd-transparent.png';
+import agi from '@assets/images/icons/agi.svg';
+import cha from '@assets/images/icons/cha.svg';
+import con from '@assets/images/icons/con.svg';
+import int from '@assets/images/icons/int.svg';
+import str from '@assets/images/icons/str.svg';
+import wis from '@assets/images/icons/wis.svg';
 
 export type Stat = {
     value: number;
@@ -177,7 +177,7 @@ export const statHelpers: {
         color: '#790000',
     },
     constitution: {
-        icon: cons,
+        icon: con,
         color: '#7a4501',
     },
     dexterity: {
@@ -193,7 +193,7 @@ export const statHelpers: {
         color: '#4b0075',
     },
     charisma: {
-        icon: char,
+        icon: cha,
         color: '#770071',
     },
 };
