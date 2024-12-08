@@ -24,11 +24,9 @@ export const PassiveDescriptions = () => {
         /* This is the mechanism to space out passive description in case when it will be split into two pages */
         if (usablePassives.length >= passives.length - page + 1) {
             const newPassive = usablePassives[passives.length - page + 1];
-            setLastHeight(ref.current?.offsetHeight ?? 0);
-            if (
-                (ref.current?.offsetHeight ?? 0) < a4Height * page &&
-                newPassive
-            ) {
+            const currentHeight = ref.current?.offsetHeight ?? 0;
+            setLastHeight(currentHeight);
+            if (currentHeight < a4Height * page && newPassive) {
                 setPassives([
                     ...passives,
                     <PassiveDescription
@@ -40,15 +38,13 @@ export const PassiveDescriptions = () => {
                 const isEnd = !usablePassives[passives.length - page + 1];
                 const lastPassive = passives.pop()!;
                 !isEnd && setPage((page) => page + 1);
+                const componentHeight = currentHeight - lastHeight;
+                const overflowHeight = currentHeight - a4Height * page;
                 setPassives([
                     ...passives,
                     <Spacer
                         key={generateUUID()}
-                        height={
-                            ref.current?.offsetHeight -
-                            lastHeight -
-                            (ref.current?.offsetHeight - a4Height * page)
-                        }
+                        height={componentHeight - overflowHeight}
                     />,
                     lastPassive,
                 ]);
