@@ -52,7 +52,7 @@ export const SheetGenerator = () => {
     const onPrint = async () => {
         if (localStorage.getItem(printStorageKey) || printDialogOpened) {
             setPrinting(true);
-            await skipEventLoopTimes(100);
+            await skipEventLoopTimes(200);
             printContent(
                 document.getElementsByClassName('print')[0] as HTMLDivElement,
                 `${currentCharacter.name}_${currentCharacter.surname}`,
