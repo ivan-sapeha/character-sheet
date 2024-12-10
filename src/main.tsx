@@ -9,7 +9,10 @@ import { DBConfig } from './db';
 import { translationsList } from './i18n/translations.ts';
 
 const root = document.getElementById('root')!;
-localStorage.setItem('loaded', (localStorage.getItem('loaded') ?? 0) + 1);
+localStorage.setItem(
+    'loaded',
+    String(Number(localStorage.getItem('loaded') ?? 0) + 1),
+);
 initDB(DBConfig);
 
 ReactDOM.createRoot(root).render(
