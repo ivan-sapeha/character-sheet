@@ -15,7 +15,7 @@ import {
     splitCamelCase,
 } from '../../../helpers/generic-helpers.tsx';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
-import { Grid, GridCellRenderer } from 'react-virtualized';
+import { Grid, GridCellRenderer } from 'react-virtualized/dist/es/Grid';
 import { usePassives } from '../../../hooks/usePassives.ts';
 import styles from './Editor.module.less';
 const tableWidth = 670 / 2;
