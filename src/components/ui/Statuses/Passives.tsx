@@ -207,7 +207,7 @@ export const Passive: React.FC<{
             className={cx(styles.status, styles.passive, className)}
             onClick={onClick}
         >
-            {passive.icon !== -1 && <img src={iconSrc} />}
+            {passive.icon !== -1 && iconSrc && <img src={iconSrc} />}
             {passive.name}
             {canShowDescription && !!passive.description && (
                 <div

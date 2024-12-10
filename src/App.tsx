@@ -24,11 +24,6 @@ export const App = () => {
                     {tokens.UI.supportMe}
                 </button>
                 <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-                    {/*<p className={'font-Advent'}>*/}
-                    {/*    It took me quite a lot of unpaid time to make it so*/}
-                    {/*    refined. Will take even more to implement many other*/}
-                    {/*    cool features.{' '}*/}
-                    {/*</p>*/}
                     <div
                         className={
                             'flex flex-col justify-center items-center gap-[5mm]'

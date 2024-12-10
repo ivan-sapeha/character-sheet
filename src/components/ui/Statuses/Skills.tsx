@@ -1,8 +1,6 @@
 import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
 import cx from 'classnames';
-import { inactiveStyle } from '../../../constants/style-tokens.ts';
 import { useTranslate } from '../../../contexts/Translator.tsx';
-import { useCharacter } from '../../../hooks/useCharacter.ts';
 import styles from './Statuses.module.less';
 import perc from '@assets/images/preprocessed/perception-hd-transparent.png';
 import hammer from '@assets/images/preprocessed/hammer-hd-transparent.png';
@@ -11,7 +9,6 @@ import insp from '@assets/images/preprocessed/insp-hd-transparent.png';
 
 export const Skills = () => {
     const { tokens } = useTranslate();
-    const { isEdit } = useCharacter();
     return (
         <div className={cx(styles.container, styles.skills)}>
             <h1 className={styles.header}>{tokens.skills.title}</h1>
