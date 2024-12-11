@@ -198,7 +198,7 @@ export const SheetGenerator = () => {
                         </span>
                         <div
                             className={
-                                'border border-[#ebebeb] rounded min-w-[25mm]'
+                                'border border-[#ebebeb] rounded min-w-[33mm]'
                             }
                         >
                             <button
@@ -209,7 +209,6 @@ export const SheetGenerator = () => {
                             >
                                 {tokens.UI.print}
                             </button>
-
                             <button
                                 className={
                                     'p-0.5 min-w-[7mm] hover:bg-gray-200 hover:text-black font-Advent'
