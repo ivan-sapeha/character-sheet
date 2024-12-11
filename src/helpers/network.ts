@@ -32,12 +32,11 @@ export async function fetchWithHandling<T>(
 
             const stream = new ReadableStream({
                 async start(controller) {
-                    async function read() {
+                    while (true) {
                         const { done, value } = await reader.read();
 
                         if (done) {
-                            controller.close();
-                            return;
+                            break;
                         }
 
                         receivedLength += value?.length || 0;
@@ -47,7 +46,7 @@ export async function fetchWithHandling<T>(
                         const now = Date.now();
 
                         if (
-                            config!.onDownloadProgress! &&
+                            config.onDownloadProgress &&
                             now - lastUpdateTime >= 200
                         ) {
                             lastUpdateTime = now;
@@ -59,14 +58,12 @@ export async function fetchWithHandling<T>(
                                 }),
                                 { progress },
                             );
-                            config!.onDownloadProgress!(progressEvent);
+                            config.onDownloadProgress(progressEvent);
                         }
 
                         controller.enqueue(value);
-                        setTimeout(read, 200); // Introduce a small delay to pace the reads
                     }
-
-                    read();
+                    controller.close();
                 },
             });
 

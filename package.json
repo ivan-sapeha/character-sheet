@@ -1,15 +1,16 @@
 {
     "name": "character-sheet",
-    "version": "1.3.1",
+    "version": "1.3.2",
     "private": true,
     "type": "module",
     "author": "Ivan Sapeha",
     "homepage": "https://ivan-sapeha.github.io/character-sheet/",
     "scripts": {
-        "build": "npm run preprocess-images && npm run prepare-assets && tsc && vite build",
+        "build": "npm run preprocess-images && npm run prepare-assets && tsc && vite build && npm run add-prefetch",
         "dev": "npm run preprocess-images && npm run prepare-assets && vite --host",
         "prepare-assets": "ts-node --esm scripts/get-default-images.ts",
         "preprocess-images": "ts-node --esm scripts/prepocess-images.ts",
+        "add-prefetch": "ts-node --esm scripts/add-prefetch.ts",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx src --fix",
         "preview": "vite preview --host",
@@ -55,7 +56,7 @@
         "tailwindcss": "^3.3.5",
         "ts-node": "^10.9.2",
         "typescript": "^5",
-        "vite": "^5",
+        "vite": "^6",
         "vite-plugin-pwa": "^0.21.1"
     }
 }

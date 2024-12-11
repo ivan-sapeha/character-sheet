@@ -127,22 +127,27 @@ export const SheetGenerator = () => {
                     );
                     setIconsProgress(
                         Math.min(
-                            (Number.isNaN(progress) ? 1 : progress) * 50,
-                            50,
+                            (Number.isNaN(progress) ? 1 : progress) * 40,
+                            40,
                         ),
                     );
                 },
-            }).then((res) => {
-                const { template, icons } = res;
-                entries(icons).map(([name, path]) => {
-                    const icon = {
-                        name,
-                        image: svgToCssUrl(template.replace('{path}', path)),
-                    };
-                    addIcon(icon);
-                    return icon;
-                });
-            });
+            })
+                .then((res) => {
+                    const { template, icons } = res;
+                    return Promise.all(
+                        entries(icons).map(([name, path]) => {
+                            const icon = {
+                                name,
+                                image: svgToCssUrl(
+                                    template.replace('{path}', path),
+                                ),
+                            };
+                            return addIcon(icon);
+                        }),
+                    );
+                })
+                .then(() => setIconsProgress(50));
         });
     }, []);
     const progress = Math.min(iconsProgress + backgroundsProgress, 100);
