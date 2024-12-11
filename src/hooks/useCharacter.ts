@@ -20,7 +20,7 @@ export type CharacterManagerReturn = CurrentCharacterContextValue & {
     updateStat: <T extends keyof Character>(
         key: T,
         value: Character[T],
-    ) => void;
+    ) => Character;
 };
 
 const onSaveEvent = new EventListener();
@@ -101,7 +101,9 @@ export const useCharacter = (): CharacterManagerReturn => {
         key: T,
         value: Character[T],
     ) {
-        updateCurrentCharacter({ ...currentCharacter, [key]: value });
+        const updatedCharacter = { ...currentCharacter, [key]: value };
+        updateCurrentCharacter(updatedCharacter);
+        return updatedCharacter;
     }
 
     return {

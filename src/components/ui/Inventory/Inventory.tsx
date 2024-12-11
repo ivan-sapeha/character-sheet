@@ -1,12 +1,10 @@
 import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
+import { InvisibleTextarea } from '@components/ui/Inputs/Textarea.tsx';
 import cx from 'classnames';
-import { inactiveStyle } from '../../../constants/style-tokens.ts';
 import { useTranslate } from '../../../contexts/Translator.tsx';
-import { useCharacter } from '../../../hooks/useCharacter.ts';
 import styles from './Inventory.module.less';
 export const Inventory = () => {
     const { tokens } = useTranslate();
-    const { isEdit } = useCharacter();
     return (
         <div className={styles.inventory}>
             <div className={styles.headSection}>
@@ -110,7 +108,7 @@ export const Inventory = () => {
                     </span>
                 </div>
             </div>
-            <div style={isEdit ? { background: '#00000054' } : undefined}></div>
+            <InvisibleTextarea stat={'inventory'} />
         </div>
     );
 };

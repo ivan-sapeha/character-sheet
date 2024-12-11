@@ -14,7 +14,7 @@ export const Skills = () => {
             <h1 className={styles.header}>{tokens.skills.title}</h1>
             <div className={styles.statuses}>
                 <div className={styles.status}>
-                    <img src={bulb} />
+                    <img src={bulb} style={{ height: '7mm', aspectRatio: 1 }} />
                     {tokens.skills.initiative}
                     <EditableInput
                         stat={'initiative'}
@@ -24,7 +24,10 @@ export const Skills = () => {
                     />
                 </div>
                 <div className={styles.status}>
-                    <img src={hammer} />
+                    <img
+                        src={hammer}
+                        style={{ height: '7mm', aspectRatio: 1 }}
+                    />
                     {tokens.skills.proficiency}
                     <EditableInput
                         stat={'proficiency'}
@@ -34,7 +37,7 @@ export const Skills = () => {
                     />
                 </div>
                 <div className={styles.status}>
-                    <img src={perc} />
+                    <img src={perc} style={{ height: '7mm', aspectRatio: 1 }} />
                     {tokens.skills.perception}
                     <EditableInput
                         stat={'perception'}
@@ -44,7 +47,7 @@ export const Skills = () => {
                     />
                 </div>
                 <div className={styles.status}>
-                    <img src={insp} />
+                    <img src={insp} style={{ height: '7mm', aspectRatio: 1 }} />
                     {tokens.skills.inspiration}
                     <EditableInput
                         stat={'inspiration'}

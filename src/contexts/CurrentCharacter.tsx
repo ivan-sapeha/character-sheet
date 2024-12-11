@@ -6,7 +6,7 @@ import { clone } from '../helpers/generic-helpers.tsx';
 
 export interface CurrentCharacterContextValue {
     currentCharacter: Character;
-    updateCurrentCharacter: (character: Character | undefined) => void;
+    updateCurrentCharacter: (character: Character | undefined) => Character;
     isEdit: boolean;
     toggleEdit: () => boolean;
 }
@@ -14,7 +14,7 @@ export interface CurrentCharacterContextValue {
 export const CurrentCharacterContext =
     React.createContext<CurrentCharacterContextValue>({
         currentCharacter: emptyCharacter,
-        updateCurrentCharacter: () => {},
+        updateCurrentCharacter: () => emptyCharacter,
         isEdit: false,
         toggleEdit: () => false,
     });
@@ -37,8 +37,11 @@ export const CurrentCharacterProvider: React.FC<React.PropsWithChildren> = ({
         <CurrentCharacterContext.Provider
             value={{
                 currentCharacter: character,
-                updateCurrentCharacter: (character: Character | undefined) =>
-                    setCharacter(clone(character ?? emptyCharacter)),
+                updateCurrentCharacter: (character: Character | undefined) => {
+                    const updatedCharacter = clone(character ?? emptyCharacter);
+                    setCharacter(updatedCharacter);
+                    return updatedCharacter;
+                },
                 isEdit,
                 toggleEdit,
             }}

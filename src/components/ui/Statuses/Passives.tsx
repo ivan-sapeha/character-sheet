@@ -74,7 +74,9 @@ export const Passive: React.FC<{
             className={cx(styles.status, styles.passive, className)}
             onClick={onClick}
         >
-            {passive.icon !== -1 && iconSrc && <img src={iconSrc} />}
+            {passive.icon !== -1 && iconSrc && (
+                <img src={iconSrc} style={{ height: '7mm', aspectRatio: 1 }} />
+            )}
             {passive.name}
             {canShowDescription && !!passive.description && (
                 <div

@@ -8,7 +8,9 @@ import styles from './Weapons.module.less';
 export const Weapons = () => {
     const { tokens } = useTranslate();
     const { currentCharacter, isEdit } = useCharacter();
-
+    const weaponsAmount =
+        (currentCharacter.manaTracker ? 3 : 4) +
+        (currentCharacter.showLore ? 0 : 3);
     return (
         <div className={styles.weapons}>
             <div
@@ -20,7 +22,7 @@ export const Weapons = () => {
             {currentCharacter.manaTracker && (
                 <SpellTracker levels={currentCharacter.manaSlots} />
             )}
-            {Array(currentCharacter.manaTracker ? 3 : 4)
+            {Array(weaponsAmount)
                 .fill(0)
                 .map((_, index) => (
                     <Weapon key={`weapon-${index}`} />

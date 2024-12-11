@@ -170,7 +170,11 @@ export const SheetGenerator = () => {
     }
     return (
         <>
-            <div className={'flex gap-2 p-2.5 w-fit text-[#ebebeb]'}>
+            <div
+                className={
+                    'flex gap-2 p-2.5 w-fit text-[#ebebeb] flex-wrap max-w-[210mm] justify-center'
+                }
+            >
                 <button
                     className={
                         'border border-[#ebebeb] rounded p-0.5 min-w-[25mm] hover:bg-gray-200 hover:text-black'
@@ -350,6 +354,42 @@ export const SheetGenerator = () => {
                                     </option>
                                 ))}
                             </select>
+                        </span>
+                        <span
+                            className={'flex gap-2 items-center flex-shrink-0'}
+                        >
+                            <label>Show lore:</label>
+                            <input
+                                type='checkbox'
+                                className={
+                                    'border border-[#ebebeb] rounded p-0.5'
+                                }
+                                checked={currentCharacter.showLore ?? true}
+                                onChange={(e) =>
+                                    updateCurrentCharacter({
+                                        ...currentCharacter,
+                                        showLore: e.target.checked,
+                                    })
+                                }
+                            />
+                        </span>
+                        <span
+                            className={'flex gap-2 items-center flex-shrink-0'}
+                        >
+                            <label>Show speed:</label>
+                            <input
+                                type='checkbox'
+                                className={
+                                    'border border-[#ebebeb] rounded p-0.5'
+                                }
+                                checked={currentCharacter.showSpeed ?? true}
+                                onChange={(e) =>
+                                    updateCurrentCharacter({
+                                        ...currentCharacter,
+                                        showSpeed: e.target.checked,
+                                    })
+                                }
+                            />
                         </span>
                         <span
                             className={'flex gap-2 items-center flex-shrink-0'}

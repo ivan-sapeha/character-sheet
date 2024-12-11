@@ -62,13 +62,19 @@ export enum HPDice {
     d12 = 'd12',
 }
 
+interface MaxCurrent {
+    current: number;
+    max: number;
+}
+type PossibleManaSlots = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
 export type Character = {
     id: number;
     name: string;
     surname: string;
     dice: HPDice;
     manaTracker: boolean;
-    manaSlots: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+    manaSlots: PossibleManaSlots;
     passives: number[];
     race: string;
     class: string;
@@ -97,6 +103,8 @@ export type Character = {
     proficiency: string;
     perception: string;
     inspiration: string;
+    showSpeed: boolean;
+    showLore: boolean;
     cp: string;
     sp: string;
     gp: string;
@@ -104,6 +112,14 @@ export type Character = {
     pp: string;
     success: 0 | 1 | 2 | 3;
     fail: 0 | 1 | 2 | 3;
+    notes: string;
+    inventory: string;
+    hp: MaxCurrent;
+    tempHp: MaxCurrent;
+    ac: MaxCurrent;
+    mana: {
+        [key in PossibleManaSlots]?: MaxCurrent;
+    };
 };
 export const baseStats: Character['stats'] = {
     strength: {
@@ -233,4 +249,15 @@ export const emptyCharacter: Character = {
     pp: '',
     success: 0,
     fail: 0,
+    showSpeed: true,
+    showLore: true,
+    notes: '',
+    inventory: '',
+    hp: {
+        max: -1,
+        current: -1,
+    },
+    tempHp: { max: -1, current: -1 },
+    ac: { max: -1, current: -1 },
+    mana: {},
 };

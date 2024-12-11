@@ -43,7 +43,9 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                     <div className='flex h-full'>
                         <div className='flex flex-col gap-[2mm]'>
                             <Player character={currentCharacter} />
-                            <MiniLore />
+                            {(currentCharacter.showLore ?? true) && (
+                                <MiniLore />
+                            )}
                             <Death />
                             <Weapons />
                         </div>
@@ -67,8 +69,10 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                                     />
                                 ))}
                             </div>
-                            <div className='flex gap-[2mm]'>
-                                <Speed />
+                            <div className='flex gap-[2mm] w-[585px]'>
+                                {(currentCharacter.showSpeed ?? true) && (
+                                    <Speed />
+                                )}
                                 <Skills />
                                 <Passives />
                             </div>

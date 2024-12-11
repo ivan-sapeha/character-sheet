@@ -5,15 +5,17 @@ import styles from './Death.module.less';
 type Level = 0 | 1 | 2 | 3;
 export const Death = () => {
     const { tokens } = useTranslate();
-    const { currentCharacter, updateStat } = useCharacter();
+    const { currentCharacter, updateStat, saveCharacter } = useCharacter();
 
     const onClick = (level: Level, isSuccess: boolean) => {
         const statName = isSuccess ? 'success' : 'fail';
-        updateStat(
-            statName,
-            currentCharacter[statName] === level
-                ? ((level - 1) as Level)
-                : level,
+        saveCharacter(
+            updateStat(
+                statName,
+                currentCharacter[statName] === level
+                    ? ((level - 1) as Level)
+                    : level,
+            ),
         );
     };
     return (
