@@ -20,9 +20,13 @@
     <meta property="og:image:height" content="800" />
     <meta property="og:image" content="https://ivan-sapeha.github.io/character-sheet/preview.jpg">
     <meta property="og:url" content="https://ivan-sapeha.github.io/character-sheet/">
+    <script defer data-domain="character-sheet.fun" src="https://plausible.io/js/script.js"></script>
     <title>DnD Character Sheet Generator</title>
 </head>
 <body>
+<script>
+    if(location.href!=='https://character-sheet.fun' && !location.hostname.startsWith('localhost')) location.href = 'https://character-sheet.fun';
+</script>
 <div id="root"></div>
 <script type="module" src="/src/main.tsx"></script>
 </body>

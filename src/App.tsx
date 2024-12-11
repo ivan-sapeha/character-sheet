@@ -2,6 +2,7 @@ import { SheetGenerator } from '@components/markup/SheetGenerator';
 import { Dialog } from '@components/ui/Dialog';
 import { useState } from 'react';
 import { useTranslate } from './contexts/Translator.tsx';
+import { version } from '../package.json';
 import payPal from './assets/images/icons/PayPal.svg';
 import mono from './assets/images/icons/monobank-logo.png';
 export const App = () => {
@@ -15,7 +16,7 @@ export const App = () => {
         >
             <SheetGenerator />
             <footer className='text-white flex gap-[5mm] items-center justify-center'>
-                <span>Version 1.2</span>
+                <span>Version {version}</span>
                 <span>Author: Ivan Sapeha</span>
                 <button
                     className='border rounded-[2mm] font-Advent border-white pr-[2mm] pl-[2mm]  shadow-highlight'
