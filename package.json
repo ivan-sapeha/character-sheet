@@ -4,7 +4,7 @@
     "private": true,
     "type": "module",
     "author": "Ivan Sapeha",
-    "homepage": "https://character-sheet.fun/",
+    "homepage": "https://character-sheet.fun",
     "scripts": {
         "build": "npm run preprocess-images && npm run prepare-assets && tsc && vite build",
         "dev": "npm run preprocess-images && npm run prepare-assets && vite --host",
@@ -14,7 +14,7 @@
         "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx src --fix",
         "preview": "vite preview --host",
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d dist"
+        "deploy": "gh-pages -d dist -V --cname character-sheet.fun"
     },
     "dependencies": {
         "@types/react-virtualized": "^9.22.0",
