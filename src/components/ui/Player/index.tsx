@@ -1,19 +1,15 @@
 import { CurvedText } from '@components/ui/CurvedText';
 import { Dialog } from '@components/ui/Dialog';
 import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
-import { TextInput } from '@components/ui/Inputs/TextInput.tsx';
 import cx from 'classnames';
 import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
-import { Character, emptyCharacter } from '../../../constants/char.ts';
+import { Character } from '../../../constants/char.ts';
 import { inactiveStyle } from '../../../constants/style-tokens.ts';
 import { fileToB64 } from '../../../helpers/convert.ts';
 import { generateUUID } from '../../../helpers/uuid.ts';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 import styles from './Player.module.less';
-import hp from '@assets/images/sources/hp.png';
-import tempHp from '@assets/images/sources/tempHp.png';
-import armor from '@assets/images/sources/armor.png';
 import scroll from '@assets/images/sources/scroll.png';
 import trash from '@assets/images/icons/trash.svg';
 
@@ -82,7 +78,9 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
     }, [dialogOpened, character, update]);
     return (
         <>
-            <div className={styles.player}>
+            <div
+                className={cx(styles.player, { [styles.isPreview]: isPreview })}
+            >
                 <div className={styles.playerCircle}>
                     <div
                         className={cx(styles.playerCircleAvatar, {

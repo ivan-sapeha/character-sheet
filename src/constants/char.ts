@@ -4,6 +4,8 @@ import con from '@assets/images/icons/con.svg';
 import int from '@assets/images/icons/int.svg';
 import str from '@assets/images/icons/str.svg';
 import wis from '@assets/images/icons/wis.svg';
+import { ImageDBData } from '../db';
+import { PassiveData } from '../hooks/usePassives.ts';
 
 export type Stat = {
     value: number;
@@ -120,6 +122,13 @@ export type Character = {
     mana: {
         [key in PossibleManaSlots]?: MaxCurrent;
     };
+};
+
+export type ExportedCharacter = {
+    character: Character;
+    avatar: ImageDBData | number;
+    background: ImageDBData | number;
+    passives: PassiveData[];
 };
 export const baseStats: Character['stats'] = {
     strength: {

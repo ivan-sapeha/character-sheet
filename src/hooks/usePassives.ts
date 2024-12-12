@@ -20,6 +20,7 @@ export const usePassives = () => {
                 .concat({ ...data, id: lastId + 1 })
                 .toSorted((a, b) => a.id - b.id),
         );
+        return lastId + 1;
     };
 
     const updatePassive = (passive: PassiveData) => {
@@ -52,6 +53,17 @@ export const usePassives = () => {
         return ids.map(getPassive).filter(Boolean) as PassiveData[];
     };
 
+    const getPassiveIdByData = (data: PassiveData): number => {
+        return (
+            passives.find(
+                (passive) =>
+                    passive.description === data.description &&
+                    passive.icon === data.icon &&
+                    passive.name === data.name,
+            )?.id ?? -1
+        );
+    };
+
     return {
         passives,
         addPassive,
@@ -59,5 +71,6 @@ export const usePassives = () => {
         getPassive,
         updatePassive,
         getPassivesInOrder,
+        getPassiveIdByData,
     };
 };

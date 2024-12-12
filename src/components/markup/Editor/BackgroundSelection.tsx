@@ -84,7 +84,7 @@ export const BackgroundSelectionDialog: React.FC<DialogProps> = ({
                         nameParts.pop();
                         const name = nameParts.join('');
                         return (
-                            <div key={background.name} className='relative'>
+                            <div key={background.id} className='relative'>
                                 <div
                                     style={{
                                         background: `url(${background.image})`,

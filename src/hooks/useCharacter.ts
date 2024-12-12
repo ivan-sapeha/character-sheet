@@ -1,21 +1,27 @@
 import { useContext, useEffect } from 'react';
+import { useIndexedDB } from 'react-indexed-db-hook';
 import { useLocalStorage } from 'usehooks-ts';
-import { Character } from '../constants/char.ts';
+import { Character, ExportedCharacter } from '../constants/char.ts';
 import { emptyCharacter } from '../constants/char.ts';
 import {
     CurrentCharacterContext,
     CurrentCharacterContextValue,
 } from '../contexts/CurrentCharacter.tsx';
+import { ImageDBData } from '../db';
+import { b64ToFile, fileToB64 } from '../helpers/convert.ts';
 import { EventListener } from '../helpers/generic-helpers.tsx';
+import { PassiveData, usePassives } from './usePassives.ts';
 
 export type CharacterManagerReturn = CurrentCharacterContextValue & {
-    addNewCharacter: () => Character;
+    addNewCharacter: (character?: Character) => Character;
     saveCharacter: (character: Character) => void;
     allCharacters: Character[];
     getCharacterByID: (id: number) => Character | undefined;
     lastSelectedCharacter: Character | undefined;
     setLastCharacter: (id: number) => void;
     removeCharacter: (id: number) => void;
+    exportCharacter: (character: Character) => Promise<ExportedCharacter>;
+    importCharacter: (data: ExportedCharacter) => Promise<Character>;
     onSave: (callback: () => void) => () => void;
     updateStat: <T extends keyof Character>(
         key: T,
@@ -30,6 +36,12 @@ export const useCharacter = (): CharacterManagerReturn => {
     const [storedCharacters, setStoredCharactersOriginal] = useLocalStorage<
         Character[]
     >('characters', []);
+
+    const { getByID: getBackground, add: addBackground } =
+        useIndexedDB('background');
+    const { getByID: getAvatar, add: addAvatar } = useIndexedDB('avatar');
+    const { getPassivesInOrder, getPassiveIdByData, addPassive } =
+        usePassives();
     const setStoredCharacters = (chars: Character[]) => {
         setStoredCharactersOriginal(chars.toSorted((a, b) => a.id - b.id));
     };
@@ -38,12 +50,14 @@ export const useCharacter = (): CharacterManagerReturn => {
         currentCharacter.id,
     );
 
-    const addNewCharacter = () => {
+    const addNewCharacter = (character?: Character) => {
         let id = storedCharacters.length;
         while (storedCharacters.find((char) => char.id === id)) {
             id++;
         }
-        const newCharacter = { ...emptyCharacter, id };
+        const data = character ? character : emptyCharacter;
+
+        const newCharacter = { ...data, id };
         setStoredCharacters([...storedCharacters, newCharacter]);
         return newCharacter;
     };
@@ -106,6 +120,74 @@ export const useCharacter = (): CharacterManagerReturn => {
         return updatedCharacter;
     }
 
+    const exportCharacter = async (
+        character: Character,
+    ): Promise<ExportedCharacter> => {
+        const avatar = (await getAvatar<ImageDBData>(character.photo)) ?? -1;
+        const passives: PassiveData[] = getPassivesInOrder(character.passives);
+        let background: ExportedCharacter['background'] = -1;
+        if (character.backgroundImage !== -1) {
+            const backgroundData = await getBackground<ImageDBData>(
+                character.backgroundImage,
+            );
+
+            background = backgroundData?.name?.includes(
+                'backgrounds/preprocessed/',
+            )
+                ? character.backgroundImage
+                : {
+                      ...backgroundData,
+                      image: await fileToB64(backgroundData.image as File),
+                  };
+        }
+        return { character, avatar, background, passives } as ExportedCharacter;
+    };
+
+    const importCharacter = async (
+        data: ExportedCharacter,
+    ): Promise<Character> => {
+        const {
+            passives: passivesData,
+            character,
+            avatar: avatarData,
+            background: backgroundData,
+        } = data;
+
+        const passives = passivesData.map((passive) => {
+            const id = getPassiveIdByData(passive);
+            if (id !== -1) {
+                return id;
+            } else {
+                return addPassive(passive);
+            }
+        });
+
+        let avatar = -1;
+        if (avatarData !== -1) {
+            const { name, image } = avatarData as ImageDBData;
+            avatar = await addAvatar({ name, image });
+        }
+
+        let background = backgroundData as number;
+        if (backgroundData !== -1) {
+            if (typeof backgroundData !== 'number') {
+                background =
+                    (await addBackground({
+                        name: backgroundData.name,
+                        image: await b64ToFile(
+                            backgroundData.name,
+                            backgroundData.image as string,
+                        ),
+                    })) ?? -1;
+            }
+        }
+
+        character.passives = passives;
+        character.photo = avatar;
+        character.backgroundImage = background;
+        return character;
+    };
+
     return {
         currentCharacter,
         updateCurrentCharacter,
@@ -120,5 +202,7 @@ export const useCharacter = (): CharacterManagerReturn => {
         removeCharacter,
         onSave,
         updateStat,
+        exportCharacter,
+        importCharacter,
     };
 };

@@ -10,7 +10,7 @@ import { useIndexedDB } from 'react-indexed-db-hook';
 import { useLocalStorage } from 'usehooks-ts';
 import { HPDice } from '../../../constants/char.ts';
 import { Locale, useTranslate } from '../../../contexts/Translator.tsx';
-import { svgToCssUrl } from '../../../helpers/convert.ts';
+import { downloadFile, svgToCssUrl } from '../../../helpers/convert.ts';
 import {
     entries,
     getRandomArrayItem,
@@ -31,6 +31,7 @@ export const SheetGenerator = () => {
         updateCurrentCharacter,
         saveCharacter,
         lastSelectedCharacter,
+        exportCharacter,
     } = useCharacter();
     const { tokens, load, availableLanguages, currentLocale } = useTranslate();
     const [randomNames, setRandomNames] = useState<{
@@ -244,6 +245,23 @@ export const SheetGenerator = () => {
                         >
                             {tokens.UI.changeCharacter}
                         </button>
+                        <button
+                            className={
+                                'border border-[#ebebeb] rounded p-0.5 min-w-[35mm] hover:bg-gray-200 hover:text-black'
+                            }
+                            onClick={async () => {
+                                downloadFile(
+                                    `${currentCharacter.name || 'Empty'}_${
+                                        currentCharacter.surname ?? ''
+                                    }`,
+                                    JSON.stringify(
+                                        await exportCharacter(currentCharacter),
+                                    ),
+                                );
+                            }}
+                        >
+                            {tokens.UI.export}
+                        </button>
                         <span className={'flex gap-2 items-center'}>
                             <label>{tokens.UI.language}:</label>
                             <select
@@ -363,7 +381,7 @@ export const SheetGenerator = () => {
                         <span
                             className={'flex gap-2 items-center flex-shrink-0'}
                         >
-                            <label>Show lore:</label>
+                            <label>{tokens.UI.showLore}:</label>
                             <input
                                 type='checkbox'
                                 className={
@@ -381,7 +399,7 @@ export const SheetGenerator = () => {
                         <span
                             className={'flex gap-2 items-center flex-shrink-0'}
                         >
-                            <label>Show speed:</label>
+                            <label>{tokens.UI.showSpeed}:</label>
                             <input
                                 type='checkbox'
                                 className={
