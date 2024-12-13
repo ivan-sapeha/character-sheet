@@ -30,7 +30,11 @@ export const Dialog: React.FC<DialogProps> = ({
         <>
             {createPortal(
                 <dialog
-                    className={cx(styles.dialog, className)}
+                    className={cx(
+                        styles.dialog,
+                        className,
+                        'small:mr-0 small:ml-0 small:w-full small:max-w-full',
+                    )}
                     ref={ref}
                     onClose={(e) => {
                         e.stopPropagation();
@@ -47,7 +51,7 @@ export const Dialog: React.FC<DialogProps> = ({
                     >
                         乂
                     </div>
-                    {children}
+                    <div className='overflow-auto w-full'>{children}</div>
                 </dialog>,
                 document.getElementById('root')!,
             )}

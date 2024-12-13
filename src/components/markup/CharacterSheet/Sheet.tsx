@@ -9,6 +9,8 @@ import { Passives } from '@components/ui/Statuses/Passives.tsx';
 import { Skills } from '@components/ui/Statuses/Skills.tsx';
 import { Speed } from '@components/ui/Statuses/Speed.tsx';
 import { Weapons } from '@components/ui/Weapons';
+import { SpellTracker } from '@components/ui/Weapons/SpellTracker.tsx';
+import cx from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
 import { baseStats, statHelpers } from '../../../constants/char.ts';
@@ -16,6 +18,7 @@ import { fileToB64 } from '../../../helpers/convert.ts';
 import { keys } from '../../../helpers/generic-helpers.tsx';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 import { usePassives } from '../../../hooks/usePassives.ts';
+import { BrowserView, MobileView, isMobile } from 'react-device-detect';
 
 export const Sheet: React.FC<{ printing?: boolean }> = ({
     printing = false,
@@ -38,49 +41,98 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
 
     return (
         <div className={'print'}>
-            <A4Sheet background={background}>
-                <div className='flex flex-col h-full gap-[5mm] items-center pt-[2mm]'>
-                    <div className='flex h-full'>
-                        <div className='flex flex-col gap-[2mm]'>
-                            <Player character={currentCharacter} />
-                            {(currentCharacter.showLore ?? true) && (
-                                <MiniLore />
-                            )}
-                            <Death />
-                            <Weapons />
-                        </div>
-                        <div className='flex flex-col w-full gap-[5mm] h-full'>
-                            <div className='flex justify-between w-full gap-[1mm]'>
-                                {keys(baseStats).map((stat) => (
-                                    <FullStat
-                                        key={stat}
-                                        data={currentCharacter.stats[stat]} //add merge with base
-                                        color={
-                                            statHelpers[
-                                                stat as keyof typeof baseStats
-                                            ].color
-                                        }
-                                        icon={
-                                            statHelpers[
-                                                stat as keyof typeof baseStats
-                                            ].icon
-                                        }
-                                        name={stat}
-                                    />
-                                ))}
-                            </div>
-                            <div className='flex gap-[2mm] w-[585px]'>
-                                {(currentCharacter.showSpeed ?? true) && (
-                                    <Speed />
+            <A4Sheet
+                background={background}
+                className={cx({ '!w-[100vw] !h-fit !bg-150%': isMobile })}
+            >
+                <BrowserView>
+                    <div className='flex flex-col h-full gap-[5mm] items-center pt-[2mm]'>
+                        <div className='flex h-full'>
+                            <div className='flex flex-col gap-[2mm]'>
+                                <Player character={currentCharacter} />
+                                {(currentCharacter.showLore ?? true) && (
+                                    <MiniLore />
                                 )}
-                                <Skills />
-                                <Passives />
+                                <Death />
+                                <Weapons />
                             </div>
-                            <Inventory />
-                            <Notes />
+                            <div className='flex flex-col w-full gap-[5mm]'>
+                                <div className='flex justify-between w-full gap-[1mm]'>
+                                    {keys(baseStats).map((stat) => (
+                                        <FullStat
+                                            key={stat}
+                                            data={currentCharacter.stats[stat]} //add merge with base
+                                            color={
+                                                statHelpers[
+                                                    stat as keyof typeof baseStats
+                                                ].color
+                                            }
+                                            icon={
+                                                statHelpers[
+                                                    stat as keyof typeof baseStats
+                                                ].icon
+                                            }
+                                            name={stat}
+                                        />
+                                    ))}
+                                </div>
+                                <div className='flex gap-[2mm] w-[585px]'>
+                                    {(currentCharacter.showSpeed ?? true) && (
+                                        <Speed />
+                                    )}
+                                    <Skills />
+                                    <Passives />
+                                </div>
+                                <Inventory />
+                                <Notes />
+                            </div>
                         </div>
                     </div>
-                </div>
+                </BrowserView>
+                <MobileView>
+                    <div className='flex flex-col items-center gap-[2mm]'>
+                        <div className='flex justify-around w-full'>
+                            <div>
+                                <Player character={currentCharacter} />
+                                <div className={'w-[50mm]'}>
+                                    <Death />
+                                </div>
+                            </div>
+                            <div className='flex flex-col justify-around'>
+                                <Skills />
+                                <SpellTracker />
+                            </div>
+                        </div>
+                        <div className='grid grid-cols-3 justify-items-center w-full gap-[2mm] flex-wrap'>
+                            {keys(baseStats).map((stat) => (
+                                <FullStat
+                                    key={stat}
+                                    data={currentCharacter.stats[stat]} //add merge with base
+                                    color={
+                                        statHelpers[
+                                            stat as keyof typeof baseStats
+                                        ].color
+                                    }
+                                    icon={
+                                        statHelpers[
+                                            stat as keyof typeof baseStats
+                                        ].icon
+                                    }
+                                    name={stat}
+                                />
+                            ))}
+                        </div>
+                        <Passives />
+                        <Inventory />
+                        <Notes />
+                        <Weapons />
+                        {(currentCharacter.showLore ?? true) && (
+                            <div className={'w-[60mm]'}>
+                                <MiniLore />
+                            </div>
+                        )}
+                    </div>
+                </MobileView>
             </A4Sheet>
             {printing && shouldPrint && <PassiveDescriptions />}
         </div>

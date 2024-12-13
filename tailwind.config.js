@@ -13,7 +13,7 @@ export default {
                 background: '#1a1c20',
             },
             screens: {
-                small: { max: '212mm' }, // 210mm in pixels
+                small: { max: '212mm' },
             },
             fontFamily: {
                 Regular: ['sans-serif'],
@@ -22,6 +22,7 @@ export default {
                 Pacifico: ['Pacifico', 'cursive'],
                 Nunito: ['Nunito', 'sans-serif'],
             },
+            backgroundSize: { '150%': '150%' },
         },
     },
     plugins: [],

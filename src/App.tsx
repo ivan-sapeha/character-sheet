@@ -11,11 +11,11 @@ export const App = () => {
     return (
         <div
             className={
-                'w-full flex items-center flex-col pb-[30px] small:items-start small:pr-[2mm] small:pl-[2mm] gap-[5mm]'
+                'w-full flex items-center flex-col pb-[30px] small:items-start gap-[5mm]'
             }
         >
             <SheetGenerator />
-            <footer className='text-white flex gap-[5mm] items-center justify-center'>
+            <footer className='text-white flex gap-[5mm] items-center justify-center w-full'>
                 <span>Version {version}</span>
                 <span>Author: Ivan Sapeha</span>
                 <button

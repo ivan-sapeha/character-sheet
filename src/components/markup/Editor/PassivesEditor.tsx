@@ -41,7 +41,11 @@ export const PassivesEditorDialog: React.FC<DialogProps> = ({
     }, [passives, passiveEditorOpen]);
     return (
         <Dialog open={open} onClose={onClose}>
-            <div className={'flex flex-wrap w-[180mm] gap-[5mm] items-center'}>
+            <div
+                className={
+                    'flex flex-wrap w-full max-w-[180mm] gap-[5mm] items-center'
+                }
+            >
                 <div className='flex flex-col gap-[3mm] w-full'>
                     <div className='flex gap-[2mm]  bg-[#ffffff77] p-[2mm] rounded-[1.5mm]'>
                         <div className='flex flex-col'>
@@ -265,11 +269,39 @@ export const PassiveCreatorDialog: React.FC<
         }
     }, [open]);
     return (
-        <Dialog open={open} onClose={onClose} className={'!max-h-[650px]'}>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            className={'!max-h-[650px] small:!pr-0 small:!pl-0'}
+        >
             {isLoading && <span>Please wait</span>}
             {!isLoading && (
                 <div className='flex flex-col gap-[2mm]'>
-                    <div className='flex justify-between'>
+                    <div className='flex justify-between small:flex-col small:gap-[2mm]'>
+                        <div className='flex justify-center'>
+                            <button
+                                onClick={() => {
+                                    passive
+                                        ? updatePassive({
+                                              id: passive,
+                                              name: passiveName,
+                                              description: description,
+                                              icon: selectedIcon,
+                                          })
+                                        : addPassive({
+                                              name: passiveName,
+                                              icon: selectedIcon,
+                                              description: description,
+                                          });
+                                    onClose();
+                                }}
+                                className={
+                                    'font-Advent border border-black p-[1mm] w-fit rounded bg-white'
+                                }
+                            >
+                                {tokens.UI.save}
+                            </button>
+                        </div>
                         <div className='flex items-center gap-[2mm]'>
                             <span className='font-Advent'>
                                 {tokens.UI.passiveName}:
@@ -294,40 +326,20 @@ export const PassiveCreatorDialog: React.FC<
                                 className='bg-[#ffffff77]'
                             />
                         </div>
-                        <div className='flex'>
-                            <button
-                                onClick={() => {
-                                    passive
-                                        ? updatePassive({
-                                              id: passive,
-                                              name: passiveName,
-                                              description: description,
-                                              icon: selectedIcon,
-                                          })
-                                        : addPassive({
-                                              name: passiveName,
-                                              icon: selectedIcon,
-                                              description: description,
-                                          });
-                                    onClose();
-                                }}
-                                className={
-                                    'font-Advent border border-black p-[1mm] w-fit rounded bg-white'
-                                }
-                            >
-                                {tokens.UI.save}
-                            </button>
-                        </div>
                     </div>
 
-                    <div className={'flex gap-[2mm]'}>
+                    <div
+                        className={
+                            'flex gap-[2mm] small:flex-col small:items-center'
+                        }
+                    >
                         <div className='flex flex-col gap-[3mm]'>
                             <h1 className={'text-center font-Advent'}>
                                 {tokens.UI.description}
                             </h1>
                             <textarea
                                 className={
-                                    'bg-white/10 border border-gray-600 font-Advent rounded-[4px] h-full pt-[4px] pb-[4px] pl-[10px] pr-[10px] resize-none'
+                                    'bg-white/10 border border-gray-600 font-Advent rounded-[4px] h-full pt-[4px] pb-[4px] pl-[10px] pr-[10px] resize-none min-h-[40mm] w-full'
                                 }
                                 style={{ width: tableWidth }}
                                 value={description}
