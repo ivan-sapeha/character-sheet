@@ -9,7 +9,10 @@ import {
 } from '../contexts/CurrentCharacter.tsx';
 import { ImageDBData } from '../db';
 import { b64ToFile, fileToB64 } from '../helpers/convert.ts';
-import { EventListener } from '../helpers/generic-helpers.tsx';
+import {
+    EventListener,
+    skipEventLoopTimes,
+} from '../helpers/generic-helpers.tsx';
 import { PassiveData, usePassives } from './usePassives.ts';
 
 export type CharacterManagerReturn = CurrentCharacterContextValue & {
@@ -152,15 +155,15 @@ export const useCharacter = (): CharacterManagerReturn => {
             avatar: avatarData,
             background: backgroundData,
         } = data;
-
-        const passives = passivesData.map((passive) => {
+        const passives = [];
+        for (const passive of passivesData) {
             const id = getPassiveIdByData(passive);
             if (id !== -1) {
-                return id;
+                passives.push(id);
             } else {
-                return addPassive(passive);
+                passives.push(addPassive(passive));
             }
-        });
+        }
 
         let avatar = -1;
         if (avatarData !== -1) {

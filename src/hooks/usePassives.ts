@@ -14,13 +14,16 @@ export const usePassives = () => {
     );
 
     const addPassive = (data: Omit<PassiveData, 'id'>) => {
-        const lastId = passives[passives.length - 1]?.id ?? 0;
-        setPassives(
-            passives
+        let index = 1;
+
+        setPassives((passives) => {
+            const lastId = passives[passives.length - 1]?.id ?? 0;
+            index = lastId + 1;
+            return passives
                 .concat({ ...data, id: lastId + 1 })
-                .toSorted((a, b) => a.id - b.id),
-        );
-        return lastId + 1;
+                .toSorted((a, b) => a.id - b.id);
+        });
+        return index;
     };
 
     const updatePassive = (passive: PassiveData) => {
