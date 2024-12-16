@@ -7,9 +7,9 @@ export interface InvisibleTextareaProps {
 export const InvisibleTextarea: React.FC<InvisibleTextareaProps> = ({
     stat,
 }) => {
-    const { currentCharacter, updateStat, saveCharacter } = useCharacter();
+    const { currentCharacter, updateStatLive } = useCharacter();
     const onChange = (text: string) => {
-        saveCharacter(updateStat(stat, text));
+        updateStatLive(stat, text);
     };
     return (
         <textarea

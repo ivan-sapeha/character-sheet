@@ -1,10 +1,12 @@
 import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
 import { InvisibleTextarea } from '@components/ui/Inputs/Textarea.tsx';
 import cx from 'classnames';
+import { isMobile } from 'react-device-detect';
 import { useTranslate } from '../../../contexts/Translator.tsx';
 import styles from './Inventory.module.less';
 export const Inventory = () => {
     const { tokens } = useTranslate();
+
     return (
         <div className={styles.inventory}>
             <div className={styles.headSection}>
@@ -62,7 +64,11 @@ export const Inventory = () => {
                         />
                     </span>
                 </div>
-                <h1 className={styles.header}>
+                <h1
+                    className={cx(styles.header, {
+                        hidden: isMobile,
+                    })}
+                >
                     <span>{tokens.inventory.title}</span>
                 </h1>
                 <div className={styles.money}>

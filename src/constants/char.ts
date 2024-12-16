@@ -65,9 +65,10 @@ export enum HPDice {
 }
 
 interface MaxCurrent {
-    current: number;
-    max: number;
+    current: string;
+    max: string;
 }
+
 type PossibleManaSlots = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type Character = {
@@ -119,9 +120,12 @@ export type Character = {
     hp: MaxCurrent;
     tempHp: MaxCurrent;
     ac: MaxCurrent;
-    mana: {
-        [key in PossibleManaSlots]?: MaxCurrent;
-    };
+    mana: Array<MaxCurrent>;
+    weapons: Array<{
+        name: string;
+        bonus: string;
+        damage: string;
+    }>;
 };
 
 export type ExportedCharacter = {
@@ -262,11 +266,9 @@ export const emptyCharacter: Character = {
     showLore: true,
     notes: '',
     inventory: '',
-    hp: {
-        max: -1,
-        current: -1,
-    },
-    tempHp: { max: -1, current: -1 },
-    ac: { max: -1, current: -1 },
-    mana: {},
+    hp: { max: '', current: '' },
+    tempHp: { max: '', current: '' },
+    ac: { max: '', current: '' },
+    mana: Array(9).fill({ max: '', current: '' }),
+    weapons: Array(7).fill({ name: '', bonus: '', damage: '' }),
 };

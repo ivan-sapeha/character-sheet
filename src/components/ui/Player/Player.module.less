@@ -160,6 +160,33 @@
         content: '';
         transform: rotate(317deg);
       }
+
+      & > input {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        position: absolute;
+        @angledOffset: 10%;
+
+        &:focus-within {
+          background: rgba(255, 255, 255, 0.7);
+        }
+
+        &:first-child {
+          left: 0;
+          top: 0;
+          clip-path: polygon(0 0, 100% 0, 100% @angledOffset, @angledOffset 100%, 0 100%);
+          padding: 0 0 2mm 1mm;
+        }
+
+        &:last-child {
+          right: 0;
+          bottom: 0;
+          clip-path: polygon(100% @angledOffset, @angledOffset 100%, 100% 100%);
+          text-align: right;
+          padding: 4mm 0.5mm 0 0;
+        }
+      }
     }
 
     & > div {

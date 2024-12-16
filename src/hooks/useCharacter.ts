@@ -9,10 +9,7 @@ import {
 } from '../contexts/CurrentCharacter.tsx';
 import { ImageDBData } from '../db';
 import { b64ToFile, fileToB64 } from '../helpers/convert.ts';
-import {
-    EventListener,
-    skipEventLoopTimes,
-} from '../helpers/generic-helpers.tsx';
+import { EventListener } from '../helpers/generic-helpers.tsx';
 import { PassiveData, usePassives } from './usePassives.ts';
 
 export type CharacterManagerReturn = CurrentCharacterContextValue & {
@@ -30,6 +27,10 @@ export type CharacterManagerReturn = CurrentCharacterContextValue & {
         key: T,
         value: Character[T],
     ) => Character;
+    updateStatLive: <T extends keyof Character>(
+        key: T,
+        value: Character[T],
+    ) => void;
 };
 
 const onSaveEvent = new EventListener();
@@ -77,20 +78,21 @@ export const useCharacter = (): CharacterManagerReturn => {
     );
 
     const saveCharacter = (character: Character) => {
+        const mergedCharacter = Object.assign({}, emptyCharacter, character);
         const index = storedCharacters.findIndex(
             (char) => char.id === character.id,
         );
         if (index === -1) {
             setStoredCharacters([
                 ...storedCharacters,
-                { ...character, id: storedCharacters.length },
+                { ...mergedCharacter, id: storedCharacters.length },
             ]);
             setLastCharacter(storedCharacters.length);
             return;
         }
-        storedCharacters.splice(index, 1, character);
+        storedCharacters.splice(index, 1, mergedCharacter);
         setStoredCharacters(storedCharacters);
-        setLastCharacter(character.id);
+        setLastCharacter(mergedCharacter.id);
         onSaveEvent.dispatch();
     };
 
@@ -122,6 +124,13 @@ export const useCharacter = (): CharacterManagerReturn => {
         updateCurrentCharacter(updatedCharacter);
         return updatedCharacter;
     }
+
+    const updateStatLive = <T extends keyof Character>(
+        key: T,
+        value: Character[T],
+    ) => {
+        saveCharacter(updateStat(key, value as Character[T]));
+    };
 
     const exportCharacter = async (
         character: Character,
@@ -192,7 +201,7 @@ export const useCharacter = (): CharacterManagerReturn => {
     };
 
     return {
-        currentCharacter,
+        currentCharacter: Object.assign({}, emptyCharacter, currentCharacter),
         updateCurrentCharacter,
         addNewCharacter,
         allCharacters: storedCharacters,
@@ -205,6 +214,7 @@ export const useCharacter = (): CharacterManagerReturn => {
         removeCharacter,
         onSave,
         updateStat,
+        updateStatLive,
         exportCharacter,
         importCharacter,
     };

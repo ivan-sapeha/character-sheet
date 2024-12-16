@@ -21,7 +21,7 @@ export interface PlayerProps {
 export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const { add, getByID, getAll, deleteRecord } = useIndexedDB('avatar');
-    const { isEdit, updateCurrentCharacter, currentCharacter } = useCharacter();
+    const { isEdit, updateCurrentCharacter } = useCharacter();
     const [update, setUpdate] = useState(generateUUID());
     const onAvatarClick = () => {
         if (!isEdit) {
@@ -132,7 +132,9 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
                                 <span className={styles.dice}>
                                     {character.dice}
                                 </span>
-                                <span className={styles.textPlaceholder} />
+                                <div className={styles.textPlaceholder}>
+                                    <InvisibleInputs stat={'hp'} />
+                                </div>
                             </div>
                             <div className={styles.tempHp}>
                                 <span
@@ -141,7 +143,9 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
                                         styles.tempHpIcon,
                                     )}
                                 />
-                                <span className={styles.textPlaceholder} />
+                                <div className={styles.textPlaceholder}>
+                                    <InvisibleInputs stat={'tempHp'} />
+                                </div>
                             </div>
                             <div className={styles.armor}>
                                 <span
@@ -150,7 +154,9 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
                                         styles.armorIcon,
                                     )}
                                 />
-                                <span className={styles.textPlaceholder} />
+                                <div className={styles.textPlaceholder}>
+                                    <InvisibleInputs stat={'ac'} />
+                                </div>
                             </div>
                         </div>
                     )}
@@ -202,6 +208,36 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
                     ))}
                 </div>
             </Dialog>
+        </>
+    );
+};
+
+const InvisibleInputs: React.FC<{ stat: 'hp' | 'tempHp' | 'ac' }> = ({
+    stat,
+}) => {
+    const { currentCharacter, updateStatLive } = useCharacter();
+    return (
+        <>
+            <input
+                value={currentCharacter[stat]?.current ?? ''}
+                type='number'
+                onChange={(e) =>
+                    updateStatLive(stat, {
+                        current: e.target.value,
+                        max: currentCharacter[stat]?.max ?? '',
+                    })
+                }
+            />
+            <input
+                value={currentCharacter[stat]?.max ?? ''}
+                type='number'
+                onChange={(e) =>
+                    updateStatLive(stat, {
+                        max: e.target.value,
+                        current: currentCharacter[stat]?.current ?? '',
+                    })
+                }
+            />
         </>
     );
 };
