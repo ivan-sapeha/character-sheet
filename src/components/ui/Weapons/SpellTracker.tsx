@@ -43,7 +43,7 @@ const Inputs: React.FC<{ manaSlot: number }> = ({ manaSlot }) => {
                 <input
                     type='number'
                     value={currentCharacter.mana[manaSlot]?.current ?? ''}
-                    className='bg-transparent border-none outline-0 w-full'
+                    className='bg-transparent border-none outline-0 w-full text-center font-Advent'
                     onChange={(e) =>
                         updateStatLive('mana', {
                             ...currentCharacter.mana,
@@ -59,7 +59,7 @@ const Inputs: React.FC<{ manaSlot: number }> = ({ manaSlot }) => {
                 <input
                     type='number'
                     value={currentCharacter.mana[manaSlot]?.max ?? ''}
-                    className='bg-transparent border-none outline-0 w-full'
+                    className='bg-transparent border-none outline-0 w-full text-center font-Advent'
                     onChange={(e) =>
                         updateStatLive('mana', {
                             ...currentCharacter.mana,

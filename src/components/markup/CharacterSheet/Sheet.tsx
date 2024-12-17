@@ -19,7 +19,7 @@ import { keys } from '../../../helpers/generic-helpers.tsx';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 import { usePassives } from '../../../hooks/usePassives.ts';
 import { BrowserView, MobileView, isMobile } from 'react-device-detect';
-
+import styles from '../SheetGenerator/Sheet.module.less';
 export const Sheet: React.FC<{ printing?: boolean }> = ({
     printing = false,
 }) => {
@@ -43,7 +43,9 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
         <div className={'print'}>
             <A4Sheet
                 background={background}
-                className={cx({ '!w-[100vw] !h-fit !bg-150%': isMobile })}
+                className={cx({
+                    '!w-[100vw] !h-fit !bg-150%': isMobile,
+                })}
             >
                 <BrowserView>
                     <div className='flex flex-col h-full gap-[5mm] items-center pt-[2mm]'>
@@ -98,7 +100,7 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                                     <Death />
                                 </div>
                             </div>
-                            <div className='flex flex-col justify-around'>
+                            <div className='flex flex-col justify-around items-center'>
                                 <Skills />
                                 <SpellTracker />
                             </div>

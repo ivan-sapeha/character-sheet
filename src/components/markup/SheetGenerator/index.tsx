@@ -31,6 +31,7 @@ import {
     edit,
     save,
 } from './menu-icons.ts';
+import styles from './Sheet.module.less';
 
 let ranOnce = false;
 export const SheetGenerator = () => {
@@ -196,7 +197,7 @@ export const SheetGenerator = () => {
         );
     }
     return (
-        <>
+        <div className={styles.printContainer}>
             <div
                 className={cx(
                     'flex gap-2 p-2.5 w-fit text-[#ebebeb] flex-wrap small:max-w-[210mm] justify-center',
@@ -548,6 +549,6 @@ export const SheetGenerator = () => {
             >
                 <Sheet printing={printing && printPassives} />
             </div>
-        </>
+        </div>
     );
 };

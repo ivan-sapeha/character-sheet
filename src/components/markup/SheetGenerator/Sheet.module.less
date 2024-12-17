@@ -1,0 +1,13 @@
+.selected:hover {
+  background: gray;
+  cursor: pointer;
+}
+
+.printContainer {
+  scroll-snap-type: y mandatory;
+
+  & > div {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
