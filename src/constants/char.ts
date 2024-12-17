@@ -70,8 +70,8 @@ interface MaxCurrent {
 }
 
 type PossibleManaSlots = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-export type BaseStatValues = Omit<
-    keyof Character['stats'],
+export type BaseStatValues = keyof Omit<
+    Character['stats'],
     'strength' | 'constitution' | 'dexterity'
 >;
 export type Character = {

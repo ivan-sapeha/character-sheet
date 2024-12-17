@@ -14,13 +14,7 @@ export const SpellTracker: React.FC = () => {
         intelligence: tokens.stats.intelligence,
         wisdom: tokens.stats.wisdom,
         charisma: tokens.stats.charisma,
-    } as Record<
-        Omit<
-            keyof Character['stats'],
-            'strength' | 'constitution' | 'dexterity'
-        >,
-        string
-    >;
+    } as Record<BaseStatValues, string>;
     const defaultAB =
         currentCharacter.baseStat !== ''
             ? getModifier(
@@ -79,10 +73,11 @@ export const SpellTracker: React.FC = () => {
                         </select>
                     ) : (
                         <span className='w-[40px]'>
-                            {baseStatMap[currentCharacter.baseStat].substring(
-                                0,
-                                3,
-                            )}
+                            {currentCharacter.baseStat !== ''
+                                ? baseStatMap[
+                                      currentCharacter.baseStat
+                                  ].substring(0, 3)
+                                : ''}
                         </span>
                     )}
                 </div>
