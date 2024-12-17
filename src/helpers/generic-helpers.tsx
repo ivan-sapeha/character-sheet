@@ -9,6 +9,9 @@ export const keys = <T extends object>(obj: T) =>
 export const entries = <T extends object>(obj: T) =>
     Object.entries(obj) as Array<[keyof T, T[keyof T]]>;
 
+export const values = <T extends object>(obj: T) =>
+    Object.values(obj) as Array<T[keyof T]>;
+
 export const convert1Dto2D = <T extends object>(
     array: T[],
     columns: number,

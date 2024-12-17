@@ -60,7 +60,10 @@
     "name": "Назва",
     "attackBonus": "Бонус атаки",
     "damageType": "Шкода/тип",
-    "spellSlots": "Трекер мани"
+    "spellSlots": "Трекер мани",
+    "baseStat": "Стат",
+    "DC": "СП",
+    "AB": "БА"
   },
   "stats": {
     "strength": "Сила",

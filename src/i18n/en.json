@@ -60,7 +60,10 @@
     "name": "Name",
     "attackBonus": "Attack Bonus",
     "damageType": "Damage/Type",
-    "spellSlots": "Spell slot tracker"
+    "spellSlots": "Spell slot tracker",
+    "baseStat": "Base",
+    "DC": "DC",
+    "AB": "AB"
   },
   "stats": {
     "strength": "Str",

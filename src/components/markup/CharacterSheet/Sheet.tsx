@@ -48,9 +48,9 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                 })}
             >
                 <BrowserView>
-                    <div className='flex flex-col h-full gap-[5mm] items-center pt-[2mm]'>
+                    <div className='flex flex-col h-full gap-[5mm] items-center'>
                         <div className='flex h-full'>
-                            <div className='flex flex-col gap-[2mm]'>
+                            <div className='flex flex-col gap-[1mm]'>
                                 <Player character={currentCharacter} />
                                 {(currentCharacter.showLore ?? true) && (
                                     <MiniLore />

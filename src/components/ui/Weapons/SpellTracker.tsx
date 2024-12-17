@@ -1,12 +1,35 @@
+import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
 import styles from '@components/ui/Weapons/Weapons.module.less';
 import React, { useMemo } from 'react';
+import { BaseStatValues, Character } from '../../../constants/char.ts';
 import { useTranslate } from '../../../contexts/Translator.tsx';
-import { reactJoin } from '../../../helpers/generic-helpers.tsx';
+import { entries, reactJoin } from '../../../helpers/generic-helpers.tsx';
+import { getModifier } from '../../../helpers/stats.ts';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 
 export const SpellTracker: React.FC = () => {
     const { tokens } = useTranslate();
-    const { currentCharacter } = useCharacter();
+    const { currentCharacter, isEdit, updateStat } = useCharacter();
+    const baseStatMap = {
+        intelligence: tokens.stats.intelligence,
+        wisdom: tokens.stats.wisdom,
+        charisma: tokens.stats.charisma,
+    } as Record<
+        Omit<
+            keyof Character['stats'],
+            'strength' | 'constitution' | 'dexterity'
+        >,
+        string
+    >;
+    const defaultAB =
+        currentCharacter.baseStat !== ''
+            ? getModifier(
+                  currentCharacter.stats[currentCharacter.baseStat]!.value,
+              ) + Number(currentCharacter.proficiency || 0)
+            : '';
+    const defaultDC =
+        currentCharacter.baseStat !== '' ? 8 + Number(defaultAB) : '';
+
     const manaSlots = useMemo(
         () => (
             <>
@@ -31,6 +54,53 @@ export const SpellTracker: React.FC = () => {
         <div className={styles.weapon}>
             {tokens.weapons.spellSlots}:
             <div className={styles.spell}>{manaSlots}</div>
+            <div className='flex gap-[1mm] border-t border-black'>
+                <div className='flex items-center'>
+                    {tokens.weapons.baseStat}:
+                    {isEdit ? (
+                        <select
+                            onChange={(e) =>
+                                updateStat(
+                                    'baseStat',
+                                    (e.target.value as BaseStatValues) ?? '',
+                                )
+                            }
+                            value={currentCharacter.baseStat as string}
+                        >
+                            {entries(baseStatMap).map(([statKey, statName]) => (
+                                <option
+                                    key={statName}
+                                    value={statKey as string}
+                                >
+                                    {statName.substring(0, 3)}
+                                </option>
+                            ))}
+                            <option value={''}>empty</option>
+                        </select>
+                    ) : (
+                        <span className='w-[40px]'>
+                            {baseStatMap[currentCharacter.baseStat].substring(
+                                0,
+                                3,
+                            )}
+                        </span>
+                    )}
+                </div>
+                <div className={'border-l border-black pl-[1mm] pr-[1mm]'}>
+                    {tokens.weapons.DC}:{' '}
+                    <EditableInput
+                        stat={'spellDc'}
+                        defaultString={defaultDC.toString()}
+                    />
+                </div>
+                <div className={'border-l border-black pl-[1mm] pr-[1mm]'}>
+                    {tokens.weapons.AB}:{' '}
+                    <EditableInput
+                        stat={'attackBonus'}
+                        defaultString={defaultAB.toString()}
+                    />
+                </div>
+            </div>
         </div>
     );
 };

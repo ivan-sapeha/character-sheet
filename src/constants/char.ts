@@ -70,7 +70,10 @@ interface MaxCurrent {
 }
 
 type PossibleManaSlots = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-
+export type BaseStatValues = Omit<
+    keyof Character['stats'],
+    'strength' | 'constitution' | 'dexterity'
+>;
 export type Character = {
     id: number;
     name: string;
@@ -126,6 +129,9 @@ export type Character = {
         bonus: string;
         damage: string;
     }>;
+    baseStat: BaseStatValues | '';
+    spellDc: string;
+    attackBonus: string;
 };
 
 export type ExportedCharacter = {
@@ -271,4 +277,7 @@ export const emptyCharacter: Character = {
     ac: { max: '', current: '' },
     mana: Array(9).fill({ max: '', current: '' }),
     weapons: Array(7).fill({ name: '', bonus: '', damage: '' }),
+    baseStat: '',
+    attackBonus: '',
+    spellDc: '',
 };
