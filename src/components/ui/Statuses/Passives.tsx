@@ -7,8 +7,8 @@ import { useTranslate } from '../../../contexts/Translator.tsx';
 import { ImageDBData } from '../../../db';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 import { PassiveData, usePassives } from '../../../hooks/usePassives.ts';
+import { isMobile } from 'react-device-detect';
 import styles from './Statuses.module.less';
-
 export const Passives = () => {
     const { tokens } = useTranslate();
     const { isEdit, currentCharacter } = useCharacter();
@@ -83,6 +83,7 @@ export const Passive: React.FC<{
                     className={cx(
                         styles.passiveDescription,
                         passive.description ? 'w-[105mm]' : 'w-fit',
+                        'left-0 w-full': isMobile
                     )}
                 >
                     <PassiveDescription passive={passive} />
