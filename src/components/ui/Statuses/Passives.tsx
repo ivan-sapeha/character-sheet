@@ -31,7 +31,12 @@ export const Passives = () => {
                 <div className={styles.statuses}>
                     {getPassivesInOrder(currentCharacter.passives ?? []).map(
                         (passive) => (
-                            <div key={passive!.id} className={styles.passive}>
+                            <div
+                                key={passive!.id}
+                                className={cx(styles.passive, {
+                                    '!static': isMobile,
+                                })}
+                            >
                                 <Passive
                                     passive={passive!}
                                     canShowDescription={!isEdit}
@@ -70,10 +75,7 @@ export const Passive: React.FC<{
         );
     }, [passive]);
     return (
-        <div
-            className={cx(styles.status, styles.passive, className)}
-            onClick={onClick}
-        >
+        <div className={cx(styles.status, className)} onClick={onClick}>
             {passive.icon !== -1 && iconSrc && (
                 <img src={iconSrc} style={{ height: '7mm', aspectRatio: 1 }} />
             )}
@@ -83,7 +85,7 @@ export const Passive: React.FC<{
                     className={cx(
                         styles.passiveDescription,
                         passive.description ? 'w-[105mm]' : 'w-fit',
-                        'left-0 w-full': isMobile
+                        { 'left-0 w-full': isMobile },
                     )}
                 >
                     <PassiveDescription passive={passive} />
