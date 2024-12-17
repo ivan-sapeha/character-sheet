@@ -220,6 +220,7 @@ const InvisibleInputs: React.FC<{ stat: 'hp' | 'tempHp' | 'ac' }> = ({
         <>
             <input
                 value={currentCharacter[stat]?.current ?? ''}
+                className={'font-Advent font-light'}
                 type='number'
                 onChange={(e) =>
                     updateStatLive(stat, {
@@ -230,6 +231,7 @@ const InvisibleInputs: React.FC<{ stat: 'hp' | 'tempHp' | 'ac' }> = ({
             />
             <input
                 value={currentCharacter[stat]?.max ?? ''}
+                className={'font-Advent font-light'}
                 type='number'
                 onChange={(e) =>
                     updateStatLive(stat, {
