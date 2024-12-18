@@ -3,7 +3,7 @@ import styles from '@components/ui/Weapons/Weapons.module.less';
 import React, { useMemo } from 'react';
 import { BaseStatValues } from '../../../constants/char.ts';
 import { useTranslate } from '../../../contexts/Translator.tsx';
-import { entries, reactJoin } from '../../../helpers/generic-helpers.tsx';
+import { entries, keys, reactJoin } from '../../../helpers/generic-helpers.tsx';
 import { getModifier } from '../../../helpers/stats.ts';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 
@@ -48,8 +48,8 @@ export const SpellTracker: React.FC = () => {
         <div className={styles.weapon}>
             {tokens.weapons.spellSlots}:
             <div className={styles.spell}>{manaSlots}</div>
-            <div className='flex gap-[1mm] border-t border-black'>
-                <div className='flex items-center'>
+            <div className='flex gap-[1mm] border-t border-black justify-around'>
+                <div className='flex items-center justify-center gap-[1mm]'>
                     {tokens.weapons.baseStat}:
                     {isEdit ? (
                         <select
@@ -81,16 +81,18 @@ export const SpellTracker: React.FC = () => {
                         </span>
                     )}
                 </div>
-                <div className={'border-l border-black pl-[1mm] pr-[1mm]'}>
+                <div className={'flex gap-[1mm]'}>
                     {tokens.weapons.DC}:{' '}
                     <EditableInput
+                        className={'!p-0'}
                         stat={'spellDc'}
                         defaultString={defaultDC.toString()}
                     />
                 </div>
-                <div className={'border-l border-black pl-[1mm] pr-[1mm]'}>
+                <div className={'flex gap-[1mm]'}>
                     {tokens.weapons.AB}:{' '}
                     <EditableInput
+                        className={'!p-0'}
                         stat={'attackBonus'}
                         defaultString={defaultAB.toString()}
                     />
@@ -102,38 +104,43 @@ export const SpellTracker: React.FC = () => {
 
 const Inputs: React.FC<{ manaSlot: number }> = ({ manaSlot }) => {
     const { currentCharacter, updateStatLive } = useCharacter();
+    const mana =
+        currentCharacter.mana instanceof Array
+            ? currentCharacter.mana
+            : keys(currentCharacter.mana).map(
+                  (key) => currentCharacter.mana[key],
+              );
     return (
         <>
             <span className='h-[1.5em] border-b border-b-black w-[80%]'>
                 <input
                     type='number'
-                    value={currentCharacter.mana[manaSlot]?.current ?? ''}
+                    value={mana[manaSlot]?.current ?? ''}
                     className='bg-transparent border-none outline-0 w-full text-center font-Advent'
                     onChange={(e) =>
-                        updateStatLive('mana', {
-                            ...currentCharacter.mana,
-                            [manaSlot]: {
-                                max: currentCharacter.mana[manaSlot].max,
+                        updateStatLive(
+                            'mana',
+                            mana.toSpliced(manaSlot, 1, {
+                                max: mana[manaSlot].max,
                                 current: e.target.value,
-                            },
-                        })
+                            }),
+                        )
                     }
                 />
             </span>
             <span className='h-[1.5em]'>
                 <input
                     type='number'
-                    value={currentCharacter.mana[manaSlot]?.max ?? ''}
+                    value={mana[manaSlot]?.max ?? ''}
                     className='bg-transparent border-none outline-0 w-full text-center font-Advent'
                     onChange={(e) =>
-                        updateStatLive('mana', {
-                            ...currentCharacter.mana,
-                            [manaSlot]: {
-                                current:
-                                    currentCharacter.mana[manaSlot].current,
+                        updateStatLive(
+                            'mana',
+                            mana.toSpliced(manaSlot, 1, {
+                                current: mana[manaSlot].current,
                                 max: e.target.value,
-                            },
-                        })
+                            }),
+                        )
                     }
                 />
             </span>

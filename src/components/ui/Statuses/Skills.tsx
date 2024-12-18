@@ -1,6 +1,8 @@
 import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
 import cx from 'classnames';
 import { useTranslate } from '../../../contexts/Translator.tsx';
+import { getModifier } from '../../../helpers/stats.ts';
+import { useCharacter } from '../../../hooks/useCharacter.ts';
 import styles from './Statuses.module.less';
 import perc from '@assets/images/preprocessed/perception-hd-transparent.png';
 import hammer from '@assets/images/preprocessed/hammer-hd-transparent.png';
@@ -9,6 +11,7 @@ import insp from '@assets/images/preprocessed/insp-hd-transparent.png';
 
 export const Skills = () => {
     const { tokens } = useTranslate();
+    const { currentCharacter } = useCharacter();
     return (
         <div className={cx(styles.container, styles.skills)}>
             <h1 className={styles.header}>{tokens.skills.title}</h1>
@@ -44,6 +47,12 @@ export const Skills = () => {
                         className='h-[6mm] !w-[7mm] !p-[0.5mm] text-center'
                         type={'number'}
                         step={1}
+                        defaultString={String(
+                            10 +
+                                getModifier(
+                                    currentCharacter.stats.wisdom.value,
+                                ),
+                        )}
                     />
                 </div>
                 <div className={styles.status}>

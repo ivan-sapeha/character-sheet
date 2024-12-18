@@ -74,6 +74,13 @@ export type BaseStatValues = keyof Omit<
     Character['stats'],
     'strength' | 'constitution' | 'dexterity'
 >;
+
+export interface Weapon {
+    name: string;
+    bonus: string;
+    damage: string;
+}
+
 export type Character = {
     id: number;
     name: string;
@@ -124,11 +131,7 @@ export type Character = {
     tempHp: MaxCurrent;
     ac: MaxCurrent;
     mana: Array<MaxCurrent>;
-    weapons: Array<{
-        name: string;
-        bonus: string;
-        damage: string;
-    }>;
+    weapons: Array<Weapon>;
     baseStat: BaseStatValues | '';
     spellDc: string;
     attackBonus: string;
