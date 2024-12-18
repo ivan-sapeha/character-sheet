@@ -48,7 +48,7 @@ const EditableWeaponField: React.FC<{
     const weapons =
         currentCharacter.weapons instanceof Array
             ? currentCharacter.weapons
-            : keys(currentCharacter.weapons).map(
+            : keys<{ [key: number]: WeaponType }>(currentCharacter.weapons).map(
                   (key) => currentCharacter.weapons[key],
               );
     return (

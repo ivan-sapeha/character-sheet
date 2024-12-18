@@ -64,7 +64,7 @@ export enum HPDice {
     d12 = 'd12',
 }
 
-interface MaxCurrent {
+export interface MaxCurrent {
     current: string;
     max: string;
 }

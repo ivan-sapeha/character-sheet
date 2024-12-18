@@ -1,7 +1,7 @@
 import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
 import styles from '@components/ui/Weapons/Weapons.module.less';
 import React, { useMemo } from 'react';
-import { BaseStatValues } from '../../../constants/char.ts';
+import { BaseStatValues, MaxCurrent } from '../../../constants/char.ts';
 import { useTranslate } from '../../../contexts/Translator.tsx';
 import { entries, keys, reactJoin } from '../../../helpers/generic-helpers.tsx';
 import { getModifier } from '../../../helpers/stats.ts';
@@ -107,7 +107,7 @@ const Inputs: React.FC<{ manaSlot: number }> = ({ manaSlot }) => {
     const mana =
         currentCharacter.mana instanceof Array
             ? currentCharacter.mana
-            : keys(currentCharacter.mana).map(
+            : keys<{ [key: number]: MaxCurrent }>(currentCharacter.mana).map(
                   (key) => currentCharacter.mana[key],
               );
     return (
