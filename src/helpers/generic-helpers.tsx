@@ -130,3 +130,19 @@ export const reactJoin = (
         );
     });
 };
+
+export function isNowBetweenDates(startDate: string, endDate: string): boolean {
+    const now = new Date();
+    const [startDay, startMonth] = startDate.split('.').map(Number);
+    const [endDay, endMonth] = endDate.split('.').map(Number);
+
+    const start = new Date(now.getFullYear(), startMonth - 1, startDay);
+    const end = new Date(now.getFullYear(), endMonth - 1, endDay);
+
+    if (start > end) {
+        // If the date range spans over the end of the year
+        return now >= start || now <= end;
+    } else {
+        return now >= start && now <= end;
+    }
+}

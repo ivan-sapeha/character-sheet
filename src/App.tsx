@@ -1,19 +1,37 @@
 import { SheetGenerator } from '@components/markup/SheetGenerator';
 import { Dialog } from '@components/ui/Dialog';
-import { useState } from 'react';
+import { Suspense, useState, lazy } from 'react';
 import { useTranslate } from './contexts/Translator.tsx';
 import { version } from '../package.json';
 import payPal from './assets/images/icons/PayPal.svg';
 import mono from './assets/images/icons/monobank-logo.png';
+import { isNowBetweenDates } from './helpers/generic-helpers.tsx';
+
+const canShowSnow = isNowBetweenDates('18.12', '10.01');
+const SnowOverlay =
+    canShowSnow &&
+    lazy(() =>
+        import('react-snow-overlay').then((res) => ({
+            default: res.SnowOverlay,
+        })),
+    );
+
 export const App = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const { tokens } = useTranslate();
+
     return (
         <div
             className={
                 'w-full flex items-center flex-col pb-[30px] small:items-start gap-[5mm]'
             }
         >
+            {canShowSnow && SnowOverlay && (
+                <Suspense>
+                    <SnowOverlay />
+                </Suspense>
+            )}
+
             <SheetGenerator />
             <footer className='text-white flex gap-[5mm] items-center justify-center w-full'>
                 <span>Version {version}</span>
