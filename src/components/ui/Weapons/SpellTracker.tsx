@@ -1,7 +1,7 @@
 import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
 import styles from '@components/ui/Weapons/Weapons.module.less';
 import React, { useMemo } from 'react';
-import { BaseStatValues, Character } from '../../../constants/char.ts';
+import { BaseStatValues } from '../../../constants/char.ts';
 import { useTranslate } from '../../../contexts/Translator.tsx';
 import { entries, reactJoin } from '../../../helpers/generic-helpers.tsx';
 import { getModifier } from '../../../helpers/stats.ts';
@@ -72,7 +72,7 @@ export const SpellTracker: React.FC = () => {
                             <option value={''}>empty</option>
                         </select>
                     ) : (
-                        <span className='w-[40px]'>
+                        <span className='w-fit pr-[1mm]'>
                             {currentCharacter.baseStat !== ''
                                 ? baseStatMap[
                                       currentCharacter.baseStat

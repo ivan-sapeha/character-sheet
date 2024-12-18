@@ -32,17 +32,17 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
         if (currentCharacter.backgroundImage !== -1) {
             getByID(currentCharacter.backgroundImage)
                 .then((img) => img?.image && fileToB64(img.image))
-                .then((bg) => bg && setBackground(bg as string))
+                .then((bg) => bg && setBackground(`url(${bg})`))
                 .catch(console.error);
         } else {
             setBackground('');
         }
-    }, [currentCharacter]);
+    }, [currentCharacter.backgroundImage]);
 
     return (
         <div className={'print'}>
             <A4Sheet
-                background={background}
+                backgroundImage={background}
                 className={cx({
                     '!w-[100vw] !h-fit !bg-150%': isMobile,
                 })}

@@ -1,7 +1,9 @@
 import trash from '@assets/images/icons/trash.svg';
 import { Player } from '@components/ui';
 import { Dialog, DialogProps } from '@components/ui/Dialog';
+import cx from 'classnames';
 import React, { ChangeEventHandler, useRef } from 'react';
+import { isMobile } from 'react-device-detect';
 import { useTranslate } from '../../../contexts/Translator.tsx';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 
@@ -17,6 +19,7 @@ export const CharacterSelectionDialog: React.FC<DialogProps> = ({
         setLastCharacter,
         removeCharacter,
         importCharacter,
+        lastSelectedCharacter,
     } = useCharacter();
 
     const onImport: ChangeEventHandler<HTMLInputElement> = async (event) => {
@@ -31,13 +34,14 @@ export const CharacterSelectionDialog: React.FC<DialogProps> = ({
     return (
         <Dialog open={open} onClose={onClose}>
             <div
-                className={
-                    'flex flex-wrap max-w-[180mm] gap-[5mm] items-center'
-                }
+                className={cx(
+                    'flex flex-wrap max-w-[180mm] gap-[5mm] items-center',
+                    { 'flex-col': isMobile },
+                )}
             >
                 <div
                     className={
-                        'w-[40mm] h-[40mm] rounded-full overflow-hidden flex justify-center items-center bg-[#00000099] hover:bg-[#000000aa] text-white text-5xl cursor-pointer hover:border-white'
+                        'w-[30mm] aspect-square rounded-full overflow-hidden flex justify-center items-center bg-[#00000099] hover:bg-[#000000aa] text-white text-5xl cursor-pointer hover:border-white'
                     }
                     onClick={() => addNewCharacter()}
                 >
@@ -45,7 +49,7 @@ export const CharacterSelectionDialog: React.FC<DialogProps> = ({
                 </div>
                 <div
                     className={
-                        'w-[40mm] h-[40mm] rounded-full overflow-hidden flex justify-center items-center bg-[#00000099] hover:bg-[#000000aa] text-white text-5xl cursor-pointer hover:border-white'
+                        'w-[30mm] aspect-square rounded-full overflow-hidden flex justify-center items-center bg-[#00000099] hover:bg-[#000000aa] text-white text-5xl cursor-pointer hover:border-white'
                     }
                     onClick={() => inputRef?.current?.click()}
                 >
@@ -54,9 +58,14 @@ export const CharacterSelectionDialog: React.FC<DialogProps> = ({
                 {allCharacters.map((char) => (
                     <div
                         key={char.id}
-                        className={
-                            'hover:brightness-125 cursor-pointer relative'
-                        }
+                        className={cx(
+                            'hover:!brightness-125 hover:!saturate-125 cursor-pointer relative saturate-50',
+                            {
+                                'saturate-100':
+                                    (lastSelectedCharacter?.id ?? -1) ===
+                                    char.id,
+                            },
+                        )}
                         onClick={() => {
                             setLastCharacter(char.id);
                             onClose();

@@ -339,10 +339,12 @@ export const SheetGenerator = () => {
                                 )}
                             </select>
                         </span>
-                        <CharacterSelectionDialog
-                            open={characterDialogOpened}
-                            onClose={() => setCharacterDialogOpened(false)}
-                        />
+                        {characterDialogOpened && (
+                            <CharacterSelectionDialog
+                                open={characterDialogOpened}
+                                onClose={() => setCharacterDialogOpened(false)}
+                            />
+                        )}
                     </>
                 )}
                 {isEdit && (
