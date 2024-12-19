@@ -1,12 +1,12 @@
 import { SheetGenerator } from '@components/markup/SheetGenerator';
 import { Dialog } from '@components/ui/Dialog';
 import { Suspense, useState, lazy } from 'react';
+import { isMobile } from 'react-device-detect';
 import { useTranslate } from './contexts/Translator.tsx';
 import { version } from '../package.json';
 import payPal from './assets/images/icons/PayPal.svg';
 import mono from './assets/images/icons/monobank-logo.png';
 import { isNowBetweenDates } from './helpers/generic-helpers.tsx';
-
 const canShowSnow = isNowBetweenDates('18.12', '10.01');
 const SnowOverlay =
     canShowSnow &&
@@ -28,7 +28,7 @@ export const App = () => {
         >
             {canShowSnow && SnowOverlay && (
                 <Suspense>
-                    <SnowOverlay />
+                    <SnowOverlay maxParticles={isMobile ? 10 : 20} />
                 </Suspense>
             )}
 
