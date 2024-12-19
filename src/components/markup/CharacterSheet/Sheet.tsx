@@ -19,7 +19,6 @@ import { keys } from '../../../helpers/generic-helpers.tsx';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 import { usePassives } from '../../../hooks/usePassives.ts';
 import { BrowserView, MobileView, isMobile } from 'react-device-detect';
-import styles from '../SheetGenerator/Sheet.module.less';
 export const Sheet: React.FC<{ printing?: boolean }> = ({
     printing = false,
 }) => {
@@ -53,7 +52,9 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                             <div className='flex flex-col gap-[1mm]'>
                                 <Player character={currentCharacter} />
                                 {(currentCharacter.showLore ?? true) && (
-                                    <MiniLore />
+                                    <div className='max-w-[52mm]'>
+                                        <MiniLore />
+                                    </div>
                                 )}
                                 <Death />
                                 <Weapons />

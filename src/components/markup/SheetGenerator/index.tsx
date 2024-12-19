@@ -13,6 +13,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import { HPDice } from '../../../constants/char.ts';
 import { Locale, useTranslate } from '../../../contexts/Translator.tsx';
 import { downloadFile, svgToCssUrl } from '../../../helpers/convert.ts';
+import { pxInMm } from '../../../helpers/dpi.ts';
 import {
     entries,
     getRandomArrayItem,
@@ -545,7 +546,8 @@ export const SheetGenerator = () => {
                 className={cx(
                     'overflow-hidden shadow-highlight w-fit small:scale-small',
                     {
-                        'rounded-[2mm]': !isMobile,
+                        'rounded-[2mm] ': !isMobile,
+                        '!overflow-visible': isEdit,
                     },
                 )}
             >
@@ -554,3 +556,5 @@ export const SheetGenerator = () => {
         </div>
     );
 };
+
+console.log(193.5 / pxInMm);
