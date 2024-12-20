@@ -9,7 +9,11 @@ export const Inventory = () => {
 
     return (
         <div className={styles.inventory}>
-            <div className={styles.headSection}>
+            <div
+                className={cx(styles.headSection, {
+                    [styles.mobile]: isMobile,
+                })}
+            >
                 <div className={styles.money}>
                     <span className={styles.currency}>
                         <span className={styles.coin}>

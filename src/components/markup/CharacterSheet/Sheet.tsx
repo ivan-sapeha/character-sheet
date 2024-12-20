@@ -127,7 +127,9 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                         </div>
                         <Passives />
                         <Inventory />
-                        <Notes />
+                        <div className='h-[90mm] w-full'>
+                            <Notes />
+                        </div>
                         <Weapons />
                         {(currentCharacter.showLore ?? true) && (
                             <div className={'w-[60mm]'}>
