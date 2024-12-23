@@ -146,3 +146,13 @@ export function isNowBetweenDates(startDate: string, endDate: string): boolean {
         return now >= start && now <= end;
     }
 }
+
+export const replaceTextWithTranslation = (
+    text: string,
+    translateMap: Record<string, string>,
+) => {
+    entries(translateMap).forEach(([key, value]) => {
+        text = text.replace(key, value);
+    });
+    return text;
+};

@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
 import { ImageDBData } from '../../../db';
 import { reactJoin } from '../../../helpers/generic-helpers.tsx';

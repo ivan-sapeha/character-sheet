@@ -5,6 +5,7 @@ import { FullStat } from '@components/ui/FullStat';
 import { Inventory } from '@components/ui/Inventory/Inventory.tsx';
 import { MiniLore } from '@components/ui/Lore/MiniLore.tsx';
 import { Notes } from '@components/ui/Notes/Notes.tsx';
+import { Spells } from '@components/ui/Spells';
 import { Passives } from '@components/ui/Statuses/Passives.tsx';
 import { Skills } from '@components/ui/Statuses/Skills.tsx';
 import { Speed } from '@components/ui/Statuses/Speed.tsx';
@@ -138,6 +139,7 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                                 <MiniLore />
                             </div>
                         )}
+                        <Spells />
                     </div>
                 </MobileView>
             </A4Sheet>

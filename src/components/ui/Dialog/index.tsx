@@ -51,7 +51,9 @@ export const Dialog: React.FC<DialogProps> = ({
                     >
                         乂
                     </div>
-                    <div className='overflow-auto w-full'>{children}</div>
+                    <div className='overflow-auto w-full h-full'>
+                        {children}
+                    </div>
                 </dialog>,
                 document.getElementById('root')!,
             )}

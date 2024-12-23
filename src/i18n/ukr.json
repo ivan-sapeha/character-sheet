@@ -4,6 +4,7 @@
     "surname": "Прізвище",
     "dice": "Кубик",
     "background": "Фон",
+    "spells": "Спели",
     "print": "Друк/Експорт",
     "printPassives": "Друкувати пасивки",
     "edit": "Редагувати",
@@ -120,5 +121,43 @@
   },
   "notes": {
     "title": "Записки"
+  },
+  "spells": {
+    "ritual": "ритуал",
+    "level": "рівень",
+    "source": "Джерело",
+    "components": "Компоненти",
+    "V": "В",
+    "M": "М",
+    "S": "C",
+    "cantrip": "трюк",
+    "range": "Відстань",
+    "castTime": "Час виконання",
+    "duration": "Тривалість",
+    "onHigherLevels": "На вищих рівнях",
+    "all": "Всі",
+    "classes": {
+      "Artificer": "Винахідник",
+      "Sorcerer": "Чародій",
+      "Wizard": "Чарівник",
+      "Bard": "Бард",
+      "Warlock": "Чорнокнижник",
+      "Druid": "Друїд",
+      "Cleric": "Жрець",
+      "Ranger": "Слідопит",
+      "Paladin": "Паладін",
+      "Optional": "За бажанням",
+      "Dunamancy": "Дунамантія"
+    },
+    "schools": {
+      "Conjuration": "Виклик",
+      "Abjuration": "Відвертання",
+      "Evocation": "Створення",
+      "Necromancy": "Некромантія",
+      "Transmutation": "Перетворення",
+      "Enchantment": "Зачарування",
+      "Divination": "Віщування",
+      "Illusion": "Ілюзія"
+    }
   }
 }

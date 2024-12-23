@@ -1,0 +1,41 @@
+.spell {
+  & p:has(table) {
+    display: flex;
+    justify-content: center;
+
+    & * {
+      border-color: inherit;
+    }
+
+    & table {
+      border: 1px solid;
+      border-color: inherit;
+      text-align: center;
+      & strong {
+        font-weight: bold;
+      }
+      & > tbody {
+        & th, & td {
+          border: 1px solid;
+          border-color: inherit;
+          padding: 0 2mm;
+        }
+      }
+    }
+  }
+
+  & p:has(ul) {
+    & ul {
+      list-style-type: disc;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 4mm;
+      unicode-bidi: isolate;
+
+      & ul {
+        list-style-type: circle;
+      }
+    }
+  }
+
+}

@@ -1,6 +1,6 @@
 {
     "name": "character-sheet",
-    "version": "1.5.17",
+    "version": "1.6.0",
     "private": true,
     "type": "module",
     "author": "Ivan Sapeha",
@@ -22,6 +22,7 @@
         "@types/react-virtualized": "^9.22.0",
         "axios": "^1.7.7",
         "classnames": "^2.3.2",
+        "esbuild-plugin-react-virtualized": "^1.0.4",
         "html2canvas": "^1.4.1",
         "nanoid": "^5.0.7",
         "react": "^18",

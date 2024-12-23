@@ -5,7 +5,7 @@ import {
     PrintDialog,
     printStorageKey,
 } from '@components/markup/Editor/PrintDialog.tsx';
-import { decode } from '@msgpack/msgpack';
+import { SpellsDialog } from '@components/markup/Editor/Spells.tsx';
 import cx from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
@@ -53,6 +53,7 @@ export const SheetGenerator = () => {
     const [printing, setPrinting] = useState(false);
     const [printDialogOpened, setPrintDialogOpened] = useState(false);
     const [backgroundDialogOpened, setBackgroundDialogOpened] = useState(false);
+    const [spellsDialogOpened, setSpellsDialogOpened] = useState(false);
     const [characterDialogOpened, setCharacterDialogOpened] = useState(false);
     const [iconsProgress, setIconsProgress] = useState(0);
     const langs = keys(availableLanguages);
@@ -602,10 +603,31 @@ export const SheetGenerator = () => {
                             >
                                 {tokens.UI.background}
                             </button>
-                            <BackgroundSelectionDialog
-                                open={backgroundDialogOpened}
-                                onClose={() => setBackgroundDialogOpened(false)}
-                            />
+                            {backgroundDialogOpened && (
+                                <BackgroundSelectionDialog
+                                    open={backgroundDialogOpened}
+                                    onClose={() =>
+                                        setBackgroundDialogOpened(false)
+                                    }
+                                />
+                            )}
+                        </span>
+                        <span className={'flex gap-2 items-center'}>
+                            <button
+                                type={'button'}
+                                className={
+                                    'border border-[#ebebeb] rounded pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] min-w-[15mm] hover:bg-gray-200 hover:text-black'
+                                }
+                                onClick={() => setSpellsDialogOpened(true)}
+                            >
+                                {tokens.UI.spells}
+                            </button>
+                            {spellsDialogOpened && (
+                                <SpellsDialog
+                                    open={spellsDialogOpened}
+                                    onClose={() => setSpellsDialogOpened(false)}
+                                />
+                            )}
                         </span>
                     </>
                 )}

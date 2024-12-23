@@ -21,6 +21,7 @@ export default {
                 Advent: ['Advent Pro', 'Arial Narrow', 'sans-serif'],
                 Pacifico: ['Pacifico', 'cursive'],
                 Nunito: ['Nunito', 'sans-serif'],
+                Roboto: ['Roboto Condensed', 'serif'],
             },
             backgroundSize: { '150%': '150%' },
         },

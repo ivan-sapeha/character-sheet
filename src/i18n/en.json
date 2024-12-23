@@ -4,6 +4,7 @@
     "surname": "Surname",
     "dice": "Dice",
     "background": "Background",
+    "spells": "Spells",
     "print": "Print/Export",
     "printPassives": "Print passives",
     "edit": "Edit",
@@ -120,5 +121,43 @@
   },
   "notes": {
     "title": "Notes"
+  },
+  "spells": {
+    "ritual": "ritual",
+    "level": "level",
+    "source": "Source",
+    "components": "Components",
+    "V": "V",
+    "M": "M",
+    "S": "S",
+    "cantrip": "cantrip",
+    "range": "Range",
+    "castTime": "Casting Time",
+    "duration": "Duration",
+    "onHigherLevels": "On higher levels",
+    "all": "All",
+    "classes": {
+      "Artificer": "Artificer",
+      "Sorcerer": "Sorcerer",
+      "Wizard": "Wizard",
+      "Bard": "Bard",
+      "Warlock": "Warlock",
+      "Druid": "Druid",
+      "Cleric": "Cleric",
+      "Ranger": "Ranger",
+      "Paladin": "Paladin",
+      "Optional": "Optional",
+      "Dunamancy": "Dunamancy"
+    },
+    "schools": {
+      "Conjuration": "Conjuration",
+      "Abjuration": "Abjuration",
+      "Evocation": "Evocation",
+      "Necromancy": "Necromancy",
+      "Transmutation": "Transmutation",
+      "Enchantment": "Enchantment",
+      "Divination": "Divination",
+      "Illusion": "Illusion"
+    }
   }
 }
