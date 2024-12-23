@@ -135,6 +135,8 @@ export type Character = {
     baseStat: BaseStatValues | '';
     spellDc: string;
     attackBonus: string;
+    spells: number[];
+    prepSpells: number[];
 };
 
 export type ExportedCharacter = {
@@ -283,4 +285,6 @@ export const emptyCharacter: Character = {
     baseStat: '',
     attackBonus: '',
     spellDc: '',
+    spells: [],
+    prepSpells: [],
 };
