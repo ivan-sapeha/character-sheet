@@ -46,7 +46,7 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                     '!w-[100vw] !h-fit !bg-150%': isMobile,
                 })}
             >
-                <BrowserView>
+                <BrowserView className='h-full'>
                     <div className='flex flex-col h-full gap-[5mm] items-center'>
                         <div className='flex h-full'>
                             <div className='flex flex-col gap-[1mm]'>
@@ -86,8 +86,10 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                                     <Skills />
                                     <Passives />
                                 </div>
-                                <Inventory />
-                                <Notes />
+                                <div className='grid grid-rows-2 gap-[5mm] h-full'>
+                                    <Inventory />
+                                    <Notes />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,8 +128,8 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                             ))}
                         </div>
                         <Passives />
-                        <Inventory />
-                        <div className='h-[90mm] w-full'>
+                        <div className='h-[70vh] w-full grid grid-rows-2 gap-[3mm]'>
+                            <Inventory />
                             <Notes />
                         </div>
                         <Weapons />
