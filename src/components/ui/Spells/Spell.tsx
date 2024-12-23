@@ -51,7 +51,8 @@ export const Spell: React.FC<SpellProps> = ({
     onClick,
     className,
 }) => {
-    const color = magicSchoolsByColor[spell.school];
+    const color =
+        magicSchoolsByColor[spell.school as keyof typeof magicSchoolsByColor];
     const { tokens } = useTranslate();
     return (
         <div

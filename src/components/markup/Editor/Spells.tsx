@@ -24,7 +24,9 @@ export const SpellsDialog: React.FC<DialogProps> = ({ open, onClose }) => {
             spell.name.toLowerCase().includes(filter.toLowerCase()) ||
             spell.originalName?.toLowerCase().includes(filter.toLowerCase());
         const level =
-            levelFilter === defaultSelect ? true : spell.level == levelFilter;
+            levelFilter === defaultSelect
+                ? true
+                : spell.level.toString() === levelFilter;
         const clas =
             classFilter === defaultSelect
                 ? true
