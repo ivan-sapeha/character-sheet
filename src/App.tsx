@@ -6,7 +6,7 @@ import { useTranslate } from './contexts/Translator.tsx';
 import { version } from '../package.json';
 import payPal from './assets/images/icons/PayPal.svg';
 import mono from './assets/images/icons/monobank-logo.png';
-import { isNowBetweenDates, keys } from './helpers/generic-helpers.tsx';
+import { isNowBetweenDates } from './helpers/generic-helpers.tsx';
 
 const canShowSnow = isNowBetweenDates('18.12', '10.01');
 const SnowOverlay =
