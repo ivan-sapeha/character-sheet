@@ -139,7 +139,7 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                                 <MiniLore />
                             </div>
                         )}
-                        <Spells />
+                        {currentCharacter.spells.length > 0 && <Spells />}
                     </div>
                 </MobileView>
             </A4Sheet>

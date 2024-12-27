@@ -6,7 +6,6 @@ import { isMobile } from 'react-device-detect';
 import { useIndexedDB } from 'react-indexed-db-hook';
 import { useTranslate } from '../../../contexts/Translator.tsx';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
-
 export const Spells = () => {
     const { currentCharacter } = useCharacter();
     const { currentLocale, tokens } = useTranslate();
@@ -14,6 +13,7 @@ export const Spells = () => {
     const [spells, setSpells] = useState<Spell[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { getByIndex } = useIndexedDB('spells');
+    const [minimizedSpells, setMinimizedSpells] = useState<boolean[]>([]);
     const charSpells = currentCharacter.spells.map(
         (spellId) => spells.find((spell) => spell.id === spellId)!,
     );
@@ -22,6 +22,7 @@ export const Spells = () => {
             (spell: { data: Uint8Array }) => {
                 const spells = decode(spell.data) as Spell[];
                 setSpells(spells);
+                setMinimizedSpells(new Array(spells.length).fill(true));
                 setIsLoading(false);
             },
         );
@@ -52,12 +53,22 @@ export const Spells = () => {
                                 .includes(filter.toLowerCase()) ||
                             spell.level.toString() === filter,
                     )
-                    .map((spell) => (
+                    .map((spell, index) => (
                         <Spell
                             key={spell.id}
                             spell={spell}
                             className='bg-[#ffffffdd]'
                             filter={filter}
+                            minimized={minimizedSpells[index]}
+                            onClick={() =>
+                                setMinimizedSpells(
+                                    minimizedSpells.toSpliced(
+                                        index,
+                                        1,
+                                        !minimizedSpells[index],
+                                    ),
+                                )
+                            }
                         />
                     ))}
             </div>

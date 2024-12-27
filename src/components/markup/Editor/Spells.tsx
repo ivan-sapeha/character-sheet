@@ -1,6 +1,8 @@
 import { Dialog, DialogProps } from '@components/ui/Dialog';
 import { Spell } from '@components/ui/Spells/Spell.tsx';
+import cx from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { isMobile } from 'react-device-detect';
 import { useIndexedDB } from 'react-indexed-db-hook';
 import { useTranslate } from '../../../contexts/Translator.tsx';
 import { decode } from '@msgpack/msgpack';
@@ -75,7 +77,11 @@ export const SpellsDialog: React.FC<DialogProps> = ({ open, onClose }) => {
     }, [currentLocale]);
 
     return (
-        <Dialog open={open} onClose={onClose} className='overflow-hidden'>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            className={cx('overflow-hidden', { '!pr-0 !pl-0': isMobile })}
+        >
             {isLoading ? (
                 <div className='w-full h-full grid place-items-center'>
                     Loading...
@@ -102,66 +108,80 @@ export const SpellsDialog: React.FC<DialogProps> = ({ open, onClose }) => {
                             );
                         })}
                     </div>
-                    <div className='flex flex-wrap'>
-                        <input
-                            value={filter}
-                            onChange={(e) => setFilter(e.target.value)}
-                            className='border border-black'
-                        />
-                        <select
-                            className='border border-black'
-                            value={schoolFilter}
-                            onChange={(e) => setSchoolFilter(e.target.value)}
-                        >
-                            <option value={defaultSelect}>
-                                {tokens.spells.all}
-                            </option>
-                            {entries(tokens.spells.schools).map(
-                                ([key, name]) => (
-                                    <option key={key} value={key}>
-                                        {name}
-                                    </option>
-                                ),
-                            )}
-                        </select>
-                        <select
-                            className='border border-black'
-                            value={classFilter}
-                            onChange={(e) => setClassFilter(e.target.value)}
-                        >
-                            <option value={defaultSelect}>
-                                {tokens.spells.all}
-                            </option>
-                            {entries(tokens.spells.classes)
-                                .filter(
-                                    ([key, _]) =>
-                                        key !== 'Optional' &&
-                                        key !== 'Dunamancy',
-                                )
-                                .map(([key, name]) => (
-                                    <option key={key} value={key}>
-                                        {name}
-                                    </option>
-                                ))}
-                        </select>
-                        <select
-                            className='border border-black'
-                            value={levelFilter}
-                            onChange={(e) => setLevelFilter(e.target.value)}
-                        >
-                            <option value={defaultSelect}>
-                                {tokens.spells.all}
-                            </option>
-                            {Array.from({ length: 10 }, (_, i) => i).map(
-                                (level) => (
-                                    <option key={level} value={level}>
-                                        {level === 0
-                                            ? tokens.spells.cantrip
-                                            : `${level} ${tokens.spells.level}`}
-                                    </option>
-                                ),
-                            )}
-                        </select>
+                    <div className='flex flex-wrap items-center gap-[1mm]'>
+                        <div className='flex flex-col items-center'>
+                            <label>{tokens.UI.search}</label>
+                            <input
+                                value={filter}
+                                onChange={(e) => setFilter(e.target.value)}
+                                className='border border-black'
+                            />
+                        </div>
+                        <div className='flex flex-col items-center'>
+                            <label>{tokens.spells.school}</label>
+                            <select
+                                className='border border-black'
+                                value={schoolFilter}
+                                onChange={(e) =>
+                                    setSchoolFilter(e.target.value)
+                                }
+                            >
+                                <option value={defaultSelect}>
+                                    {tokens.spells.all}
+                                </option>
+                                {entries(tokens.spells.schools).map(
+                                    ([key, name]) => (
+                                        <option key={key} value={key}>
+                                            {name}
+                                        </option>
+                                    ),
+                                )}
+                            </select>
+                        </div>
+                        <div className='flex flex-col items-center'>
+                            <label>{tokens.miniLore.class}</label>
+                            <select
+                                className='border border-black'
+                                value={classFilter}
+                                onChange={(e) => setClassFilter(e.target.value)}
+                            >
+                                <option value={defaultSelect}>
+                                    {tokens.spells.all}
+                                </option>
+                                {entries(tokens.spells.classes)
+                                    .filter(
+                                        ([key, _]) =>
+                                            key !== 'Optional' &&
+                                            key !== 'Dunamancy',
+                                    )
+                                    .map(([key, name]) => (
+                                        <option key={key} value={key}>
+                                            {name}
+                                        </option>
+                                    ))}
+                            </select>
+                        </div>
+                        <div className='flex flex-col items-center'>
+                            <label>{tokens.spells.level}</label>
+                            <select
+                                className='border border-black'
+                                value={levelFilter}
+                                onChange={(e) => setLevelFilter(e.target.value)}
+                            >
+                                <option value={defaultSelect}>
+                                    {tokens.spells.all}
+                                </option>
+                                {Array.from({ length: 10 }, (_, i) => i).map(
+                                    (level) => (
+                                        <option key={level} value={level}>
+                                            {level === 0
+                                                ? tokens.spells.cantrip
+                                                : `${level} ${tokens.spells.level}`}
+                                        </option>
+                                    ),
+                                )}
+                            </select>
+                        </div>
 
                         <button
                             onClick={onSave}
@@ -174,23 +194,26 @@ export const SpellsDialog: React.FC<DialogProps> = ({ open, onClose }) => {
                     {/*    <div key={source}>{source}</div>*/}
                     {/*))}*/}
                     <div className='overflow-auto flex flex-col gap-[3mm]'>
-                        {(filteredSpells as Spell[]).map((spell) => (
-                            <Spell
-                                key={spell.id}
-                                spell={spell}
-                                filter={filter}
-                                selected={currentCharacter.spells.includes(
-                                    spell.id,
-                                )}
-                                onClick={(selected) => {
-                                    if (selected) {
-                                        addSpell(spell.id);
-                                    } else {
-                                        removeSpell(spell.id);
-                                    }
-                                }}
-                            />
-                        ))}
+                        {(filteredSpells as Spell[]).map((spell) => {
+                            const selected = currentCharacter.spells.includes(
+                                spell.id,
+                            );
+                            return (
+                                <Spell
+                                    key={spell.id}
+                                    spell={spell}
+                                    filter={filter}
+                                    selected={selected}
+                                    onClick={() => {
+                                        if (selected) {
+                                            removeSpell(spell.id);
+                                        } else {
+                                            addSpell(spell.id);
+                                        }
+                                    }}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
             )}

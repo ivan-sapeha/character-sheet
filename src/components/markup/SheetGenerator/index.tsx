@@ -50,6 +50,9 @@ export const SheetGenerator = () => {
         names: string[];
         surnames: string[];
     }>({ names: [], surnames: [] });
+    const [versions, setVersions] = useLocalStorage('versions', {
+        spells: { en: 0, ukr: 0 },
+    });
     const [printing, setPrinting] = useState(false);
     const [printDialogOpened, setPrintDialogOpened] = useState(false);
     const [backgroundDialogOpened, setBackgroundDialogOpened] = useState(false);
@@ -66,7 +69,11 @@ export const SheetGenerator = () => {
     const { getAll: getAllBackgrounds, add: addBackground } =
         useIndexedDB('background');
     const { getAll: getAllIcons, add: addIcon } = useIndexedDB('icon');
-    const { getAll: getAllSpells, add: addSpells } = useIndexedDB('spells');
+    const {
+        getAll: getAllSpells,
+        add: addSpells,
+        clear,
+    } = useIndexedDB('spells');
     const [printPassives, setPrintPassives] = useLocalStorage(
         'print-passives',
         false,
@@ -185,12 +192,22 @@ export const SheetGenerator = () => {
             {
                 const spells = await getAllSpells();
                 if (spells.length > 0) {
-                    setSpellsProgress((spellProgress) =>
-                        spellProgress.map(
-                            (_) => maxProgress / spellProgress.length,
-                        ),
-                    );
-                    return;
+                    const loadedVersions = await fetchWithHandling<{
+                        spells: { ukr: number; en: number };
+                    }>('versions.json');
+                    if (
+                        JSON.stringify(loadedVersions.spells) ===
+                        JSON.stringify(versions.spells)
+                    ) {
+                        setSpellsProgress((spellProgress) =>
+                            spellProgress.map(
+                                (_) => maxProgress / spellProgress.length,
+                            ),
+                        );
+                        return;
+                    } else {
+                        await clear();
+                    }
                 }
             }
             await Promise.all(

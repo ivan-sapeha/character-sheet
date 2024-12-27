@@ -7,6 +7,7 @@ import {
     highlightSubString,
     replaceTextWithTranslation,
 } from '../../../helpers/generic-helpers.tsx';
+import tagsMap from './tags-map.json';
 
 export interface Spell {
     name: string;
@@ -23,6 +24,7 @@ export interface Spell {
     classes: string[];
     originalName: string;
     id: number;
+    tags: string[];
 }
 
 const magicSchoolsByColor = {
@@ -40,7 +42,8 @@ export interface SpellProps {
     spell: Spell;
     filter?: string;
     selected?: boolean;
-    onClick?: (selected: boolean) => void;
+    minimized?: boolean;
+    onClick?: () => void;
     className?: string;
 }
 
@@ -48,12 +51,13 @@ export const Spell: React.FC<SpellProps> = ({
     spell,
     filter = '',
     selected = false,
+    minimized = false,
     onClick,
     className,
 }) => {
     const color =
         magicSchoolsByColor[spell.school as keyof typeof magicSchoolsByColor];
-    const { tokens } = useTranslate();
+    const { tokens, currentLocale } = useTranslate();
     return (
         <div
             key={spell.id}
@@ -64,10 +68,10 @@ export const Spell: React.FC<SpellProps> = ({
                 className,
             )}
             style={{ borderColor: color }}
-            onClick={() => onClick && onClick(!selected)}
+            onClick={() => onClick && onClick()}
         >
             <div
-                className='flex justify-between border-b'
+                className='flex justify-between border-b items-center'
                 style={{
                     borderColor: color,
                 }}
@@ -81,106 +85,134 @@ export const Spell: React.FC<SpellProps> = ({
                     )}
                 </h1>
                 <span className='text-right'>
-                    {replaceTextWithTranslation(
-                        spell.school,
-                        tokens.spells.schools,
-                    )}
-                    ,{' '}
+                    {!minimized &&
+                        `${replaceTextWithTranslation(
+                            spell.school,
+                            tokens.spells.schools,
+                        )}, `}
                     {spell.level > 0
                         ? `${spell.level} ${tokens.spells.level}`
                         : tokens.spells.cantrip}
                     {spell.ritual && ` (${tokens.spells.ritual})`}
                 </span>
             </div>
-            <div
-                className='flex justify-between border-b'
-                style={{
-                    borderColor: color,
-                }}
-            >
-                <div className='flex flex-col'>
-                    <span className={cx({ 'flex flex-col': isMobile })}>
-                        <span>{tokens.spells.range}:</span>{' '}
-                        <strong>{spell.range}</strong>{' '}
-                    </span>
-                    <span className={cx({ 'flex flex-col': isMobile })}>
-                        <span>{tokens.spells.castTime}:</span>{' '}
-                        <strong>{spell.castingTime}</strong>{' '}
-                    </span>
-                    <span className={cx({ 'flex flex-col': isMobile })}>
-                        <span>{tokens.spells.duration}:</span>{' '}
-                        <strong>{spell.duration}</strong>
-                    </span>
-                </div>
-
-                <div className='flex flex-col items-end justify-center text-right max-w-[70%]'>
-                    <span className={cx({ 'flex flex-col': isMobile })}>
-                        <span>{tokens.spells.components}:</span>{' '}
-                        <strong>
-                            {[
-                                spell.components.verbal && tokens.spells.V,
-                                spell.components.somatic && tokens.spells.S,
-                                spell.components.material && tokens.spells.M,
-                            ]
-                                .filter(Boolean)
-                                .join(', ')}
-                        </strong>
-                    </span>
-                    <span>
-                        {spell.components.material &&
-                            `(${spell.components.material})`}
-                    </span>
-                </div>
-            </div>
-            <div>
-                {spell.description.map((descriptionPiece, index) => (
-                    <p
-                        key={`${spell.name}-${index}`}
-                        className='pb-1'
+            {!minimized && (
+                <>
+                    <div
+                        className='flex justify-between border-b'
                         style={{
                             borderColor: color,
                         }}
-                        dangerouslySetInnerHTML={{
-                            __html: descriptionPiece.replace(
-                                /\b\d+[dк]\d+\b/g,
-                                (dice) => `<strong>${dice}</strong>`,
-                            ),
+                    >
+                        <div className='flex flex-col'>
+                            <span className={cx({ 'flex flex-col': isMobile })}>
+                                <span>{tokens.spells.range}:</span>{' '}
+                                <strong>{spell.range}</strong>{' '}
+                            </span>
+                            <span className={cx({ 'flex flex-col': isMobile })}>
+                                <span>{tokens.spells.castTime}:</span>{' '}
+                                <strong>{spell.castingTime}</strong>{' '}
+                            </span>
+                            <span className={cx({ 'flex flex-col': isMobile })}>
+                                <span>{tokens.spells.duration}:</span>{' '}
+                                <strong>{spell.duration}</strong>
+                            </span>
+                        </div>
+
+                        <div className='flex flex-col items-end justify-center text-right max-w-[70%]'>
+                            <span className={cx({ 'flex flex-col': isMobile })}>
+                                <span>{tokens.spells.components}:</span>{' '}
+                                <strong>
+                                    {[
+                                        spell.components.verbal &&
+                                            tokens.spells.V,
+                                        spell.components.somatic &&
+                                            tokens.spells.S,
+                                        spell.components.material &&
+                                            tokens.spells.M,
+                                    ]
+                                        .filter(Boolean)
+                                        .join(', ')}
+                                </strong>
+                            </span>
+                            <span>
+                                {spell.components.material &&
+                                    `(${spell.components.material})`}
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        {spell.description.map((descriptionPiece, index) => (
+                            <p
+                                key={`${spell.name}-${index}`}
+                                className='pb-1'
+                                style={{
+                                    borderColor: color,
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: descriptionPiece.replace(
+                                        /\b\d+[dк]\d+\b/g,
+                                        (dice) => `<strong>${dice}</strong>`,
+                                    ),
+                                }}
+                            />
+                        ))}
+                    </div>
+                    {spell.onHighLevels && (
+                        <div className='pt-[2mm]'>
+                            <strong>{tokens.spells.onHigherLevels}:</strong>{' '}
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: spell.onHighLevels.replace(
+                                        /\b\d+[dк]\d+\b/g,
+                                        (dice) => `<strong>${dice}</strong>`,
+                                    ),
+                                }}
+                            />
+                        </div>
+                    )}
+                    <div
+                        className='flex justify-between border-t'
+                        style={{
+                            borderColor: color,
                         }}
-                    />
-                ))}
-            </div>
-            {spell.onHighLevels && (
-                <div className='pt-[2mm]'>
-                    <strong>{tokens.spells.onHigherLevels}:</strong>{' '}
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: spell.onHighLevels.replace(
-                                /\b\d+[dк]\d+\b/g,
-                                (dice) => `<strong>${dice}</strong>`,
-                            ),
-                        }}
-                    />
-                </div>
+                    >
+                        <span>
+                            {tokens.spells.source}:{' '}
+                            <strong>{spell.source}</strong>
+                        </span>
+                        <span>
+                            {spell.classes
+                                .map((clas) =>
+                                    replaceTextWithTranslation(
+                                        clas,
+                                        tokens.spells.classes,
+                                    ),
+                                )
+                                .join(', ')}
+                        </span>
+                    </div>
+                </>
             )}
-            <div
-                className='flex justify-between border-t'
-                style={{
-                    borderColor: color,
-                }}
-            >
-                <span>
-                    {tokens.spells.source}: <strong>{spell.source}</strong>
-                </span>
-                <span>
-                    {spell.classes
-                        .map((clas) =>
-                            replaceTextWithTranslation(
-                                clas,
-                                tokens.spells.classes,
-                            ),
-                        )
-                        .join(', ')}
-                </span>
+
+            <div className='flex flex-wrap pt-[2mm] gap-[1mm]'>
+                {spell.tags.map((tag) => {
+                    const tagData =
+                        tagsMap[currentLocale][tag as keyof typeof tagsMap.en];
+                    return (
+                        <span
+                            key={tag}
+                            className={'border rounded p-1'}
+                            style={{
+                                backgroundColor: tagData.color,
+                                color: tagData.textColor,
+                                borderColor: tagData.borderColor,
+                            }}
+                        >
+                            {tagData.name}
+                        </span>
+                    );
+                })}
             </div>
         </div>
     );
