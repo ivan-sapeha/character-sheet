@@ -39,7 +39,7 @@ export const SpellTracker: React.FC = () => {
                                 <Inputs manaSlot={i} />
                             </div>
                         )),
-                    <span className='h-full w-[1px] bg-black' />,
+                    <span className='w-[1px] bg-black' />,
                 )}
             </>
         ),
@@ -50,7 +50,7 @@ export const SpellTracker: React.FC = () => {
             {tokens.weapons.spellSlots}:
             <div className={styles.spell}>{manaSlots}</div>
             <div className='flex gap-[1mm] border-t border-black justify-around'>
-                <div className='flex items-center justify-center gap-[1mm]'>
+                <div className='flex items-center justify-center gap-[1mm] pt-[0.5mm]'>
                     {tokens.weapons.baseStat}:
                     {isEdit ? (
                         <select
@@ -61,6 +61,9 @@ export const SpellTracker: React.FC = () => {
                                 )
                             }
                             value={currentCharacter.baseStat as string}
+                            className={
+                                'bg-transparent border border-black rounded'
+                            }
                         >
                             {entries(baseStatMap).map(([statKey, statName]) => (
                                 <option

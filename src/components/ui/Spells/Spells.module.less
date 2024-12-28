@@ -1,4 +1,11 @@
 .spell {
+  &:global.mobile {
+    & th, & td {
+      padding: 0 !important;
+      font-weight: normal;
+    }
+  }
+
   & p:has(table) {
     display: flex;
     justify-content: center;
@@ -11,9 +18,11 @@
       border: 1px solid;
       border-color: inherit;
       text-align: center;
+
       & strong {
         font-weight: bold;
       }
+
       & > tbody {
         & th, & td {
           border: 1px solid;

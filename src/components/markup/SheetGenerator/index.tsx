@@ -6,6 +6,7 @@ import {
     printStorageKey,
 } from '@components/markup/Editor/PrintDialog.tsx';
 import { SpellsDialog } from '@components/markup/Editor/Spells.tsx';
+import { FloatingActionButton } from '@components/ui/FAB/FloatingActionButton.tsx';
 import cx from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
@@ -264,6 +265,24 @@ export const SheetGenerator = () => {
             spellsProgress.reduce((acc, item) => acc + item),
         100,
     );
+
+    const editButton = (
+        <button
+            className={
+                'border border-[#ebebeb] rounded pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] min-w-[25mm] hover:bg-gray-200 hover:text-black small:min-w-fit small:hover:bg-transparent'
+            }
+            onClick={onEditClick}
+        >
+            <span className={'small:hidden'}>
+                {isEdit ? tokens.UI.save : tokens.UI.edit}
+            </span>
+            <img
+                src={isEdit ? save : edit}
+                className={cx('hidden small:inline')}
+                alt={isEdit ? tokens.UI.save : tokens.UI.edit}
+            />
+        </button>
+    );
     if (progress < 98) {
         return (
             <div className='flex justify-center items-center flex-col text-white h-[90vh] gap-[5mm] w-full'>
@@ -295,26 +314,17 @@ export const SheetGenerator = () => {
                     },
                 )}
             >
-                <button
-                    className={cx(
-                        'border border-[#ebebeb] rounded pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] min-w-[25mm] hover:bg-gray-200 hover:text-black small:min-w-fit',
-                        {
-                            'small:hover:bg-transparent': !isEdit,
-                        },
-                    )}
-                    onClick={onEditClick}
-                >
-                    <span className={cx({ 'small:hidden': !isEdit })}>
-                        {isEdit ? tokens.UI.save : tokens.UI.edit}
-                    </span>
-                    <img
-                        src={isEdit ? save : edit}
-                        className={cx('hidden small:inline', {
-                            'small:hidden': isEdit,
-                        })}
-                        alt={isEdit ? tokens.UI.save : tokens.UI.edit}
-                    />
-                </button>
+                {editButton}
+                {isMobile && (
+                    <FloatingActionButton
+                        scrollThreshold={isEdit ? 410 : 60}
+                        className={
+                            'fixed z-[10000000] bg-background left-[0.625rem] top-[0.625rem] rounded'
+                        }
+                    >
+                        {editButton}
+                    </FloatingActionButton>
+                )}
                 {!isEdit && (
                     <>
                         <span

@@ -1,9 +1,10 @@
 import { TextInput } from '@components/ui/Inputs/TextInput.tsx';
 import { Spell } from '@components/ui/Spells/Spell.tsx';
 import { Tag } from '@components/ui/Spells/Tag.tsx';
+import { SpellTracker } from '@components/ui/Weapons/SpellTracker.tsx';
 import { decode } from '@msgpack/msgpack';
 import cx from 'classnames';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { useIndexedDB } from 'react-indexed-db-hook';
 import { useTranslate } from '../../../contexts/Translator.tsx';
@@ -62,10 +63,11 @@ export const Spells = () => {
                     {tokens.UI.spells}
                 </h1>
                 {isMobile && (
-                    <div className='flex flex-col gap-[3mm] font-Roboto font-normal items-center'>
+                    <div className='flex flex-col gap-[3mm] font-normal items-center'>
+                        <SpellTracker />
                         <button
                             className={cx(
-                                'border bg-[#ffffffaa] w-fit p-1 pr-[3mm] pl-[3mm] rounded',
+                                'border bg-[#ffffffaa] w-fit p-1 pr-[3mm] pl-[3mm] rounded  font-Roboto',
                                 {
                                     '!bg-white border-black': showTags,
                                 },

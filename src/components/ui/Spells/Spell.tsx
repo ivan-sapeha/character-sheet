@@ -27,7 +27,7 @@ export interface Spell {
     tags: string[];
 }
 
-const magicSchoolsByColor = {
+export const magicSchoolsByColor = {
     Conjuration: '#66B2B2',
     Abjuration: '#3366CC',
     Evocation: '#CC3333',
@@ -64,7 +64,11 @@ export const Spell: React.FC<SpellProps> = ({
             className={cx(
                 styles.spell,
                 'flex flex-col border-2 rounded p-2 font-Roboto font-normal',
-                { 'bg-white': selected, 'cursor-pointer': onClick },
+                {
+                    'bg-white': selected,
+                    'cursor-pointer': onClick,
+                    mobile: isMobile,
+                },
                 className,
             )}
             style={{ borderColor: color }}

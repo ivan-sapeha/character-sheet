@@ -25,9 +25,8 @@ export const Tag: React.FC<TagProps> = ({ tag, selected = false, onClick }) => {
     return (
         <span
             className={cx('border rounded pr-1 pl-1  font-Roboto font-normal', {
-                grayscale: !selected,
+                'grayscale brightness-75': !selected,
                 'cursor-pointer': onClick,
-                'shadow-highlight': selected,
             })}
             style={{
                 backgroundColor: tagData.bg,
