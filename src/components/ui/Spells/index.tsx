@@ -22,7 +22,7 @@ export const Spells = () => {
         Array<keyof typeof tagsMap>
     >([]);
     const { getByIndex } = useIndexedDB('spells');
-    const [minimizedSpells, setMinimizedSpells] = useState<boolean[]>([]);
+    const [maximizedSpells, setMaximizedSpells] = useState<number[]>([]);
     const charSpells = currentCharacter.spells.map(
         (spellId) => spells.find((spell) => spell.id === spellId)!,
     );
@@ -37,12 +37,19 @@ export const Spells = () => {
         }
     };
 
+    const onSpellClick = (id: number) => {
+        if (maximizedSpells.includes(id)) {
+            setMaximizedSpells(maximizedSpells.filter((maxId) => maxId !== id));
+        } else {
+            setMaximizedSpells([...maximizedSpells, id]);
+        }
+    };
+
     useEffect(() => {
         getByIndex('lang', currentLocale).then(
             (spell: { data: Uint8Array }) => {
                 const spells = decode(spell.data) as Spell[];
                 setSpells(spells);
-                setMinimizedSpells(new Array(spells.length).fill(true));
                 setIsLoading(false);
             },
         );
@@ -108,22 +115,14 @@ export const Spells = () => {
                                 spell.tags.includes(tag),
                             ),
                     )
-                    .map((spell, index) => (
+                    .map((spell) => (
                         <Spell
                             key={spell.id}
                             spell={spell}
                             className='bg-[#ffffffdd]'
                             filter={filter}
-                            minimized={minimizedSpells[index]}
-                            onClick={() =>
-                                setMinimizedSpells(
-                                    minimizedSpells.toSpliced(
-                                        index,
-                                        1,
-                                        !minimizedSpells[index],
-                                    ),
-                                )
-                            }
+                            minimized={!maximizedSpells.includes(spell.id)}
+                            onClick={() => onSpellClick(spell.id)}
                         />
                     ))}
             </div>
