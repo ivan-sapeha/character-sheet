@@ -69,13 +69,21 @@ export const Spells = () => {
                         </button>
                         {showTags && (
                             <div className='flex flex-wrap gap-[1mm]'>
-                                {keys(tagsMap).map((tag) => (
-                                    <Tag
-                                        tag={tag}
-                                        selected={selectedTags.includes(tag)}
-                                        onClick={() => onTagClick(tag)}
-                                    />
-                                ))}
+                                {keys(tagsMap)
+                                    .filter((tag) =>
+                                        charSpells.some((spell) =>
+                                            spell.tags.includes(tag),
+                                        ),
+                                    )
+                                    .map((tag) => (
+                                        <Tag
+                                            tag={tag}
+                                            selected={selectedTags.includes(
+                                                tag,
+                                            )}
+                                            onClick={() => onTagClick(tag)}
+                                        />
+                                    ))}
                             </div>
                         )}
                         <TextInput
