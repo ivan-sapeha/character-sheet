@@ -51,7 +51,7 @@ export const SheetGenerator = () => {
         surnames: string[];
     }>({ names: [], surnames: [] });
     const [versions, setVersions] = useLocalStorage('versions', {
-        spells: { en: 0, ukr: 0 },
+        spells: 0,
     });
     const [printing, setPrinting] = useState(false);
     const [printDialogOpened, setPrintDialogOpened] = useState(false);
@@ -193,7 +193,7 @@ export const SheetGenerator = () => {
                 const spells = await getAllSpells();
                 if (spells.length > 0) {
                     const loadedVersions = await fetchWithHandling<{
-                        spells: { ukr: number; en: number };
+                        spells: number;
                     }>('versions.json');
                     if (
                         JSON.stringify(loadedVersions.spells) ===
@@ -206,6 +206,7 @@ export const SheetGenerator = () => {
                         );
                         return;
                     } else {
+                        setVersions(loadedVersions);
                         await clear();
                     }
                 }
@@ -288,7 +289,7 @@ export const SheetGenerator = () => {
         <div className={styles.printContainer}>
             <div
                 className={cx(
-                    'flex gap-2 p-2.5 w-fit text-[#ebebeb] flex-wrap small:max-w-[210mm] justify-center',
+                    'flex gap-2 p-2.5 w-fit text-[#ebebeb] flex-wrap max-w-[210mm] justify-center pb-4',
                     {
                         'small:flex-col ': isEdit,
                     },
@@ -318,7 +319,7 @@ export const SheetGenerator = () => {
                     <>
                         <span
                             className={
-                                'flex gap-2 items-center flex-shrink-0 small:hidden'
+                                'flex gap-2 items-center justify-between flex-shrink-0 small:hidden border border-[#ebebeb] pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] rounded'
                             }
                         >
                             <label>{tokens.UI.printPassives}:</label>
@@ -532,7 +533,9 @@ export const SheetGenerator = () => {
                             </select>
                         </span>
                         <span
-                            className={'flex gap-2 items-center flex-shrink-0'}
+                            className={
+                                'flex gap-2 items-center justify-between flex-shrink-0 border border-[#ebebeb] pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] rounded'
+                            }
                         >
                             <label>{tokens.UI.showLore}:</label>
                             <input
@@ -550,7 +553,9 @@ export const SheetGenerator = () => {
                             />
                         </span>
                         <span
-                            className={'flex gap-2 items-center flex-shrink-0'}
+                            className={
+                                'flex gap-2 items-center justify-between flex-shrink-0 border border-[#ebebeb] pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] rounded'
+                            }
                         >
                             <label>{tokens.UI.showSpeed}:</label>
                             <input
@@ -568,7 +573,9 @@ export const SheetGenerator = () => {
                             />
                         </span>
                         <span
-                            className={'flex gap-2 items-center flex-shrink-0'}
+                            className={
+                                'flex gap-2 items-center justify-between flex-shrink-0 border border-[#ebebeb] pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] rounded'
+                            }
                         >
                             <label>{tokens.UI.manaTracker}:</label>
                             <input

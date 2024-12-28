@@ -197,19 +197,19 @@ export const Spell: React.FC<SpellProps> = ({
 
             <div className='flex flex-wrap pt-[2mm] gap-[1mm]'>
                 {spell.tags.map((tag) => {
-                    const tagData =
-                        tagsMap[currentLocale][tag as keyof typeof tagsMap.en];
+                    const tagData = tagsMap[tag as keyof typeof tagsMap];
                     return (
                         <span
                             key={tag}
                             className={'border rounded p-1'}
                             style={{
-                                backgroundColor: tagData.color,
-                                color: tagData.textColor,
-                                borderColor: tagData.borderColor,
+                                backgroundColor: tagData.bg,
+                                color: tagData.text,
+                                borderColor: tagData.border,
                             }}
+                            title={tagData.i18n[currentLocale].descr}
                         >
-                            {tagData.name}
+                            {tagData.i18n[currentLocale].name}
                         </span>
                     );
                 })}
