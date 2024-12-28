@@ -322,8 +322,14 @@ export const SheetGenerator = () => {
                                 'flex gap-2 items-center justify-between flex-shrink-0 small:hidden border border-[#ebebeb] pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] rounded'
                             }
                         >
-                            <label>{tokens.UI.printPassives}:</label>
+                            <label
+                                className={'cursor-pointer'}
+                                htmlFor={'print-passives'}
+                            >
+                                {tokens.UI.printPassives}:
+                            </label>
                             <input
+                                id={'print-passives'}
                                 type='checkbox'
                                 className={
                                     'border border-[#ebebeb] rounded pt-0.5 pb-0.5 pr-[2mm] pl-[2mm]'
@@ -537,8 +543,14 @@ export const SheetGenerator = () => {
                                 'flex gap-2 items-center justify-between flex-shrink-0 border border-[#ebebeb] pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] rounded'
                             }
                         >
-                            <label>{tokens.UI.showLore}:</label>
+                            <label
+                                className={'cursor-pointer'}
+                                htmlFor={'show-lore'}
+                            >
+                                {tokens.UI.showLore}:
+                            </label>
                             <input
+                                id={'show-lore'}
                                 type='checkbox'
                                 className={
                                     'border border-[#ebebeb] rounded pt-0.5 pb-0.5 pr-[2mm] pl-[2mm]'
@@ -557,8 +569,14 @@ export const SheetGenerator = () => {
                                 'flex gap-2 items-center justify-between flex-shrink-0 border border-[#ebebeb] pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] rounded'
                             }
                         >
-                            <label>{tokens.UI.showSpeed}:</label>
+                            <label
+                                className={'cursor-pointer'}
+                                htmlFor={'show-speed'}
+                            >
+                                {tokens.UI.showSpeed}:
+                            </label>
                             <input
+                                id={'show-speed'}
                                 type='checkbox'
                                 className={
                                     'border border-[#ebebeb] rounded pt-0.5 pb-0.5 pr-[2mm] pl-[2mm]'
@@ -577,8 +595,14 @@ export const SheetGenerator = () => {
                                 'flex gap-2 items-center justify-between flex-shrink-0 border border-[#ebebeb] pt-0.5 pb-0.5 pr-[2mm] pl-[2mm] rounded'
                             }
                         >
-                            <label>{tokens.UI.manaTracker}:</label>
+                            <label
+                                className={'cursor-pointer'}
+                                htmlFor={'mana-tracker'}
+                            >
+                                {tokens.UI.manaTracker}:
+                            </label>
                             <input
+                                id={'mana-tracker'}
                                 type='checkbox'
                                 className={
                                     'border border-[#ebebeb] rounded pt-0.5 pb-0.5 pr-[2mm] pl-[2mm]'
