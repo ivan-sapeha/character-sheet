@@ -1,4 +1,5 @@
 import styles from '@components/ui/Spells/Spells.module.less';
+import { Tag } from '@components/ui/Spells/Tag.tsx';
 import cx from 'classnames';
 import React from 'react';
 import { isMobile } from 'react-device-detect';
@@ -7,7 +8,6 @@ import {
     highlightSubString,
     replaceTextWithTranslation,
 } from '../../../helpers/generic-helpers.tsx';
-import tagsMap from './tags-map.json';
 
 export interface Spell {
     name: string;
@@ -57,7 +57,7 @@ export const Spell: React.FC<SpellProps> = ({
 }) => {
     const color =
         magicSchoolsByColor[spell.school as keyof typeof magicSchoolsByColor];
-    const { tokens, currentLocale } = useTranslate();
+    const { tokens } = useTranslate();
     return (
         <div
             key={spell.id}
@@ -76,7 +76,9 @@ export const Spell: React.FC<SpellProps> = ({
                     borderColor: color,
                 }}
             >
-                <h1 className='font-Nunito'>
+                <h1
+                    className={cx('font-Nunito', { 'text-[4.5mm]': minimized })}
+                >
                     {highlightSubString(spell.name, filter, color)}{' '}
                     {highlightSubString(
                         spell.originalName ? `(${spell.originalName})` : '',
@@ -195,23 +197,9 @@ export const Spell: React.FC<SpellProps> = ({
                 </>
             )}
 
-            <div className='flex flex-wrap pt-[2mm] gap-[1mm]'>
+            <div className='flex flex-wrap pt-[1mm] gap-[1mm]'>
                 {spell.tags.map((tag) => {
-                    const tagData = tagsMap[tag as keyof typeof tagsMap];
-                    return (
-                        <span
-                            key={tag}
-                            className={'border rounded p-1'}
-                            style={{
-                                backgroundColor: tagData.bg,
-                                color: tagData.text,
-                                borderColor: tagData.border,
-                            }}
-                            title={tagData.i18n[currentLocale].descr}
-                        >
-                            {tagData.i18n[currentLocale].name}
-                        </span>
-                    );
+                    return <Tag key={tag} tag={tag} selected />;
                 })}
             </div>
         </div>

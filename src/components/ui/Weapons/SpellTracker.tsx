@@ -1,5 +1,6 @@
 import { EditableInput } from '@components/ui/Inputs/EditableInput.tsx';
 import styles from '@components/ui/Weapons/Weapons.module.less';
+import cx from 'classnames';
 import React, { useMemo } from 'react';
 import { BaseStatValues, MaxCurrent } from '../../../constants/char.ts';
 import { useTranslate } from '../../../contexts/Translator.tsx';
@@ -45,7 +46,7 @@ export const SpellTracker: React.FC = () => {
         [currentCharacter.manaSlots],
     );
     return (
-        <div className={styles.weapon}>
+        <div className={cx(styles.weapon, 'max-w-[310px]')}>
             {tokens.weapons.spellSlots}:
             <div className={styles.spell}>{manaSlots}</div>
             <div className='flex gap-[1mm] border-t border-black justify-around'>

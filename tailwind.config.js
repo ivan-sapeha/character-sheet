@@ -14,6 +14,9 @@ export default {
             },
             screens: {
                 small: { max: '212mm' },
+                mobile: { max: '450px' },
+                portrait: { raw: '(orientation: portrait)' },
+                landscape: { raw: '(orientation: landscape)' },
             },
             fontFamily: {
                 Regular: ['sans-serif'],

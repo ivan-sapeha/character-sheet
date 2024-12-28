@@ -53,7 +53,7 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                             <div className='flex flex-col gap-[1mm]'>
                                 <Player character={currentCharacter} />
                                 {(currentCharacter.showLore ?? true) && (
-                                    <div className='max-w-[52mm]'>
+                                    <div className='max-w-[52mm] max-h-[300px]'>
                                         <MiniLore />
                                     </div>
                                 )}
@@ -97,7 +97,7 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                 </BrowserView>
                 <MobileView>
                     <div className='flex flex-col items-center gap-[2mm]'>
-                        <div className='flex justify-around w-full'>
+                        <div className='flex justify-center mobile:justify-around w-full'>
                             <div>
                                 <Player character={currentCharacter} />
                                 <div className={'w-[50mm]'}>
@@ -105,11 +105,16 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                                 </div>
                             </div>
                             <div className='flex flex-col justify-around items-center'>
-                                <Skills />
+                                <div className='flex justify-center items-center w-full gap-[3mm]'>
+                                    <Skills />
+                                    <div className='small:block mobile:hidden'>
+                                        <Speed />
+                                    </div>
+                                </div>
                                 <SpellTracker />
                             </div>
                         </div>
-                        <div className='grid grid-cols-3 justify-items-center w-full gap-[2mm] flex-wrap'>
+                        <div className='grid grid-cols-6 justify-items-center w-full gap-[2mm] flex-wrap mobile:grid-cols-3 small:flex mobile:grid'>
                             {keys(baseStats).map((stat) => (
                                 <FullStat
                                     key={stat}
@@ -129,17 +134,21 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                             ))}
                         </div>
                         <Passives />
-                        <div className='h-[70vh] w-full grid grid-rows-2 gap-[3mm]'>
+                        <div className='h-[80vh] w-full grid grid-rows-2 gap-[3mm] landscape:h-[150vh]'>
                             <Inventory />
                             <Notes />
                         </div>
                         <Weapons />
                         {(currentCharacter.showLore ?? true) && (
-                            <div className={'w-[60mm]'}>
+                            <div className={'w-[70mm] max-h-[400px]'}>
                                 <MiniLore />
                             </div>
                         )}
-                        {currentCharacter.spells.length > 0 && <Spells />}
+                        {currentCharacter.spells.length > 0 && (
+                            <div className='w-full'>
+                                <Spells />
+                            </div>
+                        )}
                     </div>
                 </MobileView>
             </A4Sheet>
