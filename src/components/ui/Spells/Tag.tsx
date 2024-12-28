@@ -27,6 +27,7 @@ export const Tag: React.FC<TagProps> = ({ tag, selected = false, onClick }) => {
             className={cx('border rounded pr-1 pl-1  font-Roboto font-normal', {
                 grayscale: !selected,
                 'cursor-pointer': onClick,
+                'shadow-highlight': selected,
             })}
             style={{
                 backgroundColor: tagData.bg,
