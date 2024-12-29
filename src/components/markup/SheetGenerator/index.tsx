@@ -82,7 +82,7 @@ export const SheetGenerator = () => {
     const onPrint = async () => {
         if (localStorage.getItem(printStorageKey) || printDialogOpened) {
             setIsPrinting(true);
-            await skipEventLoopTimes(200);
+            await skipEventLoopTimes(200 + currentCharacter.spells.length * 15);
             printContent(
                 document.getElementsByClassName('print')[0] as HTMLDivElement,
                 `${currentCharacter.name}_${currentCharacter.surname}`,
@@ -298,8 +298,7 @@ export const SheetGenerator = () => {
                     </div>
                 </div>
                 <span className='font-Advent text-center'>
-                    This is single time load,
-                    <br /> please dont refresh/close this page.
+                    Please dont refresh/close this page.
                 </span>
             </div>
         );

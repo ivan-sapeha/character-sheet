@@ -39,6 +39,7 @@ export const Passives = () => {
                             >
                                 <Passive
                                     passive={passive!}
+                                    className={cx({ 'select-none': isMobile })}
                                     canShowDescription={!isEdit}
                                 />
                             </div>

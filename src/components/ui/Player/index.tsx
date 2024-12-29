@@ -20,7 +20,8 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
     const { isEdit } = useCharacter();
     const [dialogOpened, setDialogOpened] = useState(false);
     const [image, setImage] = useState('');
-
+    const isDead = character.fail === 3;
+    console.log(isDead);
     const onAvatarClick = () => {
         if (!isEdit) {
             return;
@@ -53,13 +54,20 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
                         <div
                             className={styles.avatar}
                             style={{
-                                backgroundImage: image ? image : undefined,
+                                backgroundImage:
+                                    image && !isDead
+                                        ? image
+                                        : isDead
+                                          ? 'none'
+                                          : undefined,
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 height: '100%',
                                 width: 'auto',
                             }}
-                        />
+                        >
+                            {isDead && '☠️'}
+                        </div>
                     </div>
 
                     <div className={styles.name}>
