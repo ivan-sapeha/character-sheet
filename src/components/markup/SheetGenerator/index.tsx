@@ -40,6 +40,7 @@ export const SheetGenerator = () => {
     const {
         isEdit,
         toggleEdit,
+        setIsPrinting,
         currentCharacter,
         updateCurrentCharacter,
         saveCharacter,
@@ -54,7 +55,6 @@ export const SheetGenerator = () => {
     const [versions, setVersions] = useLocalStorage('versions', {
         spells: 0,
     });
-    const [printing, setPrinting] = useState(false);
     const [printDialogOpened, setPrintDialogOpened] = useState(false);
     const [backgroundDialogOpened, setBackgroundDialogOpened] = useState(false);
     const [spellsDialogOpened, setSpellsDialogOpened] = useState(false);
@@ -81,15 +81,15 @@ export const SheetGenerator = () => {
     );
     const onPrint = async () => {
         if (localStorage.getItem(printStorageKey) || printDialogOpened) {
-            setPrinting(true);
+            setIsPrinting(true);
             await skipEventLoopTimes(200);
             printContent(
                 document.getElementsByClassName('print')[0] as HTMLDivElement,
                 `${currentCharacter.name}_${currentCharacter.surname}`,
             );
-            setPrinting(false);
+            setIsPrinting(false);
         } else {
-            setPrinting(true);
+            setIsPrinting(true);
             setPrintDialogOpened(true);
         }
     };
@@ -700,7 +700,7 @@ export const SheetGenerator = () => {
                     },
                 )}
             >
-                <Sheet printing={printing && printPassives} />
+                <Sheet />
             </div>
         </div>
     );

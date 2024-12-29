@@ -1,6 +1,6 @@
 import { TextInput } from '@components/ui/Inputs/TextInput.tsx';
 import { Spell } from '@components/ui/Spells/Spell.tsx';
-import { Tag } from '@components/ui/Spells/Tag.tsx';
+import { TagsFilter } from '@components/ui/Tags/TagsFilter.tsx';
 import { SpellTracker } from '@components/ui/Weapons/SpellTracker.tsx';
 import { decode } from '@msgpack/msgpack';
 import cx from 'classnames';
@@ -10,15 +10,14 @@ import { useIndexedDB } from 'react-indexed-db-hook';
 import { useTranslate } from '../../../contexts/Translator.tsx';
 import { keys } from '../../../helpers/generic-helpers.tsx';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
-import tagsMap from './tags-map.json';
+import tagsMap from '../Tags/tags-map.json';
 
 export const Spells = () => {
-    const { currentCharacter } = useCharacter();
+    const { currentCharacter, isPrinting } = useCharacter();
     const { currentLocale, tokens } = useTranslate();
     const [filter, setFilter] = useState('');
     const [spells, setSpells] = useState<Spell[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [showTags, setShowTags] = useState(false);
     const [selectedTags, setSelectedTags] = useState<
         Array<keyof typeof tagsMap>
     >([]);
@@ -59,42 +58,24 @@ export const Spells = () => {
     return (
         !isLoading && (
             <div className='flex flex-col gap-[3mm]'>
-                <h1 className={'bg-[#00000077] text-white text-center'}>
-                    {tokens.UI.spells}
-                </h1>
-                {isMobile && (
+                {!isPrinting && (
+                    <h1 className={'bg-[#00000077] text-white text-center'}>
+                        {tokens.UI.spells}
+                    </h1>
+                )}
+                {isMobile && !isPrinting && (
                     <div className='flex flex-col gap-[3mm] font-normal items-center'>
                         <SpellTracker />
-                        <button
-                            className={cx(
-                                'border bg-[#ffffffaa] w-fit p-1 pr-[3mm] pl-[3mm] rounded  font-Roboto',
-                                {
-                                    '!bg-white border-black': showTags,
-                                },
+                        <TagsFilter
+                            availableTags={keys(tagsMap).filter((tag) =>
+                                charSpells.some((spell) =>
+                                    spell.tags.includes(tag),
+                                ),
                             )}
-                            onClick={() => setShowTags((showTags) => !showTags)}
-                        >
-                            {tokens.spells.showTags}
-                        </button>
-                        {showTags && (
-                            <div className='flex flex-wrap gap-[1mm]'>
-                                {keys(tagsMap)
-                                    .filter((tag) =>
-                                        charSpells.some((spell) =>
-                                            spell.tags.includes(tag),
-                                        ),
-                                    )
-                                    .map((tag) => (
-                                        <Tag
-                                            tag={tag}
-                                            selected={selectedTags.includes(
-                                                tag,
-                                            )}
-                                            onClick={() => onTagClick(tag)}
-                                        />
-                                    ))}
-                            </div>
-                        )}
+                            selectedTags={selectedTags}
+                            onTagClick={onTagClick}
+                        />
+
                         <TextInput
                             value={filter}
                             onChange={(text) => setFilter(text)}
@@ -103,30 +84,39 @@ export const Spells = () => {
                         />
                     </div>
                 )}
-                {charSpells
-                    .filter(
-                        (spell) =>
-                            (spell.name
-                                .toLowerCase()
-                                .includes(filter.toLowerCase()) ||
-                                spell.originalName
-                                    ?.toLowerCase()
+                <div
+                    className={cx('flex flex-col', {
+                        'leading-[6mm]': isPrinting,
+                    })}
+                >
+                    {charSpells
+                        .filter(
+                            (spell) =>
+                                (spell.name
+                                    .toLowerCase()
                                     .includes(filter.toLowerCase()) ||
-                                spell.level.toString() === filter) &&
-                            selectedTags.every((tag) =>
-                                spell.tags.includes(tag),
-                            ),
-                    )
-                    .map((spell) => (
-                        <Spell
-                            key={spell.id}
-                            spell={spell}
-                            className='bg-[#ffffffdd]'
-                            filter={filter}
-                            minimized={!maximizedSpells.includes(spell.id)}
-                            onClick={() => onSpellClick(spell.id)}
-                        />
-                    ))}
+                                    spell.originalName
+                                        ?.toLowerCase()
+                                        .includes(filter.toLowerCase()) ||
+                                    spell.level.toString() === filter) &&
+                                selectedTags.every((tag) =>
+                                    spell.tags.includes(tag),
+                                ),
+                        )
+                        .map((spell) => (
+                            <Spell
+                                key={spell.id}
+                                spell={spell}
+                                className='bg-[#ffffffdd]'
+                                filter={filter}
+                                minimized={
+                                    !maximizedSpells.includes(spell.id) &&
+                                    !isPrinting
+                                }
+                                onClick={() => onSpellClick(spell.id)}
+                            />
+                        ))}
+                </div>
             </div>
         )
     );

@@ -14,20 +14,22 @@ import { SpellTracker } from '@components/ui/Weapons/SpellTracker.tsx';
 import cx from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
+import { useLocalStorage } from 'usehooks-ts';
 import { baseStats, statHelpers } from '../../../constants/char.ts';
 import { fileToB64 } from '../../../helpers/convert.ts';
 import { keys } from '../../../helpers/generic-helpers.tsx';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 import { usePassives } from '../../../hooks/usePassives.ts';
 import { BrowserView, MobileView, isMobile } from 'react-device-detect';
-export const Sheet: React.FC<{ printing?: boolean }> = ({
-    printing = false,
-}) => {
-    const { currentCharacter } = useCharacter();
+export const Sheet: React.FC = () => {
+    const { currentCharacter, isPrinting } = useCharacter();
     const { getByID } = useIndexedDB('background');
     const [background, setBackground] = useState('');
     const { passives } = usePassives();
-    const shouldPrint = passives.some((passive) => !!passive.description);
+    const [printPassives] = useLocalStorage('print-passives', false);
+    const shouldPrintPassives =
+        printPassives && passives.some((passive) => !!passive.description);
+    const shouldPrintSpells = currentCharacter.spells.length > 0;
     useEffect(() => {
         if (currentCharacter.backgroundImage !== -1) {
             getByID(currentCharacter.backgroundImage)
@@ -152,7 +154,12 @@ export const Sheet: React.FC<{ printing?: boolean }> = ({
                     </div>
                 </MobileView>
             </A4Sheet>
-            {printing && shouldPrint && <PassiveDescriptions />}
+            {isPrinting && shouldPrintPassives && <PassiveDescriptions />}
+            {isPrinting && shouldPrintSpells && (
+                <div className='p-[2mm]'>
+                    <Spells />
+                </div>
+            )}
         </div>
     );
 };

@@ -19,9 +19,8 @@ export const CharacterSelectionDialog: React.FC<DialogProps> = ({
         setLastCharacter,
         removeCharacter,
         importCharacter,
-        lastSelectedCharacter,
+        currentCharacter,
     } = useCharacter();
-
     const onImport: ChangeEventHandler<HTMLInputElement> = async (event) => {
         const fileHandle = event.target.files![0];
         if (fileHandle) {
@@ -61,9 +60,7 @@ export const CharacterSelectionDialog: React.FC<DialogProps> = ({
                         className={cx(
                             'hover:!brightness-125 hover:!saturate-125 cursor-pointer relative saturate-50',
                             {
-                                'saturate-100':
-                                    (lastSelectedCharacter?.id ?? -1) ===
-                                    char.id,
+                                '!saturate-100': currentCharacter.id == char.id,
                             },
                         )}
                         onClick={() => {

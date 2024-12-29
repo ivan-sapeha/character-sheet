@@ -1,7 +1,9 @@
 import { Dialog, DialogProps } from '@components/ui/Dialog';
+import { FloatingActionButton } from '@components/ui/FAB/FloatingActionButton.tsx';
 import { magicSchoolsByColor, Spell } from '@components/ui/Spells/Spell.tsx';
-import { Tag } from '@components/ui/Spells/Tag.tsx';
-import tagsMap from '@components/ui/Spells/tags-map.json';
+import { Tag } from '@components/ui/Tags/Tag.tsx';
+import tagsMap from '@components/ui/Tags/tags-map.json';
+import { TagsFilter } from '@components/ui/Tags/TagsFilter.tsx';
 import cx from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
@@ -22,7 +24,6 @@ export const SpellsDialog: React.FC<DialogProps> = ({ open, onClose }) => {
     const [schoolFilter, setSchoolFilter] = useState(defaultSelect);
     const [levelFilter, setLevelFilter] = useState(defaultSelect);
     const [isLoading, setIsLoading] = useState(true);
-    const [showTags, setShowTags] = useState(false);
     const [selectedTags, setSelectedTags] = useState<
         Array<keyof typeof tagsMap>
     >([]);
@@ -44,11 +45,18 @@ export const SpellsDialog: React.FC<DialogProps> = ({ open, onClose }) => {
                 : spell.school === schoolFilter;
         return name && level && clas && school;
     });
-    // const sources = useMemo(
-    //     () => [...new Set(spells.map((spell) => spell.source))],
-    //     [currentLocale],
-    // );
 
+    console.log('render', {
+        isLoading,
+        selectedTags,
+        filter,
+        filteredSpells,
+        classFilter,
+        levelFilter,
+        schoolFilter,
+        tokens,
+        currentLocale,
+    });
     const addSpell = (spellId: number) => {
         updateStat(
             'spells',
@@ -91,6 +99,120 @@ export const SpellsDialog: React.FC<DialogProps> = ({ open, onClose }) => {
         );
     }, [currentLocale]);
 
+    const currentSpells = (
+        <div className='flex gap-[1mm] flex-wrap bg-[#ffffff77] p-[1mm] rounded items-center'>
+            {tokens.UI.spells}:{' '}
+            {currentCharacter.spells.map((spellId) => {
+                const spell = spells.find((spell) => spell.id === spellId);
+                return (
+                    spell && (
+                        <span
+                            key={spellId}
+                            className='border border-black rounded-[1.5mm] pt-[0.5mm] pb-[0.5mm] pr-[1mm] pl-[1mm] bg-white cursor-pointer'
+                            style={{
+                                borderColor:
+                                    magicSchoolsByColor[
+                                        spell.school as keyof typeof magicSchoolsByColor
+                                    ],
+                            }}
+                            onClick={() => removeSpell(spellId)}
+                        >
+                            {spell.name}({spell.level})
+                        </span>
+                    )
+                );
+            })}
+        </div>
+    );
+
+    const filters = (
+        <div className='flex flex-col items-center gap-[1mm]'>
+            <button
+                onClick={onSave}
+                className='border border-black rounded-[1.5mm] pt-[0.5mm] pb-[0.5mm] pr-[1mm] pl-[1mm] bg-white cursor-pointer'
+            >
+                {tokens.UI.save}
+            </button>
+            <div className='flex flex-col items-center w-full'>
+                <label>{tokens.UI.search}</label>
+                <input
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    className='border border-black h-[28px] w-full max-w-[100mm] pr-[1mm] pl-[1mm] font-Roboto font-normal'
+                />
+            </div>
+            <div className='flex gap-[3mm]'>
+                <div className='flex flex-col items-center'>
+                    <label>{tokens.spells.school}</label>
+                    <select
+                        className='border border-black h-[28px]'
+                        value={schoolFilter}
+                        onChange={(e) => setSchoolFilter(e.target.value)}
+                    >
+                        <option value={defaultSelect}>
+                            {tokens.spells.all}
+                        </option>
+                        {entries(tokens.spells.schools).map(([key, name]) => (
+                            <option key={key} value={key}>
+                                {name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className='flex flex-col items-center'>
+                    <label>{tokens.miniLore.class}</label>
+                    <select
+                        className='border border-black h-[28px]'
+                        value={classFilter}
+                        onChange={(e) => setClassFilter(e.target.value)}
+                    >
+                        <option value={defaultSelect}>
+                            {tokens.spells.all}
+                        </option>
+                        {entries(tokens.spells.classes)
+                            .filter(
+                                ([key, _]) =>
+                                    key !== 'Optional' && key !== 'Dunamancy',
+                            )
+                            .map(([key, name]) => (
+                                <option key={key} value={key}>
+                                    {name}
+                                </option>
+                            ))}
+                    </select>
+                </div>
+                <div className='flex flex-col items-center'>
+                    <label>{tokens.spells.level}</label>
+                    <select
+                        className='border border-black h-[28px]'
+                        value={levelFilter}
+                        onChange={(e) => setLevelFilter(e.target.value)}
+                    >
+                        <option value={defaultSelect}>
+                            {tokens.spells.all}
+                        </option>
+                        {Array.from({ length: 10 }, (_, i) => i).map(
+                            (level) => (
+                                <option key={level} value={level}>
+                                    {level === 0
+                                        ? tokens.spells.cantrip
+                                        : `${level} ${tokens.spells.level}`}
+                                </option>
+                            ),
+                        )}
+                    </select>
+                </div>
+            </div>
+            <TagsFilter
+                availableTags={keys(tagsMap).filter((tag) =>
+                    filteredSpells.some((spell) => spell.tags.includes(tag)),
+                )}
+                selectedTags={selectedTags}
+                onTagClick={onTagClick}
+            />
+        </div>
+    );
+
     return (
         <Dialog
             open={open}
@@ -109,151 +231,9 @@ export const SpellsDialog: React.FC<DialogProps> = ({ open, onClose }) => {
                         'flex flex-col bg-[#ffffff77] gap-[3mm] p-2 font-normal w-full h-fit'
                     }
                 >
-                    <div className='flex gap-[1mm] flex-wrap bg-[#ffffff77] p-[1mm] rounded items-center'>
-                        {tokens.UI.spells}:{' '}
-                        {currentCharacter.spells.map((spellId) => {
-                            const spell = spells.find(
-                                (spell) => spell.id === spellId,
-                            )!;
-                            return (
-                                <span
-                                    key={spellId}
-                                    className='border border-black rounded-[1.5mm] pt-[0.5mm] pb-[0.5mm] pr-[1mm] pl-[1mm] bg-white cursor-pointer'
-                                    style={{
-                                        borderColor:
-                                            magicSchoolsByColor[
-                                                spell.school as keyof typeof magicSchoolsByColor
-                                            ],
-                                    }}
-                                    onClick={() => removeSpell(spellId)}
-                                >
-                                    {spell.name}({spell.level})
-                                </span>
-                            );
-                        })}
-                    </div>
-                    <div className='flex flex-col items-center gap-[1mm]'>
-                        <button
-                            onClick={onSave}
-                            className='border border-black rounded-[1.5mm] pt-[0.5mm] pb-[0.5mm] pr-[1mm] pl-[1mm] bg-white cursor-pointer'
-                        >
-                            {tokens.UI.save}
-                        </button>
-                        <div className='flex flex-col items-center w-full'>
-                            <label>{tokens.UI.search}</label>
-                            <input
-                                value={filter}
-                                onChange={(e) => setFilter(e.target.value)}
-                                className='border border-black h-[28px] w-full max-w-[100mm] pr-[1mm] pl-[1mm] font-Roboto font-normal'
-                            />
-                        </div>
-                        <div className='flex gap-[3mm]'>
-                            <div className='flex flex-col items-center'>
-                                <label>{tokens.spells.school}</label>
-                                <select
-                                    className='border border-black h-[28px]'
-                                    value={schoolFilter}
-                                    onChange={(e) =>
-                                        setSchoolFilter(e.target.value)
-                                    }
-                                >
-                                    <option value={defaultSelect}>
-                                        {tokens.spells.all}
-                                    </option>
-                                    {entries(tokens.spells.schools).map(
-                                        ([key, name]) => (
-                                            <option key={key} value={key}>
-                                                {name}
-                                            </option>
-                                        ),
-                                    )}
-                                </select>
-                            </div>
-                            <div className='flex flex-col items-center'>
-                                <label>{tokens.miniLore.class}</label>
-                                <select
-                                    className='border border-black h-[28px]'
-                                    value={classFilter}
-                                    onChange={(e) =>
-                                        setClassFilter(e.target.value)
-                                    }
-                                >
-                                    <option value={defaultSelect}>
-                                        {tokens.spells.all}
-                                    </option>
-                                    {entries(tokens.spells.classes)
-                                        .filter(
-                                            ([key, _]) =>
-                                                key !== 'Optional' &&
-                                                key !== 'Dunamancy',
-                                        )
-                                        .map(([key, name]) => (
-                                            <option key={key} value={key}>
-                                                {name}
-                                            </option>
-                                        ))}
-                                </select>
-                            </div>
-                            <div className='flex flex-col items-center'>
-                                <label>{tokens.spells.level}</label>
-                                <select
-                                    className='border border-black h-[28px]'
-                                    value={levelFilter}
-                                    onChange={(e) =>
-                                        setLevelFilter(e.target.value)
-                                    }
-                                >
-                                    <option value={defaultSelect}>
-                                        {tokens.spells.all}
-                                    </option>
-                                    {Array.from(
-                                        { length: 10 },
-                                        (_, i) => i,
-                                    ).map((level) => (
-                                        <option key={level} value={level}>
-                                            {level === 0
-                                                ? tokens.spells.cantrip
-                                                : `${level} ${tokens.spells.level}`}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                        <button
-                            className={cx(
-                                'border bg-[#ffffffaa] w-fit p-0.5 pr-[3mm] pl-[3mm] rounded mt-[2mm]',
-                                {
-                                    '!bg-white border-black': showTags,
-                                },
-                            )}
-                            onClick={() => setShowTags((showTags) => !showTags)}
-                        >
-                            {tokens.spells.showTags}
-                        </button>
-                        {showTags && (
-                            <div className='flex flex-wrap gap-[1mm] w-full'>
-                                {keys(tagsMap)
-                                    .filter((tag) =>
-                                        filteredSpells.some((spell) =>
-                                            spell.tags.includes(tag),
-                                        ),
-                                    )
-                                    .map((tag) => (
-                                        <Tag
-                                            tag={tag}
-                                            selected={selectedTags.includes(
-                                                tag,
-                                            )}
-                                            onClick={() => onTagClick(tag)}
-                                        />
-                                    ))}
-                            </div>
-                        )}
-                    </div>
-                    {/*{sources.map((source) => (*/}
-                    {/*    <div key={source}>{source}</div>*/}
-                    {/*))}*/}
-                    <div className='flex flex-col gap-[3mm]'>
+                    {currentSpells}
+                    {filters}
+                    <div className='flex flex-col'>
                         {(filteredSpells as Spell[])
                             .filter((spell) =>
                                 selectedTags.every((tag) =>

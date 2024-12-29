@@ -35,8 +35,14 @@ export type CharacterManagerReturn = CurrentCharacterContextValue & {
 
 const onSaveEvent = new EventListener();
 export const useCharacter = (): CharacterManagerReturn => {
-    const { currentCharacter, updateCurrentCharacter, isEdit, toggleEdit } =
-        useContext(CurrentCharacterContext);
+    const {
+        currentCharacter,
+        updateCurrentCharacter,
+        isEdit,
+        toggleEdit,
+        isPrinting,
+        setIsPrinting,
+    } = useContext(CurrentCharacterContext);
     const [storedCharacters, setStoredCharactersOriginal] = useLocalStorage<
         Character[]
     >('characters', []);
@@ -217,5 +223,7 @@ export const useCharacter = (): CharacterManagerReturn => {
         updateStatLive,
         exportCharacter,
         importCharacter,
+        isPrinting,
+        setIsPrinting,
     };
 };

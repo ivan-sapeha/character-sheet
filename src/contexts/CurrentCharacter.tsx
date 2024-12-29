@@ -8,7 +8,9 @@ export interface CurrentCharacterContextValue {
     currentCharacter: Character;
     updateCurrentCharacter: (character: Character | undefined) => Character;
     isEdit: boolean;
+    isPrinting: boolean;
     toggleEdit: () => boolean;
+    setIsPrinting: (value: boolean) => void;
 }
 
 export const CurrentCharacterContext =
@@ -16,7 +18,9 @@ export const CurrentCharacterContext =
         currentCharacter: emptyCharacter,
         updateCurrentCharacter: () => emptyCharacter,
         isEdit: false,
+        isPrinting: false,
         toggleEdit: () => false,
+        setIsPrinting: () => void 0,
     });
 
 export const CurrentCharacterProvider: React.FC<React.PropsWithChildren> = ({
@@ -28,6 +32,7 @@ export const CurrentCharacterProvider: React.FC<React.PropsWithChildren> = ({
         characters[lastCharacter] ?? emptyCharacter,
     );
     const [isEdit, setIsEdit] = useState(false);
+    const [isPrinting, setIsPrinting] = useState(false);
     const toggleEdit = () => {
         setIsEdit(!isEdit);
         return !isEdit;
@@ -44,6 +49,8 @@ export const CurrentCharacterProvider: React.FC<React.PropsWithChildren> = ({
                 },
                 isEdit,
                 toggleEdit,
+                isPrinting,
+                setIsPrinting,
             }}
         >
             {children}
