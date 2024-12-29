@@ -8,6 +8,7 @@ import { inactiveStyle } from '../../../constants/style-tokens.ts';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 import styles from './Player.module.less';
 import scroll from '@assets/images/sources/scroll.png';
+import troll from '@assets/images/trollface.png';
 import { AvatarDialog } from '@components/markup/Editor/Avatar.tsx';
 
 export interface PlayerProps {
@@ -21,7 +22,6 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
     const [dialogOpened, setDialogOpened] = useState(false);
     const [image, setImage] = useState('');
     const isDead = character.fail === 3;
-    console.log(isDead);
     const onAvatarClick = () => {
         if (!isEdit) {
             return;
@@ -38,7 +38,6 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
             setImage('');
         }
     }, [character.photo]);
-
     return (
         <>
             <div
@@ -58,16 +57,14 @@ export const Player: React.FC<PlayerProps> = ({ isPreview, character }) => {
                                     image && !isDead
                                         ? image
                                         : isDead
-                                          ? 'none'
+                                          ? `url(${troll})`
                                           : undefined,
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 height: '100%',
                                 width: 'auto',
                             }}
-                        >
-                            {isDead && '☠️'}
-                        </div>
+                        />
                     </div>
 
                     <div className={styles.name}>

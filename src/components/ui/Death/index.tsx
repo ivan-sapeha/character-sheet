@@ -1,12 +1,16 @@
+import { YouDied } from '@components/ui/Death/YouDied.tsx';
 import cx from 'classnames';
+import { useEffect } from 'react';
 import { useTranslate } from '../../../contexts/Translator.tsx';
+import { useAudio } from '../../../hooks/useAudio.ts';
 import { useCharacter } from '../../../hooks/useCharacter.ts';
 import styles from './Death.module.less';
+import deathSound from '@assets/sound/death.mp3';
 type Level = 0 | 1 | 2 | 3;
 export const Death = () => {
     const { tokens } = useTranslate();
     const { currentCharacter, updateStatLive } = useCharacter();
-
+    const [isAudioPlaying, toggle] = useAudio(deathSound);
     const onClick = (level: Level, isSuccess: boolean) => {
         const statName = isSuccess ? 'success' : 'fail';
         updateStatLive(
@@ -16,8 +20,18 @@ export const Death = () => {
                 : level,
         );
     };
+    useEffect(() => {
+        if (currentCharacter.fail === 3) {
+            toggle();
+        } else if (isAudioPlaying) {
+            toggle();
+        }
+    }, [currentCharacter.fail]);
     return (
         <div className='flex flex-col w-full gap-[1mm]'>
+            {currentCharacter.fail === 3 && (
+                <YouDied onClick={() => updateStatLive('fail', 0)} />
+            )}
             <div className={cx(styles.death, styles.save)}>
                 <b>{tokens.deathSaves.successes}</b>
                 <div onClick={() => onClick(1, true)}>

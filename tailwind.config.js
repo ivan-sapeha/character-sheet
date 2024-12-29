@@ -25,8 +25,13 @@ export default {
                 Pacifico: ['Pacifico', 'cursive'],
                 Nunito: ['Nunito', 'sans-serif'],
                 Roboto: ['Roboto Condensed', 'serif'],
+                DarkSouls: ['OptimusPrinceps', 'serif'],
             },
             backgroundSize: { '150%': '150%' },
+            animation: { appear: 'appear 1s ease-in-out forwards' },
+            keyframes: {
+                appear: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            },
         },
     },
     plugins: [],
