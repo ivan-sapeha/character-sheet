@@ -1,1 +1,1 @@
-{"name":"character-sheet","short_name":"character-sheet","start_url":"/character-sheet/","display":"standalone","background_color":"#ffffff","lang":"en","scope":"/character-sheet/"}
+{"name":"DnD 5e Character Sheet","short_name":"Character Sheet","start_url":"/character-sheet/?fullscreen=true","display":"fullscreen","background_color":"#ffffff","lang":"en","scope":"/character-sheet/","orientation":"portrait-primary"}
