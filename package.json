@@ -1,6 +1,6 @@
 {
     "name": "character-sheet",
-    "version": "1.7.3",
+    "version": "1.7.6",
     "private": true,
     "type": "module",
     "author": "Ivan Sapeha",

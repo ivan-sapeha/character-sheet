@@ -120,8 +120,9 @@ export const SheetGenerator = () => {
             const backgrounds = await getAllBackgrounds();
 
             const backgroundNames = backgrounds.map((bg) => bg.name);
-            const backgroundsRes =
-                await fetchWithHandling<string[]>('backgrounds.json');
+            const backgroundsRes = await fetchWithHandling<string[]>(
+                'backgrounds.json',
+            ).catch(() => [] as string[]);
 
             const missingBackgrounds = backgroundsRes.filter(
                 (name) => !backgroundNames.includes(name),
@@ -173,7 +174,10 @@ export const SheetGenerator = () => {
                         ),
                     );
                 },
-            });
+            }).catch(() => ({
+                template: '',
+                icons: {} as Record<string, string>,
+            }));
 
             const { template, icons } = res;
             await Promise.all(
@@ -195,7 +199,7 @@ export const SheetGenerator = () => {
                 if (spells.length > 0) {
                     const loadedVersions = await fetchWithHandling<{
                         spells: number;
-                    }>('versions.json');
+                    }>('versions.json').catch(() => versions);
                     if (
                         JSON.stringify(loadedVersions.spells) ===
                         JSON.stringify(versions.spells)
@@ -310,6 +314,7 @@ export const SheetGenerator = () => {
                     'flex gap-2 p-2.5 w-fit text-[#ebebeb] flex-wrap max-w-[210mm] justify-center pb-4',
                     {
                         'small:flex-col ': isEdit,
+                        'pt-[8mm]': isMobile,
                     },
                 )}
             >

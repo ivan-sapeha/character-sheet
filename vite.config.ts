@@ -4,14 +4,28 @@ import fixReactVirtualized from 'esbuild-plugin-react-virtualized';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
+
+const base = '/character-sheet/';
 export default defineConfig({
     optimizeDeps: {
         esbuildOptions: {
             plugins: [fixReactVirtualized],
         },
     },
-    base: '/character-sheet/',
-    plugins: [react(), VitePWA({ registerType: 'autoUpdate' })],
+    base,
+    plugins: [
+        react(),
+        VitePWA({
+            registerType: 'autoUpdate',
+            manifest: {
+                display: 'fullscreen',
+                orientation: 'portrait-primary',
+                start_url: `${base}?fullscreen=true`,
+                name: 'DnD 5e Character Sheet',
+                short_name: 'Character Sheet',
+            },
+        }),
+    ],
     css: {
         preprocessorOptions: {
             less: {

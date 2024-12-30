@@ -8,6 +8,7 @@ import { CurrentCharacterProvider } from './contexts/CurrentCharacter.tsx';
 import { TranslateProvider } from './contexts/Translator.tsx';
 import { DBConfig } from './db';
 import { translationsList } from './i18n/translations.ts';
+// import { registerSW } from 'virtual:pwa-register';
 // if (
 //     typeof window !== 'undefined' &&
 //     location.hostname.startsWith('localhost')

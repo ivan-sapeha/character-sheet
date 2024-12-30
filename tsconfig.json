@@ -13,7 +13,8 @@
 
     "types": [
       "@types/wicg-file-system-access",
-      "node"
+      "node",
+      "vite-plugin-pwa/client"
     ],
     /* Bundler mode */
     "moduleResolution": "bundler",
