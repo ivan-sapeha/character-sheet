@@ -16,7 +16,7 @@ export const InvisibleTextarea: React.FC<InvisibleTextareaProps> = ({
             value={currentCharacter[stat] ?? ''}
             onChange={(e) => onChange(e.target.value)}
             className={
-                'bg-transparent font-Advent font-normal rounded-[4px] w-full h-full pt-[4px] pb-[4px] pl-[10px] pr-[10px] resize-none'
+                'bg-transparent font-Roboto font-light rounded-[4px] w-full h-full pt-[4px] pb-[4px] pl-[10px] pr-[10px] resize-none'
             }
         />
     );
