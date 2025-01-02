@@ -23,6 +23,7 @@ export const Death = () => {
     useEffect(() => {
         if (currentCharacter.fail === 3) {
             toggle();
+            navigator.vibrate(400);
         } else if (isAudioPlaying) {
             toggle();
         }
